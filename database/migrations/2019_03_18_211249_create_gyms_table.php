@@ -16,7 +16,6 @@ class CreateGymsTable extends Migration
         Schema::create('gyms', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('name');
-            $table->date('created_at');
             $table->unsignedBigInteger('city_id');
             $table->foreign('city_id')->references('id')->on('users');
             $table->unsignedBigInteger('creator_id');

@@ -86,7 +86,7 @@
           </li>
 
           <li class="nav-item has-treeview">
-            <a href="#" class="nav-link">
+            <a href="{{route('city.index')}}" class="nav-link">
               <p>
               Cities
               </p>
@@ -102,7 +102,7 @@
           </li>
 
           <li class="nav-item has-treeview">
-            <a href="#" class="nav-link">
+            <a href="{{route('gym.index')}}" class="nav-link">
               <p>
               Gyms
               </p>
@@ -155,7 +155,7 @@
     <section class="content">
   
       @yield('content')
-  
+       
     </section>
   </div>
 

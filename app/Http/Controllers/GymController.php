@@ -15,6 +15,7 @@ class GymController extends Controller
     public function index()
     {
         //
+        return view('gyms.index');
     }
 
     /**

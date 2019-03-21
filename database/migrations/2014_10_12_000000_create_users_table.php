@@ -27,7 +27,7 @@ class CreateUsersTable extends Migration
             $table->date('last_login');
             $table->rememberToken();
             $table->timestamps();
-            // $table->unsignedBigInteger('gym_id')->nullable();
+            $table->unsignedBigInteger('gym_id')->nullable();
             // $table->foreign('gym_id')->references('id')->on('gyms');
         });
     }

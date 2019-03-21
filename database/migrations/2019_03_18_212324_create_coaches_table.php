@@ -15,6 +15,7 @@ class CreateCoachesTable extends Migration
     {
         Schema::create('coaches', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->string('name');
             $table->timestamps();
         });
     }
@@ -29,3 +30,8 @@ class CreateCoachesTable extends Migration
         Schema::dropIfExists('coaches');
     }
 }
+    // php artisan crud:generate Packages --fields='name#string;sessions_number#integer#unsigned;price#integer#unsigned' --form-helper=html
+    // --foreign-keys="user_id#id#users"
+
+// php artisan crud:generate Atttendances --fields='session_id#integer#unsigned;user_id#integer#unsigned;'--foreign-keys="session_id#id#sessions;user_id#id#users" --validations "user_id#min:0" --form-helper=html
+

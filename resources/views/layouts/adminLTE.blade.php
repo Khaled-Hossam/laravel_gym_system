@@ -64,7 +64,7 @@
           <li class="nav-item has-treeview">
             <a href="#" class="nav-link">
               <p>
-                City Managers
+              Gym Managers
               </p>
             </a>
           </li>
@@ -80,7 +80,15 @@
           <li class="nav-item has-treeview">
             <a href="#" class="nav-link">
               <p>
-                City Managers
+              Users​
+              </p>
+            </a>
+          </li>
+
+          <li class="nav-item has-treeview">
+            <a href="#" class="nav-link">
+              <p>
+              Cities
               </p>
             </a>
           </li>
@@ -96,7 +104,7 @@
           <li class="nav-item has-treeview">
             <a href="#" class="nav-link">
               <p>
-                City Managers
+              Gyms
               </p>
             </a>
           </li>
@@ -104,7 +112,7 @@
           <li class="nav-item has-treeview">
             <a href="#" class="nav-link">
               <p>
-                City Managers
+              Training Packages
               </p>
             </a>
           </li>
@@ -112,22 +120,28 @@
           <li class="nav-item has-treeview">
             <a href="#" class="nav-link">
               <p>
-                City Managers
-              </p>
-            </a>
-          </li>
-
-          <li class="nav-item has-treeview">
-            <a href="#" class="nav-link">
-              <p>
-                City Managers
+              Coaches
               </p>
             </a>
           </li>
           <li class="nav-item has-treeview">
             <a href="#" class="nav-link">
               <p>
-                City Managers
+              Attendance
+              </p>
+            </a>
+          </li>
+          <li class="nav-item has-treeview">
+            <a href="#" class="nav-link">
+              <p>
+              Buy Package For User
+              </p>
+            </a>
+          </li>
+          <li class="nav-item has-treeview">
+            <a href="#" class="nav-link">
+              <p>
+              Revenue​ 
               </p>
             </a>
           </li>

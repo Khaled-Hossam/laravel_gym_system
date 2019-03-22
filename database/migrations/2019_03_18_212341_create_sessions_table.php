@@ -19,7 +19,6 @@ class CreateSessionsTable extends Migration
             $table->date('starts_at');
             $table->date('finishes_at');
             $table->timestamps();
-
             $table->unsignedBigInteger('gym_id');
             $table->foreign('gym_id')->references('id')->on('gyms');
         });

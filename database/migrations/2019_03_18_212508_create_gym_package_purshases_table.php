@@ -13,7 +13,7 @@ class CreateUserGymPackagesTable extends Migration
      */
     public function up()
     {
-        Schema::create('member_gym_packages', function (Blueprint $table) {
+        Schema::create('gym_package_purshases', function (Blueprint $table) {
             $table->bigIncrements('id');
 
             $table->unsignedBigInteger('member_id');
@@ -37,6 +37,6 @@ class CreateUserGymPackagesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('user_gym_packages');
+        Schema::dropIfExists('gym_package_purshases');
     }
 }

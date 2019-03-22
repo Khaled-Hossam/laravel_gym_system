@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\atttendance;
+use App\Package;
 use Illuminate\Http\Request;
 
-class AtttendanceController extends Controller
+class PackageController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -41,10 +41,10 @@ class AtttendanceController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\atttendance  $atttendance
+     * @param  \App\Package $training_packages
      * @return \Illuminate\Http\Response
      */
-    public function show(atttendance $atttendance)
+    public function show(Package $training_packages)
     {
         //
     }
@@ -52,10 +52,10 @@ class AtttendanceController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\atttendance  $atttendance
+     * @param  \App\Package $training_packages
      * @return \Illuminate\Http\Response
      */
-    public function edit(atttendance $atttendance)
+    public function edit(Package $training_packages)
     {
         //
     }
@@ -64,10 +64,10 @@ class AtttendanceController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\atttendance  $atttendance
+     * @param  \App\Package $training_packages
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, atttendance $atttendance)
+    public function update(Request $request, Package $training_packages)
     {
         //
     }
@@ -75,10 +75,10 @@ class AtttendanceController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\atttendance  $atttendance
+     * @param  \App\Package $training_packages
      * @return \Illuminate\Http\Response
      */
-    public function destroy(atttendance $atttendance)
+    public function destroy(Package $training_packages)
     {
         //
     }

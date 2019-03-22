@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Package;
+use App\training_sessions;
 use Illuminate\Http\Request;
 
-class TrainingPackagesController extends Controller
+class SessionController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -41,10 +41,10 @@ class TrainingPackagesController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Package $training_packages
+     * @param  \App\training_sessions  $training_sessions
      * @return \Illuminate\Http\Response
      */
-    public function show(Package $training_packages)
+    public function show(training_sessions $training_sessions)
     {
         //
     }
@@ -52,10 +52,10 @@ class TrainingPackagesController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Package $training_packages
+     * @param  \App\training_sessions  $training_sessions
      * @return \Illuminate\Http\Response
      */
-    public function edit(Package $training_packages)
+    public function edit(training_sessions $training_sessions)
     {
         //
     }
@@ -64,10 +64,10 @@ class TrainingPackagesController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Package $training_packages
+     * @param  \App\training_sessions  $training_sessions
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Package $training_packages)
+    public function update(Request $request, training_sessions $training_sessions)
     {
         //
     }
@@ -75,10 +75,10 @@ class TrainingPackagesController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Package $training_packages
+     * @param  \App\training_sessions  $training_sessions
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Package $training_packages)
+    public function destroy(training_sessions $training_sessions)
     {
         //
     }

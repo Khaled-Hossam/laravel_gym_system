@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\training_sessions;
+use App\atttendance;
 use Illuminate\Http\Request;
 
-class TrainingSessionsController extends Controller
+class AttendanceController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -41,10 +41,10 @@ class TrainingSessionsController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\training_sessions  $training_sessions
+     * @param  \App\atttendance  $atttendance
      * @return \Illuminate\Http\Response
      */
-    public function show(training_sessions $training_sessions)
+    public function show(atttendance $atttendance)
     {
         //
     }
@@ -52,10 +52,10 @@ class TrainingSessionsController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\training_sessions  $training_sessions
+     * @param  \App\atttendance  $atttendance
      * @return \Illuminate\Http\Response
      */
-    public function edit(training_sessions $training_sessions)
+    public function edit(atttendance $atttendance)
     {
         //
     }
@@ -64,10 +64,10 @@ class TrainingSessionsController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\training_sessions  $training_sessions
+     * @param  \App\atttendance  $atttendance
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, training_sessions $training_sessions)
+    public function update(Request $request, atttendance $atttendance)
     {
         //
     }
@@ -75,10 +75,10 @@ class TrainingSessionsController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\training_sessions  $training_sessions
+     * @param  \App\atttendance  $atttendance
      * @return \Illuminate\Http\Response
      */
-    public function destroy(training_sessions $training_sessions)
+    public function destroy(atttendance $atttendance)
     {
         //
     }

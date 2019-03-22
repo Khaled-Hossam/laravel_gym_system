@@ -21,8 +21,6 @@ class CreateUsersTable extends Migration
             $table->string('avatar')->nullable();
             $table->rememberToken();
             $table->timestamps();
-            $table->unsignedBigInteger('gym_id')->nullable();
-            // $table->foreign('gym_id')->references('id')->on('gyms');
         });
     }
 

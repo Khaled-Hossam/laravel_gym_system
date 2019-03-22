@@ -18,7 +18,6 @@ class CreatePackagesTable extends Migration
             $table->string('name');
             $table->integer('sessions_number');
             $table->decimal('price');
-            $table->timestamps();
         });
     }
 

@@ -27,8 +27,6 @@ class CreateUserGymPackagesTable extends Migration
 
             $table->decimal('bought_price');
             $table->integer('sessions_remaining');
-
-            $table->timestamps();
         });
     }
 

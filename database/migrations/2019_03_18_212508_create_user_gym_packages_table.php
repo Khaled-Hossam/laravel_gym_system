@@ -13,11 +13,11 @@ class CreateUserGymPackagesTable extends Migration
      */
     public function up()
     {
-        Schema::create('user_gym_packages', function (Blueprint $table) {
+        Schema::create('member_gym_packages', function (Blueprint $table) {
             $table->bigIncrements('id');
 
-            $table->unsignedBigInteger('user_id');
-            $table->foreign('user_id')->references('id')->on('users');
+            $table->unsignedBigInteger('member_id');
+            $table->foreign('member_id')->references('id')->on('members');
 
             $table->unsignedBigInteger('package_id');
             $table->foreign('package_id')->references('id')->on('packages');

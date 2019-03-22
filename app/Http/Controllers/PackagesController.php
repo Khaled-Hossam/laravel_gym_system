@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\training_packages;
+use App\Package;
 use Illuminate\Http\Request;
 
 class TrainingPackagesController extends Controller
@@ -41,10 +41,10 @@ class TrainingPackagesController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\training_packages  $training_packages
+     * @param  \App\Package $training_packages
      * @return \Illuminate\Http\Response
      */
-    public function show(training_packages $training_packages)
+    public function show(Package $training_packages)
     {
         //
     }
@@ -52,10 +52,10 @@ class TrainingPackagesController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\training_packages  $training_packages
+     * @param  \App\Package $training_packages
      * @return \Illuminate\Http\Response
      */
-    public function edit(training_packages $training_packages)
+    public function edit(Package $training_packages)
     {
         //
     }
@@ -64,10 +64,10 @@ class TrainingPackagesController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\training_packages  $training_packages
+     * @param  \App\Package $training_packages
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, training_packages $training_packages)
+    public function update(Request $request, Package $training_packages)
     {
         //
     }
@@ -75,10 +75,10 @@ class TrainingPackagesController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\training_packages  $training_packages
+     * @param  \App\Package $training_packages
      * @return \Illuminate\Http\Response
      */
-    public function destroy(training_packages $training_packages)
+    public function destroy(Package $training_packages)
     {
         //
     }

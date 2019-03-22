@@ -17,6 +17,7 @@ class CoachController extends Controller
      */
     public function index(Request $request)
     {
+        $coach = Coach::all();
 
         return view('coach.index', compact('coach'));
     }

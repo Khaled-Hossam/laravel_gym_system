@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\coaches_sessions;
+use App\GymPackagePurshase;
 use Illuminate\Http\Request;
 
-class CoachesSessionsController extends Controller
+class GymPackagePurshaseController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -41,10 +41,10 @@ class CoachesSessionsController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\coaches_sessions  $coaches_sessions
+     * @param  \App\GymPackagePurshase  $gpp
      * @return \Illuminate\Http\Response
      */
-    public function show(coaches_sessions $coaches_sessions)
+    public function show(GymPackagePurshase $gpp)
     {
         //
     }
@@ -52,10 +52,10 @@ class CoachesSessionsController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\coaches_sessions  $coaches_sessions
+     * @param  \App\GymPackagePurshase  $gpp
      * @return \Illuminate\Http\Response
      */
-    public function edit(coaches_sessions $coaches_sessions)
+    public function edit(GymPackagePurshase $gpp)
     {
         //
     }
@@ -64,10 +64,10 @@ class CoachesSessionsController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\coaches_sessions  $coaches_sessions
+     * @param  \App\GymPackagePurshase  $gpp
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, coaches_sessions $coaches_sessions)
+    public function update(Request $request, GymPackagePurshase $gpp)
     {
         //
     }
@@ -75,10 +75,10 @@ class CoachesSessionsController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\coaches_sessions  $coaches_sessions
+     * @param  \App\GymPackagePurshase  $gpp
      * @return \Illuminate\Http\Response
      */
-    public function destroy(coaches_sessions $coaches_sessions)
+    public function destroy(GymPackagePurshase $gpp)
     {
         //
     }

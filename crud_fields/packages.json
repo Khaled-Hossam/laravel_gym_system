@@ -1,0 +1,30 @@
+{
+    "fields": [
+        {
+            "name": "name",
+            "type": "string"
+        },
+        {
+            "name": "sessions_number",
+            "type": "integer#unsigned#select"
+        },
+        {
+            "name": "price",
+            "type": "decimal#unsigned"
+        }
+    ],
+    "validations": [
+        {
+            "field": "name",
+            "rules": "required|max:80"
+        },
+        {
+            "field": "sessions_number",
+            "rules": "required|integer"
+        },
+        {
+            "field": "price",
+            "rules": "required|alpha_num"
+        }
+    ]
+}

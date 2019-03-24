@@ -6,9 +6,9 @@
 
             <div class="col-md-9">
                 <div class="card">
-                    <div class="card-header">Edit Session #{{ $session->id }}</div>
+                    <div class="card-header">Create New Coach</div>
                     <div class="card-body">
-                        <a href="{{ url('/sessions') }}" title="Back"><button class="btn btn-warning btn-sm"><i class="fa fa-arrow-left" aria-hidden="true"></i> Back</button></a>
+                        <a href="{{ url('/coaches') }}" title="Back"><button class="btn btn-warning btn-sm"><i class="fa fa-arrow-left" aria-hidden="true"></i> Back</button></a>
                         <br />
                         <br />
 
@@ -20,11 +20,10 @@
                             </ul>
                         @endif
 
-                        <form method="POST" action="{{ url('/sessions/' . $session->id) }}" accept-charset="UTF-8" class="form-horizontal" enctype="multipart/form-data">
-                            {{ method_field('PATCH') }}
+                        <form method="POST" action="{{ url('/coaches') }}" accept-charset="UTF-8" class="form-horizontal" enctype="multipart/form-data">
                             {{ csrf_field() }}
 
-                            @include ('sessions.form', ['formMode' => 'edit'])
+                            @include ('coaches.form', ['formMode' => 'create'])
 
                         </form>
 

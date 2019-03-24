@@ -4,14 +4,14 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Coach extends Model
+class Package extends Model
 {
     /**
      * The database table used by the model.
      *
      * @var string
      */
-    protected $table = 'coaches';
+    protected $table = 'packages';
 
     /**
     * The database primary key value.
@@ -25,7 +25,8 @@ class Coach extends Model
      *
      * @var array
      */
-    protected $fillable = ['name'];
+    protected $fillable = ['name', 'sessions_number', 'price'];
     public $timestamps = false;	
+
     
 }

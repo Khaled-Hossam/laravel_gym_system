@@ -25,13 +25,13 @@
 @section('content')
 @include('partials.modal')
 
+    <div style="display:none" id="crudName" title="packages"></div>
     <div class="container">
         <div class="row">
-
             <div class=" col-12">
-                    <div class="card-header">Sessions</div>
+                    <div class="card-header">Packages</div>
                     <div class="card-body">
-                        <a href="{{ route('sessions.create') }}" class="btn btn-success btn-sm" title="Add New Session">
+                        <a href="{{ route('packages.create') }}" class="btn btn-success btn-sm" title="Add New Package">
                             <i class="fa fa-plus" aria-hidden="true"></i> Add New
                         </a>
 
@@ -41,7 +41,7 @@
                             <table class="table table-bordered table-striped" id="dataTable">
                                 <thead>
                                     <tr>
-                                        <th>#</th><th>Name</th><th>Starts At</th><th>Finishes At</th><th>Gym Id</th><th>Actions</th>
+                                        <th>#</th><th>Name</th><th>Sessions Number</th><th>Price</th><th>Actions</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -74,14 +74,13 @@ $(document).ready( function () {
         "columns": [
                 {"data":"id"},    
                 {"data":"name"},    
-                {"data":"starts_at"},    
-                {"data":"finishes_at"},    
-                {"data":"gym_id"},    
-                       
+                {"data":"sessions_number"},    
+                {"data":"price"},    
+                  
                 {
                     mRender: function (data, type, row) {
-                        return '<a class="datatable-link view" href="sessions/'+row.id+'" data-id="' + row[0] + '"><i class="fa fa-eye" aria-hidden="true"></i> View</button></a>'
-                            + '<a class="datatable-link edit" href="sessions/'+row.id+'/edit'+'" data-id="' + row[0] + '"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Edit</a>'
+                        return '<a class="datatable-link view" href="' + crudName + '/' + row.id + '" data-id="' + row[0] + '"><i class="fa fa-eye" aria-hidden="true"></i> View</button></a>'
+                            + '<a class="datatable-link edit" href="' + crudName + '/' + row.id + '/edit' + '" data-id="' + row[0] + '"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Edit</a>'
                             + '<a class="datatable-link delete" href="#"  row_id="' + row.id + '" data-toggle="modal" data-target="#DeleteModal" id="delete_toggle"><i class="fa fa-trash-o" aria-hidden="true"></i> Delete</a>'
                     }     
                 },

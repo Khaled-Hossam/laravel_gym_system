@@ -11,7 +11,7 @@ $(document).on('click','#delete_item',function () {
         headers: {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         },
-        url: '/sessions/'+ id,
+        url: '/'+ crudName +'/'+ id,
         type: 'delete',
         success: function (data) {
             if(window.location.href !== window.location.origin+'/'+crudName){

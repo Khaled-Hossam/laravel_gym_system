@@ -15,7 +15,15 @@
 </div>
 <div class="form-group {{ $errors->has('gym_id') ? 'has-error' : ''}}">
     <label for="gym_id" class="control-label">{{ 'Gym Id' }}</label>
-    <input class="form-control" name="gym_id" type="number" id="gym_id" value="{{ isset($session->gym_id) ? $session->gym_id : ''}}" >
+    <select class="form-control" id="gym_id" name="gym_id">
+    @foreach($gyms as $gym)
+        <option
+            @if(isset($session->gym_id) && $gym->id == $session->gym_id) selected @endif
+            value="{{$gym->id}}"> {{$gym->name}}
+        </option>
+        <option value="{{$gym->id}}">{{$gym->name}}</option>
+    @endforeach
+    </select>
     {!! $errors->first('gym_id', '<p class="help-block">:message</p>') !!}
 </div>
 

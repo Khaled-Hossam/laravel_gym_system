@@ -4,14 +4,14 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Coach extends Model
+class Session extends Model
 {
     /**
      * The database table used by the model.
      *
      * @var string
      */
-    protected $table = 'coaches';
+    protected $table = 'sessions';
 
     /**
     * The database primary key value.
@@ -25,7 +25,12 @@ class Coach extends Model
      *
      * @var array
      */
-    protected $fillable = ['name'];
+    protected $fillable = ['name', 'starts_at', 'finishes_at', 'gym_id'];
     public $timestamps = false;	
+
+    public function gym()
+    {
+        return $this->belongsTo('App\Gym');
+    }
     
 }

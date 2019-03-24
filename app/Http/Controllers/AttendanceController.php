@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\atttendance;
 use Illuminate\Http\Request;
 
-class AtttendanceController extends Controller
+class AttendanceController extends Controller
 {
     /**
      * Display a listing of the resource.

@@ -5,21 +5,22 @@ namespace App\Http\Controllers;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
-use App\Coach;
+use App\Package;
 use Illuminate\Http\Request;
 
-class CoachController extends Controller
+class PackagesController extends Controller
 {
+    public function getJsonData(){
+        return datatables( Package::all() )->toJson();
+    }
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\View\View
      */
     public function index(Request $request)
-    {
-        $coach = Coach::all();
-
-        return view('coach.index', compact('coach'));
+    {        
+        return view('packages.index');
     }
 
     /**
@@ -29,7 +30,7 @@ class CoachController extends Controller
      */
     public function create()
     {
-        return view('coach.create');
+        return view('packages.create');
     }
 
     /**
@@ -41,11 +42,16 @@ class CoachController extends Controller
      */
     public function store(Request $request)
     {
+        $this->validate($request, [
+			'name' => 'required|max:80',
+			'sessions_number' => 'required|integer',
+			'price' => 'required|alpha_num'
+		]);
         $requestData = $request->all();
         
-        Coach::create($requestData);
+        Package::create($requestData);
 
-        return redirect('coach');
+        return redirect('packages')->with('flash_message', 'Package added!');
     }
 
     /**
@@ -57,9 +63,9 @@ class CoachController extends Controller
      */
     public function show($id)
     {
-        $coach = Coach::findOrFail($id);
+        $package = Package::findOrFail($id);
 
-        return view('coach.show', compact('coach'));
+        return view('packages.show', compact('package'));
     }
 
     /**
@@ -71,9 +77,9 @@ class CoachController extends Controller
      */
     public function edit($id)
     {
-        $coach = Coach::findOrFail($id);
+        $package = Package::findOrFail($id);
 
-        return view('coach.edit', compact('coach'));
+        return view('packages.edit', compact('package'));
     }
 
     /**
@@ -86,12 +92,17 @@ class CoachController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $this->validate($request, [
+			'name' => 'required|max:80',
+			'sessions_number' => 'required|integer',
+			'price' => 'required|alpha_num'
+		]);
         $requestData = $request->all();
         
-        $coach = Coach::findOrFail($id);
-        $coach->update($requestData);
+        $package = Package::findOrFail($id);
+        $package->update($requestData);
 
-        return redirect('coach');
+        return redirect('packages')->with('flash_message', 'Package updated!');
     }
 
     /**
@@ -103,8 +114,6 @@ class CoachController extends Controller
      */
     public function destroy($id)
     {
-        Coach::destroy($id);
-
-        return redirect('coach');
+        Package::destroy($id);
     }
 }

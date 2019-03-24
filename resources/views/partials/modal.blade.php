@@ -1,5 +1,4 @@
 <div class="modal fade" id="DeleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div style="display:none" id="crudName" title="users"></div>
     <div class="modal-dialog" role="document">
         <div class="modal-content">
         <meta name="csrf-token" content="{{ csrf_token() }}">

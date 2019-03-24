@@ -1,0 +1,47 @@
+{
+    "fields": [
+        {
+            "name": "name",
+            "type": "string"
+        },
+        {
+            "name": "starts_at",
+            "type": "datetime"
+        },        {
+            "name": "finishes_at",
+            "type": "datetime"
+        },
+        {
+            "name": "gym_id",
+            "type": "integer#unsigned"
+        }
+    ],
+    "foreign_keys": [
+        {
+            "column": "gym_id",
+            "references": "id",
+            "on": "gyms"
+        }
+    ],
+    "relationships": [
+        {
+            "name": "gym",
+            "type": "belongsTo",
+            "class": "App\\Gym"
+        }
+    ],
+    "validations": [
+        {
+            "field": "name",
+            "rules": "required|max:80"
+        },
+        {
+            "field": "starts_at",
+            "rules": "required"
+        },
+        {
+            "field": "finishes_at",
+            "rules": "required"
+        }
+    ]
+}

@@ -21,3 +21,5 @@ Route::get('/home', 'HomeController@index')->name('home');
 Route::resource('city', 'CityController');
 Route::resource('gym', 'GymController');
 Route::resource('coach', 'CoachController');
+Route::get('sessions/get-json-data', 'SessionsController@getJsonData');
+Route::resource('sessions', 'SessionsController');

@@ -1,0 +1,46 @@
+{
+    "fields": [
+        {
+            "name": "name",
+            "type": "string"
+        },
+        {
+            "name": "email",
+            "type": "email"
+        },
+        {
+            "name": "password",
+            "type": "password"
+        },
+        {
+            "name": "email",
+            "type": "email"
+        },
+        {
+            "name": "gym_id",
+            "type": "integer#unsigned"
+        }
+    ],
+    "foreign_keys": [
+        {
+            "column": "gym_id",
+            "references": "id",
+            "on": "gyms",
+            "onDelete": "cascade"
+        }
+    ],
+    "validations": [
+        {
+            "field": "name",
+            "rules": "required|string|max:255"
+        },
+        {
+            "field": "email",
+            "rules": "required|string|email|max:255|unique:users"
+        },
+        {
+            "field": "passsword",
+            "rules": "required|string|min:8|confirmed"
+        }
+    ]
+}

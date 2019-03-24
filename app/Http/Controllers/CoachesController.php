@@ -10,8 +10,9 @@ use Illuminate\Http\Request;
 
 class CoachesController extends Controller
 {
-    public function getJsonData(){
-        return datatables( Coach::all() )->toJson();
+    public function getJsonData()
+    {
+        return datatables(Coach::all())->toJson();
     }
     /**
      * Display a listing of the resource.
@@ -19,7 +20,7 @@ class CoachesController extends Controller
      * @return \Illuminate\View\View
      */
     public function index(Request $request)
-    {        
+    {
         return view('coaches.index');
     }
 
@@ -43,8 +44,8 @@ class CoachesController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-			'name' => 'required|max:80'
-		]);
+            'name' => 'required|max:80'
+        ]);
         $requestData = $request->all();
         
         Coach::create($requestData);
@@ -91,8 +92,8 @@ class CoachesController extends Controller
     public function update(Request $request, $id)
     {
         $this->validate($request, [
-			'name' => 'required|max:80'
-		]);
+            'name' => 'required|max:80'
+        ]);
         $requestData = $request->all();
         
         $coach = Coach::findOrFail($id);

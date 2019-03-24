@@ -24,7 +24,9 @@ class MemberRegisterRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'name' => 'required|string',
+            'email' => 'required|email|unique:members',
+            'password' => 'required|string|min:6|max:18'
         ];
     }
 }

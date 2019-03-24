@@ -11,7 +11,7 @@ class Member extends Model implements JWTSubject
     use Notifiable;
 
     protected $fillable = [
-        'name', 'email', 'password', 'date_of_birth', 'gender'
+        'name', 'email', 'password', 'date_of_birth', 'gender', 'national_id', 'avatar'
     ];
 
     protected $hidden = [

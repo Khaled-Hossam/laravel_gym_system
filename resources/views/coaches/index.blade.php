@@ -4,19 +4,18 @@
 <link rel="stylesheet" href="//cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css"> 
 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs4/jq-3.3.1/dt-1.10.18/b-1.5.6/datatables.min.css"/>
 @include('partials.datatables_style')
-
 @endsection
 
 @section('content')
 @include('partials.modal')
 
-    <div style="display:none" id="crudName" title="%%viewName%%"></div>
+    <div style="display:none" id="crudName" title="coaches"></div>
     <div class="container">
         <div class="row">
             <div class=" col-12">
-                    <div class="card-header">%%crudNameCap%%</div>
+                    <div class="card-header">Coaches</div>
                     <div class="card-body">
-                        <a href="{{ route('%%viewName%%.create') }}" class="btn btn-success btn-sm" title="Add New %%modelName%%">
+                        <a href="{{ route('coaches.create') }}" class="btn btn-success btn-sm" title="Add New Coach">
                             <i class="fa fa-plus" aria-hidden="true"></i> Add New
                         </a>
 
@@ -26,7 +25,7 @@
                             <table class="table table-bordered table-striped" id="dataTable">
                                 <thead>
                                     <tr>
-                                        <th>#</th>%%formHeadingHtml%%<th>Actions</th>
+                                        <th>#</th><th>Name</th><th>Actions</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -58,6 +57,7 @@ $(document).ready( function () {
         "dataSrc": "",
         "columns": [
                 {"data":"id"},    
+                {"data":"name"},    
                        
                 {
                     mRender: function (data, type, row) {

@@ -8,18 +8,19 @@ use App\Http\Controllers\Controller;
 use App\Coach;
 use Illuminate\Http\Request;
 
-class CoachController extends Controller
+class CoachesController extends Controller
 {
+    public function getJsonData(){
+        return datatables( Coach::all() )->toJson();
+    }
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\View\View
      */
     public function index(Request $request)
-    {
-        $coach = Coach::all();
-
-        return view('coach.index', compact('coach'));
+    {        
+        return view('coaches.index');
     }
 
     /**
@@ -29,7 +30,7 @@ class CoachController extends Controller
      */
     public function create()
     {
-        return view('coach.create');
+        return view('coaches.create');
     }
 
     /**
@@ -41,12 +42,14 @@ class CoachController extends Controller
      */
     public function store(Request $request)
     {
-        
+        $this->validate($request, [
+			'name' => 'required|max:80'
+		]);
         $requestData = $request->all();
         
         Coach::create($requestData);
 
-        return redirect('coach');
+        return redirect('coaches')->with('flash_message', 'Coach added!');
     }
 
     /**
@@ -60,7 +63,7 @@ class CoachController extends Controller
     {
         $coach = Coach::findOrFail($id);
 
-        return view('coach.show', compact('coach'));
+        return view('coaches.show', compact('coach'));
     }
 
     /**
@@ -74,7 +77,7 @@ class CoachController extends Controller
     {
         $coach = Coach::findOrFail($id);
 
-        return view('coach.edit', compact('coach'));
+        return view('coaches.edit', compact('coach'));
     }
 
     /**
@@ -87,13 +90,15 @@ class CoachController extends Controller
      */
     public function update(Request $request, $id)
     {
-        
+        $this->validate($request, [
+			'name' => 'required|max:80'
+		]);
         $requestData = $request->all();
         
         $coach = Coach::findOrFail($id);
         $coach->update($requestData);
 
-        return redirect('coach');
+        return redirect('coaches')->with('flash_message', 'Coach updated!');
     }
 
     /**
@@ -106,7 +111,5 @@ class CoachController extends Controller
     public function destroy($id)
     {
         Coach::destroy($id);
-
-        return redirect('coach');
     }
 }

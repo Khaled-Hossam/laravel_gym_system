@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>app 3 | Blank Page</title>
+  <title>AdminLTE 3 | Blank Page</title>
   <!-- Tell the browser to be responsive to screen width -->
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -13,10 +13,11 @@
   <!-- Ionicons -->
   <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
   <!-- Theme style -->
-  <link rel="stylesheet" href="{{ asset('dist/css/app.min.css')}}">
+  <link rel="stylesheet" href="{{ asset('dist/css/adminlte.min.css')}}">
   <!-- Google Font: Source Sans Pro -->
   <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
   @yield('extra_styles')
+
 </head>
 
 <body class="hold-transition sidebar-mini">
@@ -40,11 +41,11 @@
   <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
     <a href="../../index3.html" class="brand-link">
-      <img src="../../dist/img/appLogo.png"
-           alt="app Logo"
+      <img src="../../dist/img/AdminLTELogo.png"
+           alt="AdminLTE Logo"
            class="brand-image img-circle elevation-3"
            style="opacity: .8">
-      <span class="brand-text font-weight-light">app 3</span>
+      <span class="brand-text font-weight-light">AdminLTE 3</span>
     </a>
 
     <!-- Sidebar -->
@@ -170,9 +171,9 @@ href="{{ asset('') }}
 <script src="{{ asset('plugins/slimScroll/jquery.slimscroll.min.js')}}"></script>
 <!-- FastClick -->
 <script src="{{ asset('plugins/fastclick/fastclick.js')}}"></script>
-<!-- app App -->
-<script src="{{ asset('dist/js/app.min.js')}}"></script>
-<!-- app for demo purposes -->
+<!-- AdminLTE App -->
+<script src="{{ asset('dist/js/adminlte.min.js')}}"></script>
+<!-- AdminLTE for demo purposes -->
 <script src="{{ asset('dist/js/demo.js')}}"></script>
 @yield('extra_scripts')
 </body>

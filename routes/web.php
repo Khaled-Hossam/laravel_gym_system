@@ -23,3 +23,5 @@ Route::resource('gym', 'GymController');
 Route::resource('coach', 'CoachController');
 Route::get('sessions/get-json-data', 'SessionsController@getJsonData');
 Route::resource('sessions', 'SessionsController');
+Route::get('packages/get-json-data', 'PackagesController@getJsonData');
+Route::resource('packages', 'PackagesController');

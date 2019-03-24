@@ -1,4 +1,4 @@
-@extends('layouts.adminLTE')
+@extends('layouts.app')
 
 @section('content')
     <div class="container">
@@ -40,7 +40,6 @@
                                 @endforeach
                                 </tbody>
                             </table>
-                            <div class="pagination-wrapper"> {!! $coach->appends(['search' => Request::get('search')])->render() !!} </div>
                         </div>
 
                     </div>

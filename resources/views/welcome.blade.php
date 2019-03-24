@@ -1,1 +1,1 @@
-@extends('layouts.adminLTE')
+@extends('layouts.app')

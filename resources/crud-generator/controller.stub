@@ -1,25 +1,26 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace DummyNamespace;
 
-use App\Http\Requests;
-use App\Http\Controllers\Controller;
+use DummyRootNamespaceHttp\Requests;
+use DummyRootNamespaceHttp\Controllers\Controller;
 
-use App\Coach;
+use DummyRootNamespace{{modelNamespace}}{{modelName}};
 use Illuminate\Http\Request;
 
-class CoachController extends Controller
+class DummyClass extends Controller
 {
+    public function getJsonData(){
+        return datatables( {{modelName}}::all() )->toJson();
+    }
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\View\View
      */
     public function index(Request $request)
-    {
-        $coach = Coach::all();
-
-        return view('coach.index', compact('coach'));
+    {        
+        return view('{{viewPath}}{{viewName}}.index');
     }
 
     /**
@@ -29,7 +30,7 @@ class CoachController extends Controller
      */
     public function create()
     {
-        return view('coach.create');
+        return view('{{viewPath}}{{viewName}}.create');
     }
 
     /**
@@ -41,11 +42,12 @@ class CoachController extends Controller
      */
     public function store(Request $request)
     {
+        {{validationRules}}
         $requestData = $request->all();
-        
-        Coach::create($requestData);
+        {{fileSnippet}}
+        {{modelName}}::create($requestData);
 
-        return redirect('coach');
+        return redirect('{{routeGroup}}{{viewName}}')->with('flash_message', '{{modelName}} added!');
     }
 
     /**
@@ -57,9 +59,9 @@ class CoachController extends Controller
      */
     public function show($id)
     {
-        $coach = Coach::findOrFail($id);
+        ${{crudNameSingular}} = {{modelName}}::findOrFail($id);
 
-        return view('coach.show', compact('coach'));
+        return view('{{viewPath}}{{viewName}}.show', compact('{{crudNameSingular}}'));
     }
 
     /**
@@ -71,9 +73,9 @@ class CoachController extends Controller
      */
     public function edit($id)
     {
-        $coach = Coach::findOrFail($id);
+        ${{crudNameSingular}} = {{modelName}}::findOrFail($id);
 
-        return view('coach.edit', compact('coach'));
+        return view('{{viewPath}}{{viewName}}.edit', compact('{{crudNameSingular}}'));
     }
 
     /**
@@ -86,12 +88,13 @@ class CoachController extends Controller
      */
     public function update(Request $request, $id)
     {
+        {{validationRules}}
         $requestData = $request->all();
-        
-        $coach = Coach::findOrFail($id);
-        $coach->update($requestData);
+        {{fileSnippet}}
+        ${{crudNameSingular}} = {{modelName}}::findOrFail($id);
+        ${{crudNameSingular}}->update($requestData);
 
-        return redirect('coach');
+        return redirect('{{routeGroup}}{{viewName}}')->with('flash_message', '{{modelName}} updated!');
     }
 
     /**
@@ -103,8 +106,6 @@ class CoachController extends Controller
      */
     public function destroy($id)
     {
-        Coach::destroy($id);
-
-        return redirect('coach');
+        {{modelName}}::destroy($id);
     }
 }

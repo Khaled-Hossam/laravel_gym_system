@@ -3,6 +3,7 @@
 @section('content')
 @include('partials.modal')
 
+<div style="display:none" id="crudName" title="sessions"></div>
     <div class="container">
         <div class="row">
 
@@ -26,6 +27,16 @@
                                         <th>ID</th><td>{{ $session->id }}</td>
                                     </tr>
                                     <tr><th> Name </th><td> {{ $session->name }} </td></tr><tr><th> Starts At </th><td> {{ $session->starts_at }} </td></tr><tr><th> Finishes At </th><td> {{ $session->finishes_at }} </td></tr><tr><th> Gym Id </th><td> {{ $session->gym_id }} </td></tr>
+                                    <tr>
+                                        <th>Coaches</th>
+                                    <td>
+                                        <ul>
+                                            @foreach ($session->coaches as $coach)
+                                            <li>{{$coach->name}}</li>
+                                            @endforeach
+                                        </ul>
+                                    </td>
+                                    </tr>
                                 </tbody>
                             </table>
                         </div>

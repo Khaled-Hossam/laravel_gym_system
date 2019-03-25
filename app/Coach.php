@@ -27,5 +27,10 @@ class Coach extends Model
      */
     protected $fillable = ['name'];
     public $timestamps = false;	
+
+    public function sessions()
+    {
+        return $this->belongsToMany('App\Session','coaches_sessions');
+    }
     
 }

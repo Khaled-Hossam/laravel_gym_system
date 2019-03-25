@@ -9,9 +9,11 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class Member extends  Authenticatable implements JWTSubject
 {
+
     use Notifiable;
 
     protected $table = 'members';
+    protected $member;
 
     protected $fillable = [
         'name', 'email', 'password', 'date_of_birth', 'gender', 'national_id', 'avatar'
@@ -39,5 +41,9 @@ class Member extends  Authenticatable implements JWTSubject
     public function getJWTCustomClaims()
     {
         return [];
+    }
+    public function __construct()
+    {
+        // $this->member = JWTAuth::parseToken()->authenticate();
     }
 }

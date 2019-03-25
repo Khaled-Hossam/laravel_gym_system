@@ -48,4 +48,32 @@ class MembersController extends Controller
             ]
         ], 200);
     }
+
+    public function getAuthUser(Request $request)
+    {
+
+        // auth('api')->validate($request->token);
+        // $this->validate($request->token, [
+        // 'token' => 'required'
+        // ]);
+
+        // $user = JWTAuth::authenticate($request->token);
+
+        // return response()->json(['user' => $use  r]);
+        // $this->validate($request, [
+        //     'token' => 'required'
+        // ]);
+
+
+        return response()->json(['user' => $user]);
+    }
+
+    public function test(Request $request)
+    {
+        $user = JWTAuth::authenticate($request->token);
+        dd($user);
+        // $member = new Member();
+        // $credentials = $request->only('email', 'password');
+        // $valide = auth('api')->attempt($credentials);
+    }
 }

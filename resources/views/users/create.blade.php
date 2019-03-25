@@ -6,9 +6,9 @@
 
             <div class="col-md-12 mt-3">
                 <div class="card">
-                    <div class="card-header">Create New %%modelName%%</div>
+                    <div class="card-header">Create New User</div>
                     <div class="card-body">
-                        <a href="{{ route('%%routeGroup%%%%viewName%%.index') }}" title="Back"><button class="btn btn-warning btn-sm"><i class="fa fa-arrow-left" aria-hidden="true"></i> Back</button></a>
+                        <a href="{{ route('users.index') }}" title="Back"><button class="btn btn-warning btn-sm"><i class="fa fa-arrow-left" aria-hidden="true"></i> Back</button></a>
                         <br />
                         <br />
 
@@ -20,10 +20,10 @@
                             </ul>
                         @endif
 
-                        <form method="POST" action="{{ route('%%routeGroup%%%%viewName%%.store') }}" accept-charset="UTF-8" class="form-horizontal" enctype="multipart/form-data">
+                        <form method="POST" action="{{ route('users.store') }}" accept-charset="UTF-8" class="form-horizontal" enctype="multipart/form-data">
                             {{ csrf_field() }}
 
-                            @include ('%%viewTemplateDir%%.form', ['formMode' => 'create'])
+                            @include ('users.form', ['formMode' => 'create'])
 
                         </form>
 

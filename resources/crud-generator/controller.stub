@@ -44,6 +44,7 @@ class DummyClass extends Controller
     {
         {{validationRules}}
         $requestData = $request->all();
+        
         {{fileSnippet}}
         {{modelName}}::create($requestData);
 
@@ -57,10 +58,8 @@ class DummyClass extends Controller
      *
      * @return \Illuminate\View\View
      */
-    public function show($id)
+    public function show({{modelName}} ${{crudNameSingular}})
     {
-        ${{crudNameSingular}} = {{modelName}}::findOrFail($id);
-
         return view('{{viewPath}}{{viewName}}.show', compact('{{crudNameSingular}}'));
     }
 
@@ -71,10 +70,8 @@ class DummyClass extends Controller
      *
      * @return \Illuminate\View\View
      */
-    public function edit($id)
+    public function edit({{modelName}} ${{crudNameSingular}})
     {
-        ${{crudNameSingular}} = {{modelName}}::findOrFail($id);
-
         return view('{{viewPath}}{{viewName}}.edit', compact('{{crudNameSingular}}'));
     }
 
@@ -86,12 +83,12 @@ class DummyClass extends Controller
      *
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, {{modelName}} ${{crudNameSingular}})
     {
         {{validationRules}}
         $requestData = $request->all();
         {{fileSnippet}}
-        ${{crudNameSingular}} = {{modelName}}::findOrFail($id);
+
         ${{crudNameSingular}}->update($requestData);
 
         return redirect('{{routeGroup}}{{viewName}}')->with('flash_message', '{{modelName}} updated!');
@@ -104,8 +101,8 @@ class DummyClass extends Controller
      *
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
-    public function destroy($id)
+    public function destroy({{modelName}} ${{crudNameSingular}})
     {
-        {{modelName}}::destroy($id);
+        ${{crudNameSingular}}->delete();
     }
 }

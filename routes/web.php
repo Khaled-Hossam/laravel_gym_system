@@ -29,3 +29,6 @@ Route::resource('packages', 'PackagesController');
 
 Route::get('coaches/get-json-data', 'CoachesController@getJsonData');
 Route::resource('coaches', 'CoachesController');
+
+Route::get('users/get-json-data', 'UsersController@getJsonData');
+Route::resource('users', 'UsersController');

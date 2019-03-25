@@ -5,10 +5,13 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
 use Tymon\JWTAuth\Contracts\JWTSubject;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class Member extends Model implements JWTSubject
+class Member extends  Authenticatable implements JWTSubject
 {
     use Notifiable;
+
+    protected $table = 'members';
 
     protected $fillable = [
         'name', 'email', 'password', 'date_of_birth', 'gender', 'national_id', 'avatar'

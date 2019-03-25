@@ -32,5 +32,10 @@ class Session extends Model
     {
         return $this->belongsTo('App\Gym');
     }
+
+    public function coaches()
+    {
+        return $this->belongsToMany('App\Coach','coaches_sessions');;
+    }
     
 }

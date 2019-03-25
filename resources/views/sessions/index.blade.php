@@ -10,6 +10,7 @@
 @section('content')
 @include('partials.modal')
 
+<div style="display:none" id="crudName" title="sessions"></div>
     <div class="container">
         <div class="row">
 

@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use App\Session;
 use Illuminate\Http\Request;
 use App\Gym;
+use App\Coach;
 
 class SessionsController extends Controller
 {
@@ -31,8 +32,10 @@ class SessionsController extends Controller
      */
     public function create()
     {
-        $gyms = Gym::all();
-        return view('sessions.create', compact('gyms'));
+        $gyms = Gym::pluck('name', 'id');;
+        $coaches = Coach::pluck('name', 'id');;
+
+        return view('sessions.create', compact('gyms','coaches'));
     }
 
     /**
@@ -45,13 +48,14 @@ class SessionsController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-			'name' => 'required|max:80',
+			'name' => 'required|max:80|unique:sessions',
 			'starts_at' => 'required',
-			'finishes_at' => 'required'
+            'finishes_at' => 'required',
+            'gym_id'=>'required|exists:gyms,id',
 		]);
         $requestData = $request->all();
         
-        Session::create($requestData);
+        Session::create($requestData)->coaches()->sync($request->coaches);
 
         return redirect('sessions')->with('flash_message', 'Session added!');
     }
@@ -66,7 +70,6 @@ class SessionsController extends Controller
     public function show($id)
     {
         $session = Session::findOrFail($id);
-
         return view('sessions.show', compact('session'));
     }
 
@@ -80,9 +83,10 @@ class SessionsController extends Controller
     public function edit($id)
     {
         $session = Session::findOrFail($id);
-        $gyms = Gym::all();
+        $gyms = Gym::pluck('name', 'id');
+        $coaches = Coach::pluck('name', 'id');
 
-        return view('sessions.edit', compact('session','gyms'));
+        return view('sessions.edit', compact('session','gyms','coaches'));
     }
 
     /**
@@ -96,14 +100,16 @@ class SessionsController extends Controller
     public function update(Request $request, $id)
     {
         $this->validate($request, [
-			'name' => 'required|max:80',
+			'name' => 'required|max:80|unique:sessions,name,'.$id,
 			'starts_at' => 'required',
-			'finishes_at' => 'required'
-		]);
-        $requestData = $request->all();
-        
+            'finishes_at' => 'required',
+            'gym_id'=> 'required',
+        ]);
+        $requestData = $request->all();        
         $session = Session::findOrFail($id);
+        
         $session->update($requestData);
+        $session->coaches()->sync($request->coaches);
 
         return redirect('sessions')->with('flash_message', 'Session updated!');
     }

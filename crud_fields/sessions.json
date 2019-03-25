@@ -33,7 +33,7 @@
     "validations": [
         {
             "field": "name",
-            "rules": "required|max:80"
+            "rules": "required|max:80|unique:sessions"
         },
         {
             "field": "starts_at",
@@ -42,6 +42,10 @@
         {
             "field": "finishes_at",
             "rules": "required"
+        },
+        {
+            "field": "gym_id",
+            "rules": "required|exists:gyms,id"
         }
     ]
 }

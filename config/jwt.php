@@ -11,6 +11,8 @@
 
 return [
 
+    'user' => App\Member::class,
+
     /*
     |--------------------------------------------------------------------------
     | JWT Authentication Secret

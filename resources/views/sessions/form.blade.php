@@ -15,18 +15,17 @@
 </div>
 <div class="form-group {{ $errors->has('gym_id') ? 'has-error' : ''}}">
     <label for="gym_id" class="control-label">{{ 'Gym Id' }}</label>
-    <select class="form-control" id="gym_id" name="gym_id">
-    @foreach($gyms as $gym)
-        <option
-            @if(isset($session->gym_id) && $gym->id == $session->gym_id) selected @endif
-            value="{{$gym->id}}"> {{$gym->name}}
-        </option>
-        <option value="{{$gym->id}}">{{$gym->name}}</option>
-    @endforeach
-    </select>
+    {{ $formMode === 'edit' ? 
+     Form::select('gym_id', $gyms, $session->gym_id, ['select','class'=>'col-12 mb-3'] ) :
+     Form::select('gym_id', $gyms, null, ['select','class'=>'col-12 mb-3'] ) 
+    }}
     {!! $errors->first('gym_id', '<p class="help-block">:message</p>') !!}
 </div>
 
+{{ $formMode === 'edit' ? 
+     Form::select('coaches[]', $coaches, $session->coaches->pluck('id'), ['multiple','class'=>'col-12 mb-3'] ) :
+     Form::select('coaches[]', $coaches, null, ['multiple','class'=>'col-12 mb-3'] )
+}}
 
 <div class="form-group">
     <input class="btn btn-primary" type="submit" value="{{ $formMode === 'edit' ? 'Update' : 'Create' }}">

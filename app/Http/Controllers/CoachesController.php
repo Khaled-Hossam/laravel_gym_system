@@ -44,7 +44,7 @@ class CoachesController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            'name' => 'required|max:80'
+            'name' => 'required|max:80|string|unique:coaches'
         ]);
         $requestData = $request->all();
         
@@ -92,7 +92,7 @@ class CoachesController extends Controller
     public function update(Request $request, $id)
     {
         $this->validate($request, [
-            'name' => 'required|max:80'
+            'name' => 'required|max:80|string|unique:coaches,name,'.$id
         ]);
         $requestData = $request->all();
         

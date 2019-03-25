@@ -45,7 +45,7 @@ class PackagesController extends Controller
         $this->validate($request, [
 			'name' => 'required|max:80',
 			'sessions_number' => 'required|integer',
-			'price' => 'required|alpha_num'
+			'price' => 'required|numeric'
 		]);
         $requestData = $request->all();
         
@@ -95,7 +95,7 @@ class PackagesController extends Controller
         $this->validate($request, [
 			'name' => 'required|max:80',
 			'sessions_number' => 'required|integer',
-			'price' => 'required|alpha_num'
+			'price' => 'required|numeric'
 		]);
         $requestData = $request->all();
         

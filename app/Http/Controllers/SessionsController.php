@@ -103,7 +103,7 @@ class SessionsController extends Controller
 			'name' => 'required|max:80|unique:sessions,name,'.$id,
 			'starts_at' => 'required',
             'finishes_at' => 'required',
-            'gym_id'=> 'required',
+            'gym_id'=> 'required|exists:gyms,id',
         ]);
         $requestData = $request->all();        
         $session = Session::findOrFail($id);

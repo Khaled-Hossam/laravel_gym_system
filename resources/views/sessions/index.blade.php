@@ -9,6 +9,7 @@
 
 @section('content')
 @include('partials.modal')
+@include('partials.flash_message')
 
 <div style="display:none" id="crudName" title="sessions"></div>
     <div class="container">

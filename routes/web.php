@@ -32,3 +32,6 @@ Route::resource('coaches', 'CoachesController');
 
 Route::get('users/get-json-data', 'UsersController@getJsonData');
 Route::resource('users', 'UsersController');
+
+Route::get('gyms/get-json-data', 'GymsController@getJsonData');
+Route::resource('gyms', 'GymsController');

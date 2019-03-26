@@ -1,7 +1,8 @@
 @extends('layouts.app')
 
 @section('content')
-<a href="{{route('cities.index')}}" class="btn btn-warning">Back</a>
+<a href="{{route('cities.index')}}" title="Back"><button class="btn btn-warning btn-sm"><i class="fa fa-arrow-left" aria-hidden="true"></i> Back</button></a>
+
  @if ($errors->any())
         <div class="alert alert-danger">
             <ul>
@@ -34,4 +35,10 @@
 
     <button type="submit" class="btn btn-primary">Submit</button>
     </form>
-@endsection
+    @endsection
+
+@section('extra_scripts')
+
+@include('partials.delete_script')
+
+@endsectionn

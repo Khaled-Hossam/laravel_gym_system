@@ -35,7 +35,6 @@ class UsersController extends Controller
     public function create()
     {
         $gyms = Gym::pluck('name', 'id');
-        
         return view('users.create', compact('gyms'));
     }
 

@@ -19,10 +19,9 @@
     <input class="form-control" name="password" type="password" id="password" {{ $formMode === 'edit' ? '' : 'required' }}>
     {!! $errors->first('password', '<p class="help-block text-danger">:message</p>') !!}
 </div>
-<div class="form-group {{ $errors->has('password_confirmation') ? 'has-error' : ''}}">
+<div class="form-group">
     <label for="password_confirmation" class="control-label">{{ 'Password confirmation' }}</label>
     <input class="form-control" name="password_confirmation" type="password" id="password_confirmation" {{ $formMode === 'edit' ? '' : 'required' }}>
-    {!! $errors->first('password_confirmation', '<p class="help-block text-danger">:message</p>') !!}
 </div>
 
 <div class="form-group {{ $errors->has('avatar') ? 'has-error' : ''}}">

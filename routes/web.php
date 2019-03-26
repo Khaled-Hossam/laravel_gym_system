@@ -35,3 +35,9 @@ Route::resource('users', 'UsersController');
 
 Route::get('gyms/get-json-data', 'GymsController@getJsonData');
 Route::resource('gyms', 'GymsController');
+
+
+Route::get('cities/get-json-data', 'CityController@getJsonData');
+Route::resource('cities', 'CityController');
+
+Route::resource('payments', 'PaymentController');

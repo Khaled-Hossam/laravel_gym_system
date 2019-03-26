@@ -88,7 +88,7 @@
           </li>
 
           <li class="nav-item has-treeview">
-            <a href="{{route('city.index')}}" class="nav-link">
+            <a href="{{route('cities.index')}}" class="nav-link">
               <p>
               Cities
               </p>
@@ -126,7 +126,7 @@
             </a>
           </li>
           <li class="nav-item has-treeview">
-            <a href="#" class="nav-link">
+            <a href="{{route('payments.index')}}" class="nav-link">
               <p>
               Buy Package For User
               </p>

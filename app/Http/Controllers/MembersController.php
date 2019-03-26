@@ -16,15 +16,20 @@ class MembersController extends Controller
         $member = new Member();
         $member->name = $request->name;
         $member->email = $request->email;
+        $member->date_of_birth = $request->date_of_birth;
+        $member->gender = $request->gender;
         $member->password = bcrypt($request->password);
-        $member->save();
+        $member->save($request->all());
+        $token = auth('api')->login($member);
 
         return response()->json([
             'success' => true,
             'message' => 'Member created successfully',
+            'token' =>$token,
             'data' => $request->all()
         ], 201);
     }
+
 
     public function login(Request $request)
     {
@@ -49,31 +54,28 @@ class MembersController extends Controller
         ], 200);
     }
 
-    public function getAuthUser(Request $request)
+
+    public function member(Request $request)
     {
-
-        // auth('api')->validate($request->token);
-        // $this->validate($request->token, [
-        // 'token' => 'required'
-        // ]);
-
-        // $user = JWTAuth::authenticate($request->token);
-
-        // return response()->json(['user' => $use  r]);
-        // $this->validate($request, [
-        //     'token' => 'required'
-        // ]);
-
-
-        return response()->json(['user' => $user]);
+        return response()->json([
+            'member' => auth('api')->user(),
+            ]);
     }
 
+    public function update(Request $request)
+    {
+        $member = auth('api')->user();
+        $member->name= $request->name;
+        $member->date_of_birth = $request->date_of_birth;
+        $member->gender= $request->gender;
+        $member->save();
+        return response()->json(['member'=>$member]);
+    }
     public function test(Request $request)
     {
-        $user = JWTAuth::authenticate($request->token);
-        dd($user);
-        // $member = new Member();
-        // $credentials = $request->only('email', 'password');
-        // $valide = auth('api')->attempt($credentials);
+        dd($request->all());
+    }
+    private function valid(){
+        
     }
 }

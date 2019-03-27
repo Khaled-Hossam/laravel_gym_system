@@ -22,14 +22,12 @@ class City extends Model
         return $this->belongsTo(Country::class);
     }
 
-    protected static function boot()
+    public function scopeAllowedToSeeCities($query)
     {
-        parent::boot();
-        
-        static::addGlobalScope('id', function (Builder $builder) {
-            $user = Auth::user();
-            if(!$user->hasRole('admin'))
-                $builder->where('id', $user->city_id);
-        });
+        $user = Auth::user();
+        if(!$user->hasRole('admin'))
+            return $query->where('id', $user->city_id);
+
+        return $query;
     }
 }

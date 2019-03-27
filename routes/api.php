@@ -27,5 +27,5 @@ Route::group(['middleware' => 'auth.jwt'], function () {
     Route::get('update', 'MembersController@update');
     Route::get('sessions', 'MembersController@sessions');
     Route::get('attendance', 'MembersController@attendance');
-    Route::get('attend', 'ProductController@attend');
+    // Route::get('attend', 'ProductController@attend');
 });

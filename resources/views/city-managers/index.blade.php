@@ -16,13 +16,13 @@
     </div>
     @endif
 
-    <div style="display:none" id="crudName" title="users"></div>
+    <div style="display:none" id="crudName" title="city-managers"></div>
     <div class="container">
         <div class="row">
             <div class=" col-12">
-                    <div class="card-header">Users</div>
+                    <div class="card-header">Gym Managers</div>
                     <div class="card-body">
-                        <a href="{{ route('users.create') }}" class="btn btn-success btn-sm" title="Add New User">
+                        <a href="{{ route('city-managers.create') }}" class="btn btn-success btn-sm" title="Add New User">
                             <i class="fa fa-plus" aria-hidden="true"></i> Add New
                         </a>
 

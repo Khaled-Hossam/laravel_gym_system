@@ -3,7 +3,8 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
-
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\Auth;
 class Gym extends Model
 {
     /**
@@ -40,5 +41,16 @@ class Gym extends Model
     public function GymPackagePurshases()
     {
         return $this->belongsToMany('App\Package','gym_package_purshases');;
+    }
+
+    protected static function boot()
+    {
+        parent::boot();
+        
+        static::addGlobalScope('city_id', function (Builder $builder) {
+            $user = Auth::user();
+            if($user->hasRole('city_manager'))
+                $builder->where('city_id', $user->city_id);
+        });
     }
 }

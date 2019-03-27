@@ -7,6 +7,9 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Spatie\Permission\Traits\HasRoles;
 
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\Auth;
+
 class User extends Authenticatable
 {
     use Notifiable;
@@ -40,4 +43,11 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function scopeCanSee($query)
+    {
+        $user = Auth::user();
+        if(!$user->hasRole('admin'))
+            return $query->where('id', $user->id);
+    }
 }

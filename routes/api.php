@@ -29,5 +29,5 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::put('update', 'MembersController@update');
     Route::get('sessions', 'MembersController@sessions');
     Route::get('attendance', 'MembersController@attendance');
-    Route::get('attend', 'ProductController@attend');
+    // Route::get('attend', 'ProductController@attend');
 });

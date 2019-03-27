@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 use App\Gym;
 
-class UsersController extends Controller
+class GymManagersController extends Controller
 {
     public function getJsonData()
     {
@@ -24,7 +24,7 @@ class UsersController extends Controller
      */
     public function index(Request $request)
     {
-        return view('users.index');
+        return view('gym-managers.index');
     }
 
     /**
@@ -35,7 +35,7 @@ class UsersController extends Controller
     public function create()
     {
         $gyms = Gym::pluck('name', 'id');
-        return view('users.create', compact('gyms'));
+        return view('gym-managers.create', compact('gyms'));
     }
 
     /**
@@ -53,9 +53,11 @@ class UsersController extends Controller
             'national_id' => 'required|string|max:255|unique:users',
             'password' => 'required|string|min:8|confirmed',
             'gym_id'=>'exists:gyms,id',
+            'avatar' => 'file|mimes:jpeg,png'
         ]);
         $requestData = $request->all();
         $requestData['password'] = Hash::make($request->password);
+    
         if ($request->hasFile('avatar')) {
             $requestData['avatar'] = $request->file('avatar')
                 ->store('uploads', 'public');
@@ -63,7 +65,7 @@ class UsersController extends Controller
 
         User::create($requestData);
 
-        return redirect('users')->with('flash_message', 'User added!');
+        return redirect('gym-managers')->with('flash_message', 'User added!');
     }
 
     /**
@@ -75,7 +77,7 @@ class UsersController extends Controller
      */
     public function show(User $user)
     {
-        return view('users.show', compact('user'));
+        return view('gym-managers.show', compact('user'));
     }
 
     /**
@@ -88,7 +90,7 @@ class UsersController extends Controller
     public function edit(User $user)
     {
         $gyms = Gym::pluck('name', 'id');
-        return view('users.edit', compact('user', 'gyms'));
+        return view('gym-managers.edit', compact('user', 'gyms'));
     }
 
     /**
@@ -107,6 +109,7 @@ class UsersController extends Controller
             'national_id' => 'required|string|max:255|unique:users,national_id,'.$user->id,
             'password' => 'nullable|string|min:8|confirmed',
             'gym_id'=>'exists:gyms,id',
+            'avatar' => 'file|mimes:jpeg,png'
         ]);
         $requestData = $request->all();
         if (!$request->password) {
@@ -125,7 +128,7 @@ class UsersController extends Controller
 
         $user->update($requestData);
 
-        return redirect('users')->with('flash_message', 'User updated!');
+        return redirect('gym-managers')->with('flash_message', 'User updated!');
     }
 
     /**
@@ -137,6 +140,9 @@ class UsersController extends Controller
      */
     public function destroy(User $user)
     {
+        if ($user->avatar) {
+            Storage::disk('public')->delete($user->avatar);
+        }
         $user->delete();
     }
 }

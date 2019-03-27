@@ -8,10 +8,21 @@ use App\Http\Controllers\Controller;
 use App\Gym;
 use App\City;
 use App\User;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 
 class GymsController extends Controller
 {
+    private function editBasedOnRole(Request $request)
+    {
+        $user = Auth::user();
+        $request['creator_id'] = $user->id;
+        
+        if(!$user->hasRole('admin'))
+            $request['city_id'] = $user->city_id;
+        return $request;
+    }
+
     public function getJsonData(){
         return datatables( Gym::with('city','creator') )->toJson();
     }
@@ -22,6 +33,7 @@ class GymsController extends Controller
      */
     public function index(Request $request)
     {        
+
         return view('gyms.index');
     }
 
@@ -32,8 +44,8 @@ class GymsController extends Controller
      */
     public function create()
     {
-        $cities = City::pluck('name', 'id');;
-        $users = User::pluck('name', 'id');;
+        $cities = City::pluck('name', 'id');
+        $users = User::canSee()->pluck('name', 'id');
 
         return view('gyms.create',compact('cities','users'));
     }
@@ -47,18 +59,20 @@ class GymsController extends Controller
      */
     public function store(Request $request)
     {
+        $request = $this->editBasedOnRole($request);
+
         $this->validate($request, [
 			'name' => 'required|string|max:180',
-			'city_id' => 'exists:cities,id',
-			'creator_id' => 'exists:users,id'
-		]);
+            'city_id' => 'exists:cities,id'
+        ]);
+        
         $requestData = $request->all();
         
-                if ($request->hasFile('cover_image')) {
+        if ($request->hasFile('cover_image')) {
             $requestData['cover_image'] = $request->file('cover_image')
                 ->store('uploads', 'public');
         }
-
+    
         Gym::create($requestData);
 
         return redirect('gyms')->with('flash_message', 'Gym added!');
@@ -86,7 +100,7 @@ class GymsController extends Controller
     public function edit(Gym $gym)
     {
         $cities = City::pluck('name', 'id');
-        $users = User::pluck('name', 'id');
+        $users = User::canSee()->pluck('name', 'id');
 
         return view('gyms.edit', compact('gym','cities','users'));
     }
@@ -101,17 +115,18 @@ class GymsController extends Controller
      */
     public function update(Request $request, Gym $gym)
     {
+        $request = $this->editBasedOnRole($request);
+
         $this->validate($request, [
 			'name' => 'required|string|max:180',
-			'city_id' => 'exists:cities,id',
-			'creator_id' => 'exists:users,id'
-		]);
+			'city_id' => 'exists:cities,id'
+        ]);
+        
         $requestData = $request->all();
-                if ($request->hasFile('cover_image')) {
+        if ($request->hasFile('cover_image')) {
             $requestData['cover_image'] = $request->file('cover_image')
                 ->store('uploads', 'public');
         }
-
 
         $gym->update($requestData);
 
@@ -127,6 +142,16 @@ class GymsController extends Controller
      */
     public function destroy(Gym $gym)
     {
-        $gym->delete();
+        $user = Auth::user();
+
+        if($user->hasRole('admin'))
+        {
+            $gym->delete();
+        }
+        else if($user->hasRole('city_manager'))
+        {    
+            if($user->city_id == $gym->city_id)
+                $gym->delete();
+        }
     }
 }

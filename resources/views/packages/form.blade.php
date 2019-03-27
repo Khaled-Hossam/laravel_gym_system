@@ -10,7 +10,7 @@
 </div>
 <div class="form-group {{ $errors->has('price') ? 'has-error' : ''}}">
     <label for="price" class="control-label">{{ 'Price' }}</label>
-    <input class="form-control" name="price" type="number" id="price" value="{{ isset($package->price) ? $package->price : ''}}" required>
+    <input class="form-control" name="price" id="price" value="{{ isset($package->price) ? $package->price : ''}}" required>
     {!! $errors->first('price', '<p class="help-block">:message</p>') !!}
 </div>
 

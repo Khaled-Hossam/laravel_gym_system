@@ -29,3 +29,15 @@ Route::resource('packages', 'PackagesController');
 
 Route::get('coaches/get-json-data', 'CoachesController@getJsonData');
 Route::resource('coaches', 'CoachesController');
+
+Route::get('users/get-json-data', 'UsersController@getJsonData');
+Route::resource('users', 'UsersController');
+
+Route::get('gyms/get-json-data', 'GymsController@getJsonData');
+Route::resource('gyms', 'GymsController');
+
+
+Route::get('cities/get-json-data', 'CityController@getJsonData');
+Route::resource('cities', 'CityController');
+
+Route::resource('payments', 'PaymentController');

@@ -16,6 +16,7 @@ class CreateGymsTable extends Migration
         Schema::create('gyms', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('name');
+            $table->string('cover_image');
             $table->unsignedBigInteger('city_id');
             $table->foreign('city_id')->references('id')->on('cities');
             $table->unsignedBigInteger('creator_id');

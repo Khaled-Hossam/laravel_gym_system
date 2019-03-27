@@ -8,6 +8,7 @@
 
 @section('content')
 @include('partials.modal')
+@include('partials.flash_message')
 
     <div style="display:none" id="crudName" title="coaches"></div>
     <div class="container">

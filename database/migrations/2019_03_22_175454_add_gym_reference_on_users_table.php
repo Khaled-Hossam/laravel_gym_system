@@ -13,7 +13,7 @@ class AddGymReferenceOnUsersTable extends Migration
      */
     public function up()
     {
-        Schema::table('members', function (Blueprint $table) {
+        Schema::table('users', function (Blueprint $table) {
             $table->unsignedBigInteger('gym_id')->nullable();
             $table->foreign('gym_id')->references('id')->on('gyms');
         });

@@ -5,14 +5,15 @@ namespace App\Http\Controllers;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
-use App\Coach;
+use App\Gym;
+use App\City;
+use App\User;
 use Illuminate\Http\Request;
 
-class CoachesController extends Controller
+class GymsController extends Controller
 {
-    public function getJsonData()
-    {
-        return datatables(Coach::all())->toJson();
+    public function getJsonData(){
+        return datatables( Gym::with('city','creator') )->toJson();
     }
     /**
      * Display a listing of the resource.
@@ -20,8 +21,8 @@ class CoachesController extends Controller
      * @return \Illuminate\View\View
      */
     public function index(Request $request)
-    {
-        return view('coaches.index');
+    {        
+        return view('gyms.index');
     }
 
     /**
@@ -31,7 +32,10 @@ class CoachesController extends Controller
      */
     public function create()
     {
-        return view('coaches.create');
+        $cities = City::pluck('name', 'id');;
+        $users = User::pluck('name', 'id');;
+
+        return view('gyms.create',compact('cities','users'));
     }
 
     /**
@@ -44,13 +48,20 @@ class CoachesController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            'name' => 'required|max:80|string|unique:coaches'
-        ]);
+			'name' => 'required|string|max:180',
+			'city_id' => 'exists:cities,id',
+			'creator_id' => 'exists:users,id'
+		]);
         $requestData = $request->all();
         
-        Coach::create($requestData);
+                if ($request->hasFile('cover_image')) {
+            $requestData['cover_image'] = $request->file('cover_image')
+                ->store('uploads', 'public');
+        }
 
-        return redirect('coaches')->with('flash_message', 'Coach added!');
+        Gym::create($requestData);
+
+        return redirect('gyms')->with('flash_message', 'Gym added!');
     }
 
     /**
@@ -60,11 +71,9 @@ class CoachesController extends Controller
      *
      * @return \Illuminate\View\View
      */
-    public function show($id)
+    public function show(Gym $gym)
     {
-        $coach = Coach::findOrFail($id);
-
-        return view('coaches.show', compact('coach'));
+        return view('gyms.show', compact('gym'));
     }
 
     /**
@@ -74,11 +83,12 @@ class CoachesController extends Controller
      *
      * @return \Illuminate\View\View
      */
-    public function edit($id)
+    public function edit(Gym $gym)
     {
-        $coach = Coach::findOrFail($id);
+        $cities = City::pluck('name', 'id');
+        $users = User::pluck('name', 'id');
 
-        return view('coaches.edit', compact('coach'));
+        return view('gyms.edit', compact('gym','cities','users'));
     }
 
     /**
@@ -89,17 +99,23 @@ class CoachesController extends Controller
      *
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Gym $gym)
     {
         $this->validate($request, [
-            'name' => 'required|max:80|string|unique:coaches,name,'.$id
-        ]);
+			'name' => 'required|string|max:180',
+			'city_id' => 'exists:cities,id',
+			'creator_id' => 'exists:users,id'
+		]);
         $requestData = $request->all();
-        
-        $coach = Coach::findOrFail($id);
-        $coach->update($requestData);
+                if ($request->hasFile('cover_image')) {
+            $requestData['cover_image'] = $request->file('cover_image')
+                ->store('uploads', 'public');
+        }
 
-        return redirect('coaches')->with('flash_message', 'Coach updated!');
+
+        $gym->update($requestData);
+
+        return redirect('gyms')->with('flash_message', 'Gym updated!');
     }
 
     /**
@@ -109,8 +125,8 @@ class CoachesController extends Controller
      *
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
-    public function destroy($id)
+    public function destroy(Gym $gym)
     {
-        Coach::destroy($id);
+        $gym->delete();
     }
 }

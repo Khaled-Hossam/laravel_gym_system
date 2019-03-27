@@ -9,12 +9,16 @@
             "type": "email"
         },
         {
+            "name": "national_id",
+            "type": "string"
+        },
+        {
             "name": "password",
             "type": "password"
         },
         {
-            "name": "email",
-            "type": "email"
+            "name": "avatar",
+            "type": "file"
         },
         {
             "name": "gym_id",
@@ -39,7 +43,11 @@
             "rules": "required|string|email|max:255|unique:users"
         },
         {
-            "field": "passsword",
+            "field": "national_id",
+            "rules": "required|string|max:255|unique:users"
+        },
+        {
+            "field": "password",
             "rules": "required|string|min:8|confirmed"
         }
     ]

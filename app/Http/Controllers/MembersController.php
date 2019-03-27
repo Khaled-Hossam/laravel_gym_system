@@ -9,23 +9,24 @@ use JWTAuth;
 use Tymon\JWTAuth\Exceptions\JWTException;
 
 class MembersController extends Controller
-
 {
+     
     public function register(MemberRegisterRequest $request)
     {
-        $member = new Member();
-        $member->name = $request->name;
-        $member->email = $request->email;
-        $member->date_of_birth = $request->date_of_birth;
-        $member->gender = $request->gender;
-        $member->password = bcrypt($request->password);
-        $member->save($request->all());
+        $member = Member::create([
+            'name'=> $request->name,
+            'email' => $request->email,
+            'password' => bcrypt($request->password),
+            'date_of_birth' => $request->date_of_birth,
+            'gender'=> $request->gender,
+            ]);
+            
         $token = auth('api')->login($member);
 
         return response()->json([
             'success' => true,
             'message' => 'Member created successfully',
-            'token' =>$token,
+            'token' => $token,
             'data' => $request->all()
         ], 201);
     }
@@ -40,17 +41,27 @@ class MembersController extends Controller
                 'success' => false,
                 'message' => 'Login failed',
                 'errors' => [
-                    'Username or password do not match'
+                    'Username or password is incorrect'
                 ]
             ], 401);
 
         return response()->json([
             'success' => true,
-            'messagee' => 'User logged in',
+            'messagee' => 'Member logged in',
             'data ' => [
                 'user' => $request->all(),
                 'token' => $token,
             ]
+        ], 200);
+    }
+
+    public function logout(Request $request)
+    {
+        auth('api')->logout(true);
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Member logged out'
         ], 200);
     }
 
@@ -59,23 +70,20 @@ class MembersController extends Controller
     {
         return response()->json([
             'member' => auth('api')->user(),
-            ]);
+        ]);
     }
 
     public function update(Request $request)
     {
         $member = auth('api')->user();
-        $member->name= $request->name;
+        $member->name = $request->name;
         $member->date_of_birth = $request->date_of_birth;
-        $member->gender= $request->gender;
+        $member->gender = $request->gender;
         $member->save();
-        return response()->json(['member'=>$member]);
+        return response()->json(['member' => $member]);
     }
     public function test(Request $request)
     {
         dd($request->all());
-    }
-    private function valid(){
-        
     }
 }

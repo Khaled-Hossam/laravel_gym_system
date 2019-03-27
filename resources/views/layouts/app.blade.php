@@ -84,7 +84,7 @@
           
           @can('crud city_managers')
           <li class="nav-item has-treeview">
-          <a href="#" class="nav-link">
+          <a href="{{route('city-managers.index')}}" class="nav-link">
               <p>
                 City Managers
               </p>

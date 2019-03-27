@@ -24,6 +24,11 @@ Route::group(['middleware' => ['role:admin']], function () {
     Route::get('cities/get-json-data', 'CityController@getJsonData');
     Route::resource('packages', 'PackagesController');
     Route::resource('cities', 'CityController');
+
+    Route::get('city-managers/get-json-data', 'CityManagersController@getJsonData');
+    Route::resource('city-managers', 'CityManagersController', ['parameters' => [
+    'city-managers' => 'user'
+    ]]);
 });
 
 Route::group(['middleware' => ['role:admin|city_manager']], function () {

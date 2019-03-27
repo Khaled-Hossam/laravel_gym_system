@@ -7,6 +7,7 @@ use App\Http\Requests\MemberRegisterRequest;
 use App\Member;
 use Mail;
 use App\VerificationCode;
+use Illuminate\Support\Carbon;
 
 
 
@@ -39,7 +40,7 @@ class MembersController extends Controller
 
         $token = auth('api')->attempt($credentials);
         $member = auth('api')->user();
-        if (!$token || !auth('api')->user()->verified)
+        if (!$token || !$member->verified)
             return response()->json([
                 'success' => false,
                 'message' => 'Login failed',
@@ -47,12 +48,15 @@ class MembersController extends Controller
                     'Username or password is incorrect or maybe your account has not been verified yet'
                 ]
             ], 401);
+            
+        $member->last_login = Carbon::now()->toDateTimeString();
+        $member->save();
 
         return response()->json([
             'success' => true,
             'messagee' => 'Member logged in',
             'data ' => [
-                'user' => $request->all(),
+                'member' => $member,
                 'token' => $token,
             ]
         ], 200);

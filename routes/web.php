@@ -18,19 +18,29 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
-Route::resource('city', 'CityController');
-Route::resource('gym', 'GymController');
 
-Route::get('sessions/get-json-data', 'SessionsController@getJsonData');
-Route::resource('sessions', 'SessionsController');
+Route::group(['middleware' => ['role:admin']], function () {
+    Route::get('packages/get-json-data', 'PackagesController@getJsonData');
+    Route::get('cities/get-json-data', 'CityController@getJsonData');
+    Route::resource('packages', 'PackagesController');
+    Route::resource('cities', 'CityController');
+});
 
-Route::get('packages/get-json-data', 'PackagesController@getJsonData');
-Route::resource('packages', 'PackagesController');
-
-Route::get('coaches/get-json-data', 'CoachesController@getJsonData');
-Route::resource('coaches', 'CoachesController');
-
-Route::get('gym-managers/get-json-data', 'UsersController@getJsonData');
-Route::resource('gym-managers', 'UsersController', ['parameters' => [
+Route::group(['middleware' => ['role:admin|city_manager']], function () {
+    Route::get('gym-managers/get-json-data', 'UsersController@getJsonData');
+    Route::resource('gym-managers', 'UsersController', ['parameters' => [
     'gym-managers' => 'user'
 ]]);
+});
+
+
+Route::group(['middleware' => ['role:admin|city_manager|gym_manager']], function () {
+    Route::get('coaches/get-json-data', 'CoachesController@getJsonData');
+    Route::get('sessions/get-json-data', 'SessionsController@getJsonData');
+    Route::get('gyms/get-json-data', 'GymsController@getJsonData');
+    
+    Route::resource('sessions', 'SessionsController');
+    Route::resource('payments', 'PaymentController');
+    Route::resource('coaches', 'CoachesController');
+    Route::resource('gyms', 'GymsController');
+});

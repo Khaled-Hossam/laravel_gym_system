@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\City;
+use App\Country;
 use Illuminate\Http\Request;
-
+use App\Http\Requests\city\StoreCityRequest;
+use App\Http\Requests\city\UpdateCityRequest;
 class CityController extends Controller
 {
     /**
@@ -12,9 +14,16 @@ class CityController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+   
     public function index()
-    {
+    { 
         return view('cities.index');
+    }
+    public function getJsonData()
+
+    {  
+        return datatables(City::with('Country'))->toJson();
+     
     }
 
     /**
@@ -23,8 +32,8 @@ class CityController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function create()
-    {
-        //
+    { 
+       return view('cities.create',['countries' => Country::all()]);
     }
 
     /**
@@ -33,9 +42,10 @@ class CityController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
-    {
-        //
+    public function store(StoreCityRequest $request)
+    {  
+        City::create($request->all());
+        return redirect()->route('cities.index');
     }
 
     /**
@@ -44,9 +54,9 @@ class CityController extends Controller
      * @param  \App\City  $city
      * @return \Illuminate\Http\Response
      */
-    public function show(City $city)
+    public function show( $city)
     {
-        //
+        return view('cities.show', ['city' => City::findOrFail($city)]);
     }
 
     /**
@@ -56,8 +66,8 @@ class CityController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function edit(City $city)
-    {
-        //
+    { 
+        return view('cities.edit',['countries' => Country::all(),"city"=>$city]);
     }
 
     /**
@@ -67,9 +77,10 @@ class CityController extends Controller
      * @param  \App\City  $city
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, City $city)
+    public function update(UpdateCityRequest $request, $city)
     {
-        //
+        City::find($city) -> update($request -> all());
+        return redirect()->route('cities.index');
     }
 
     /**
@@ -78,8 +89,10 @@ class CityController extends Controller
      * @param  \App\City  $city
      * @return \Illuminate\Http\Response
      */
-    public function destroy(City $city)
+    public function destroy( $city)
     {
-        //
+        
+        City::find($city)->delete($city);
+
     }
 }

@@ -2,10 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Gym;
 use Illuminate\Http\Request;
 
-class GymController extends Controller
+class PaymentController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,8 +13,7 @@ class GymController extends Controller
      */
     public function index()
     {
-        //
-        return view('gyms.index');
+        return view('buyPackages.index');
     }
 
     /**
@@ -37,15 +35,35 @@ class GymController extends Controller
     public function store(Request $request)
     {
         //
+       // dd( $request);
+        \Stripe\Stripe::setApiKey("sk_test_bY46WtClVIcLxSzhVKKZ5XdM00PxpLUrag");
+
+        // Token is created using Checkout or Elements!
+        // Get the payment token ID submitted by the form:
+          //  dd($request['stripeToken']);
+        $token =$request['stripeToken'];
+
+        $charge = \Stripe\Charge::create([
+            'amount' => 1999,
+            'currency' => 'usd',
+            'description' => 'Example charge',
+            'source' => $token,
+            'metadata' => ['order_id' => 7777,'customer_id' => 7777],
+        ]);
+        if($charge["status"]="succeeded")
+        {
+            return view('buyPackages.index');
+        }
+       
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Gym  $gym
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Gym $gym)
+    public function show($id)
     {
         //
     }
@@ -53,10 +71,10 @@ class GymController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Gym  $gym
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(Gym $gym)
+    public function edit($id)
     {
         //
     }
@@ -65,10 +83,10 @@ class GymController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Gym  $gym
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Gym $gym)
+    public function update(Request $request, $id)
     {
         //
     }
@@ -76,10 +94,10 @@ class GymController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Gym  $gym
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Gym $gym)
+    public function destroy($id)
     {
         //
     }

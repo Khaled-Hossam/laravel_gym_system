@@ -1,0 +1,52 @@
+{
+    "fields": [
+        {
+            "name": "name",
+            "type": "string"
+        },
+        {
+            "name": "cover_image",
+            "type": "file"
+        },
+        {
+            "name": "city_id",
+            "type": "select",
+            "options": {
+            }
+        },
+        {
+            "name": "creator_id",
+            "type": "select",
+            "options": {
+            }
+        }
+    ],
+    "foreign_keys": [
+        {
+            "column": "city_id",
+            "references": "id",
+            "on": "cities",
+            "onDelete": "cascade"
+        },
+        {
+            "column": "creator_id",
+            "references": "id",
+            "on": "creators",
+            "onDelete": "cascade"
+        }
+    ],
+    "validations": [
+        {
+            "field": "name",
+            "rules": "required|string|max:180"
+        },
+        {
+            "field": "city_id",
+            "rules": "exists:cities,id"
+        },
+        {
+            "field": "creator_id",
+            "rules": "exists:users,id"
+        }
+    ]
+}

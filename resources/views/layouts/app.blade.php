@@ -56,68 +56,100 @@
           <img src="../../dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
         </div>
         <div class="info">
-          <a href="#" class="d-block">Alexander Pierce</a>
+          @guest
+              <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
+            @if (Route::has('register'))
+              <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
+            @endif
+          @else
+            <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                {{ Auth::user()->name }} <span class="caret"></span>
+            </a>
+            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                <a class="dropdown-item" href="{{ route('logout') }}"
+                    onclick="event.preventDefault();
+                                  document.getElementById('logout-form').submit();">
+                    {{ __('Logout') }}
+                </a>
+                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">@csrf</form>
+            </div>
+          @endguest
         </div>
       </div>
 
       <!-- Sidebar Menu -->
       <nav class="mt-2">
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+          
+          @can('crud city_managers')
           <li class="nav-item has-treeview">
-          <a href="{{route('gym-managers.index')}}" class="nav-link">
-              <p>
-              Gym Managers
-              </p>
-            </a>
-          </li>
-
-          <li class="nav-item has-treeview">
-            <a href="#" class="nav-link">
+          <a href="#" class="nav-link">
               <p>
                 City Managers
               </p>
             </a>
           </li>
+          @endcan
 
+          @can('crud gym_managers')
           <li class="nav-item has-treeview">
-            <a href="#" class="nav-link">
+            <a href="{{route('gym-managers.index')}}" class="nav-link">
               <p>
-              Users​
+              Gym Managers
               </p>
             </a>
           </li>
+          @endcan
 
+          @can('crud cities')
           <li class="nav-item has-treeview">
-            <a href="{{route('city.index')}}" class="nav-link">
+            <a href="{{route('cities.index')}}" class="nav-link">
               <p>
               Cities
               </p>
             </a>
           </li>
+          @endcan
 
+          @can('crud packages')
           <li class="nav-item has-treeview">
-            <a href="{{route('gym.index')}}" class="nav-link">
-              <p>
-              Gyms
-              </p>
-            </a>
-          </li>
-
-          <li class="nav-item has-treeview">
-            <a href="#" class="nav-link">
+            <a href="{{route('packages.index')}}" class="nav-link">
               <p>
               Training Packages
               </p>
             </a>
           </li>
+          @endcan
 
+          @can('crud coaches')
           <li class="nav-item has-treeview">
-            <a href="#" class="nav-link">
+            <a href="{{route('coaches.index')}}" class="nav-link">
               <p>
               Coaches
               </p>
             </a>
           </li>
+          @endcan
+
+          @can('crud gyms')
+          <li class="nav-item has-treeview">
+            <a href="{{route('gyms.index')}}" class="nav-link">
+              <p>
+              Gyms
+              </p>
+            </a>
+          </li>
+          @endcan
+
+          <li class="nav-item has-treeview">
+            <a href="#" class="nav-link">
+              <p>
+              Members
+              </p>
+            </a>
+          </li>
+
+          
           <li class="nav-item has-treeview">
             <a href="#" class="nav-link">
               <p>
@@ -126,7 +158,7 @@
             </a>
           </li>
           <li class="nav-item has-treeview">
-            <a href="#" class="nav-link">
+            <a href="{{route('payments.index')}}" class="nav-link">
               <p>
               Buy Package For User
               </p>

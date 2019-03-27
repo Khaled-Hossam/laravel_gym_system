@@ -52,10 +52,10 @@
     <div class="sidebar">
       <!-- Sidebar user (optional) -->
       <div class="user-panel mt-3 pb-3 mb-3 d-flex">
-        <div class="image">
-          <img src="{{ Auth::user()->avatar ? Storage::disk('public')->url(Auth::user()->avatar) :
-          Storage::disk('public')->url('uploads/index.jpeg')}}" class="img-circle elevation-2" alt="User Image">
-        </div>
+          <div class="image">
+              <img src="{{ Auth::user()->avatar ? Storage::disk('public')->url(Auth::user()->avatar) :
+              Storage::disk('public')->url('uploads/index.jpeg')}}" class="img-circle elevation-2" alt="User Image">
+            </div>
         <div class="info">
           @guest
               <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
@@ -137,6 +137,16 @@
             <a href="{{route('gyms.index')}}" class="nav-link">
               <p>
               Gyms
+              </p>
+            </a>
+          </li>
+          @endcan
+
+          @can('crud sessions')
+          <li class="nav-item has-treeview">
+            <a href="{{route('sessions.index')}}" class="nav-link">
+              <p>
+              Sessions
               </p>
             </a>
           </li>

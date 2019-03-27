@@ -21,8 +21,8 @@ class CreateMembersTable extends Migration
             $table->string('avatar')->nullable();
             $table->date('date_of_birth')->nullable();
             $table->string('gender')->nullable();
+            $table->boolean('verified')->default(0);
             $table->timestamp('last_login')->nullable();
-            $table->timestamp('email_verified_at')->nullable();
             $table->timestamps();
         });
     }

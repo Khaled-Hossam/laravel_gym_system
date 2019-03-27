@@ -15,13 +15,11 @@ class UsersTableSeeder extends Seeder
         DB::statement('SET FOREIGN_KEY_CHECKS=0');
         User::truncate();
         User::updateOrCreate([
-            'id'=>5,
+            'id'=>1,
             'name' => 'admin',
             'email' =>'admin@admin.com',
             'password'=>bcrypt('123456'),
             'national_id'=>0,
-            'gym_id'=>1
-        
         ])->assignRole('admin');
         
         User::updateOrCreate([

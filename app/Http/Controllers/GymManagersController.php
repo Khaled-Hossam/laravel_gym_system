@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 use App\Gym;
 
-class UsersController extends Controller
+class GymManagersController extends Controller
 {
     public function getJsonData()
     {

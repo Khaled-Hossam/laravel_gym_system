@@ -96,8 +96,11 @@ class MembersController extends Controller
     }
     protected function send_verification_email($member)
     {
+        // making sure that the random code is unique
+        do {
+            $code = str_random(30);
+        } while (VerificationCode::where('code', $code)->first());
 
-        $code = str_random(30);
         VerificationCode::create([
             'code' => $code,
             'member_id' => $member->id,
@@ -105,12 +108,13 @@ class MembersController extends Controller
 
         $name = $member->name;
         $email = $member->email;
-        $subject = "Testing";
+        $subject = "Laragymvel Membership Verification";
 
         $mail = Mail::send(
             'email.verify',
             ['name' => $member->name, 'code' => $code],
             function ($mail) use ($email, $name, $subject) {
+                // $mail->from(getenv('MAIL_USERNAME'), "laragymvel@gmail.com");
                 $mail->from(getenv('FROM_EMAIL_ADDRESS'), "laragymvel@gmail.com");
                 $mail->to($email, $name);
                 $mail->subject($subject);
@@ -169,14 +173,12 @@ class MembersController extends Controller
         ], 200);
     }
 
-
-
     public function remaining_sessions()
     {
         $member = auth('api')->user();
         return response()->json([
             'total_sessions' => $member->total_sessions,
             'remaining_sessions' => $member->remaining_sessions
-        ]);
+        ], 200);
     }
 }

@@ -24,11 +24,11 @@ Route::get('verify/{code}', 'MembersController@verify')->name('members.verify');
 Route::get('test', 'MembersController@test');
 
 Route::group(['middleware' => 'auth:api'], function () {
-    Route::get('member', 'MembersController@member')->middleware('verified');
+    Route::get('member', 'MembersController@member');
     Route::get('logout', 'MembersController@logout');
     Route::put('update', 'MembersController@update');
     Route::get('sessions', 'MembersController@sessions');
     Route::get('sessions/{session_id}/attend', 'MembersController@attend');
-    Route::get('attendance', 'MembersController@attendance');
+    Route::get('remaining_sessions', 'MembersController@remaining_sessions');
     // Route::get('attend', 'ProductController@attend');
 });

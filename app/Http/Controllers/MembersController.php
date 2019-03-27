@@ -4,10 +4,13 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Requests\MemberRegisterRequest;
+use App\Http\Requests\AttendSessionRequest;
 use App\Member;
+use App\Session;
 use Mail;
 use App\VerificationCode;
 use Illuminate\Support\Carbon;
+use App\Attendance;
 
 
 
@@ -17,18 +20,18 @@ class MembersController extends Controller
     public function register(MemberRegisterRequest $request)
     {
         $member = Member::create([
-            'name'=> $request->name,
+            'name' => $request->name,
             'email' => $request->email,
             'password' => bcrypt($request->password),
             'date_of_birth' => $request->date_of_birth,
-            'gender'=> $request->gender,
-            ]);
+            'gender' => $request->gender,
+        ]);
         $this->send_verification_email($member);
 
         return response()->json([
             'success' => true,
             'message' => 'Member created successfully',
-            'descritption'=> 'Please follow the email we have sent you to complete your registration',
+            'descritption' => 'Please follow the email we have sent you to complete your registration',
             'data' => $request->all()
         ], 201);
     }
@@ -48,7 +51,7 @@ class MembersController extends Controller
                     'Username or password is incorrect or maybe your account has not been verified yet'
                 ]
             ], 401);
-            
+
         $member->last_login = Carbon::now()->toDateTimeString();
         $member->save();
 
@@ -93,36 +96,75 @@ class MembersController extends Controller
     }
     protected function send_verification_email($member)
     {
-        
+
         $code = str_random(30);
         VerificationCode::create([
-            'code'=> $code,
+            'code' => $code,
             'member_id' => $member->id,
-            ]);
+        ]);
 
         $name = $member->name;
         $email = $member->email;
         $subject = "Testing";
 
-        $mail = Mail::send('email.verify', ['name' => $member->name, 'code' => $code],
-        function($mail) use ($email, $name, $subject){
-            $mail->from(getenv('FROM_EMAIL_ADDRESS'), "laragymvel@gmail.com");
-            $mail->to($email, $name);
-            $mail->subject($subject);
-        });
+        $mail = Mail::send(
+            'email.verify',
+            ['name' => $member->name, 'code' => $code],
+            function ($mail) use ($email, $name, $subject) {
+                $mail->from(getenv('FROM_EMAIL_ADDRESS'), "laragymvel@gmail.com");
+                $mail->to($email, $name);
+                $mail->subject($subject);
+            }
+        );
     }
 
 
     public function verify($code)
     {
-        if($verification_code = VerificationCode::where('code',$code)->first()){
+        if ($verification_code = VerificationCode::where('code', $code)->first()) {
             $member = $verification_code->member;
-            $member->verified=true;
+            $member->verified = true;
             $member->save();
             $verification_code->delete();
             dd($member);
         }
     }
+    public function attend($session_id)
+    {
+        // checks to see if session exists
+        if (!$session = Session::find($session_id)) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Session not found'
+            ], 404);
+        }
+
+        // checking to see if the member can attend the session
+        $member = auth('api')->user();
+        if (!$member->remaining_sessions) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Sorry, you can not attend this session as your session packages has ran out'
+            ], 403);
+        }
 
 
+        // Passes all validations and attend the session
+        $member->remaining_sessions--;
+        $member->save();
+
+
+        Attendance::create([
+            'session_id' => $session->id,
+            'member_id' => $member->id
+        ]);
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Member attended session',
+            'data' => [
+                'session' => $session,
+            ]
+        ], 200);
+    }
 }

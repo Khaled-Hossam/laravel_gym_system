@@ -26,7 +26,7 @@ class CreateGymPackagePurshasesTable extends Migration
             $table->foreign('gym_id')->references('id')->on('gyms');
 
             $table->decimal('bought_price');
-            $table->integer('sessions_remaining');
+            
         });
     }
 

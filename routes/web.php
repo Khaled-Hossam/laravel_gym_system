@@ -40,4 +40,8 @@ Route::resource('gyms', 'GymsController');
 Route::get('cities/get-json-data', 'CityController@getJsonData');
 Route::resource('cities', 'CityController');
 
+
+Route::get('membersForPayments/get-json-data', 'PaymentController@getJsonData');
+Route::get('membersForPayments/{member}', 'PaymentController@buy');
+Route::post('paymentContinue/{member}', 'PaymentController@continue');
 Route::resource('payments', 'PaymentController');

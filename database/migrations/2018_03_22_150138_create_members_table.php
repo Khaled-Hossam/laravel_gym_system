@@ -24,6 +24,7 @@ class CreateMembersTable extends Migration
             $table->date('date_of_birth')->nullable();
             $table->string('gender')->nullable();
             $table->date('last_login')->nullable();
+            $table->integer('sessions_remaining')->default(0);
             $table->timestamps();
         });
     }

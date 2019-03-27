@@ -5,75 +5,124 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Requests\MemberRegisterRequest;
 use App\Member;
-use JWTAuth;
-use Tymon\JWTAuth\Exceptions\JWTException;
+use Mail;
+use App\VerificationCode;
+use Illuminate\Support\Carbon;
+
+
 
 class MembersController extends Controller
-
 {
+
     public function register(MemberRegisterRequest $request)
     {
-        $member = new Member();
-        $member->name = $request->name;
-        $member->email = $request->email;
-        $member->password = bcrypt($request->password);
-        $member->save();
+        $member = Member::create([
+            'name'=> $request->name,
+            'email' => $request->email,
+            'password' => bcrypt($request->password),
+            'date_of_birth' => $request->date_of_birth,
+            'gender'=> $request->gender,
+            ]);
+        $this->send_verification_email($member);
 
         return response()->json([
             'success' => true,
             'message' => 'Member created successfully',
+            'descritption'=> 'Please follow the email we have sent you to complete your registration',
             'data' => $request->all()
         ], 201);
     }
 
+
     public function login(Request $request)
     {
         $credentials = $request->only('email', 'password');
+
         $token = auth('api')->attempt($credentials);
-        if (!$token)
+        $member = auth('api')->user();
+        if (!$token || !$member->verified)
             return response()->json([
                 'success' => false,
                 'message' => 'Login failed',
                 'errors' => [
-                    'Username or password do not match'
+                    'Username or password is incorrect or maybe your account has not been verified yet'
                 ]
             ], 401);
+            
+        $member->last_login = Carbon::now()->toDateTimeString();
+        $member->save();
 
         return response()->json([
             'success' => true,
-            'messagee' => 'User logged in',
+            'messagee' => 'Member logged in',
             'data ' => [
-                'user' => $request->all(),
+                'member' => $member,
                 'token' => $token,
             ]
         ], 200);
     }
 
-    public function getAuthUser(Request $request)
+    public function logout(Request $request)
     {
+        auth('api')->logout(true);
 
-        // auth('api')->validate($request->token);
-        // $this->validate($request->token, [
-        // 'token' => 'required'
-        // ]);
-
-        // $user = JWTAuth::authenticate($request->token);
-
-        // return response()->json(['user' => $use  r]);
-        // $this->validate($request, [
-        //     'token' => 'required'
-        // ]);
-
-
-        return response()->json(['user' => $user]);
+        return response()->json([
+            'success' => true,
+            'message' => 'Member logged out'
+        ], 200);
     }
 
-    public function test(Request $request)
+
+    // Get the current authorized member
+    public function member(Request $request)
     {
-        $user = JWTAuth::authenticate($request->token);
-        dd($user);
-        // $member = new Member();
-        // $credentials = $request->only('email', 'password');
-        // $valide = auth('api')->attempt($credentials);
+        return response()->json([
+            'member' => auth('api')->user(),
+        ]);
     }
+
+    // Update the current authorized member
+    public function update(Request $request)
+    {
+        $member = auth('api')->user();
+        $member->name = $request->name;
+        $member->date_of_birth = $request->date_of_birth;
+        $member->gender = $request->gender;
+        $member->save();
+        return response()->json(['member' => $member]);
+    }
+    protected function send_verification_email($member)
+    {
+        
+        $code = str_random(30);
+        VerificationCode::create([
+            'code'=> $code,
+            'member_id' => $member->id,
+            ]);
+
+        $name = $member->name;
+        $email = $member->email;
+        $subject = "Testing";
+
+        $mail = Mail::send('email.verify', ['name' => $member->name, 'code' => $code],
+        function($mail) use ($email, $name, $subject){
+            $mail->from(getenv('FROM_EMAIL_ADDRESS'), "laragymvel@gmail.com");
+            $mail->to($email, $name);
+            $mail->subject($subject);
+        });
+    }
+
+
+    public function verify($code)
+    {
+        if($verification_code = VerificationCode::where('code',$code)->first()){
+            $member = $verification_code->member;
+            $member->verified=true;
+            $member->save();
+            $verification_code->delete();
+            dd($member);
+        }
+    }
+
+
 }

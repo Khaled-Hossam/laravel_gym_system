@@ -15,15 +15,15 @@ class CreateMembersTable extends Migration
     {
         Schema::create('members', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('name');
             $table->string('email')->unique();
-            $table->timestamp('email_verified_at')->nullable();
+            $table->string('name');
             $table->string('password');
-            $table->string('national_id')->nullable();
             $table->string('avatar')->nullable();
             $table->date('date_of_birth')->nullable();
             $table->string('gender')->nullable();
-            $table->date('last_login')->nullable();
+            $table->boolean('verified')->default(0);
+            $table->timestamp('last_login')->nullable();
+            $table->integer('sessions_remaining')->default(0);
             $table->timestamps();
         });
     }

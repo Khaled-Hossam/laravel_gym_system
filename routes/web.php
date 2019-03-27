@@ -13,7 +13,7 @@
 
 Route::get('/', function () {
     return view('welcome');
-});
+})->middleware('auth');
 
 Auth::routes();
 
@@ -39,6 +39,13 @@ Route::group(['middleware' => ['role:admin|city_manager']], function () {
 });
 
 
+
+Route::get('membersForPayments/get-json-data', 'PaymentController@getJsonData');
+Route::get('membersForPayments/{member}', 'PaymentController@buy');
+Route::post('paymentContinue/{member}', 'PaymentController@continue');
+Route::resource('payments', 'PaymentController');
+
+    
 Route::group(['middleware' => ['role:admin|city_manager|gym_manager']], function () {
     Route::get('coaches/get-json-data', 'CoachesController@getJsonData');
     Route::get('sessions/get-json-data', 'SessionsController@getJsonData');

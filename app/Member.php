@@ -5,9 +5,12 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
 use Tymon\JWTAuth\Contracts\JWTSubject;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use JWTAuth;
 
-class Member extends  Authenticatable implements JWTSubject
+
+class Member extends  Authenticatable implements JWTSubject, MustVerifyEmail
 {
 
     use Notifiable;
@@ -16,7 +19,7 @@ class Member extends  Authenticatable implements JWTSubject
     protected $member;
 
     protected $fillable = [
-        'name', 'email', 'password', 'date_of_birth', 'gender', 'national_id', 'avatar'
+        'name', 'email', 'password', 'date_of_birth', 'gender', 'avatar','verified'
     ];
 
     protected $hidden = [
@@ -42,8 +45,9 @@ class Member extends  Authenticatable implements JWTSubject
     {
         return [];
     }
-    public function __construct()
-    {
-        // $this->member = JWTAuth::parseToken()->authenticate();
+
+
+    public function sessions(){
+        return $this->belongsToMany('sessions','attendance');
     }
 }

@@ -61,8 +61,6 @@ class GymManagersController extends Controller
         if ($request->hasFile('avatar')) {
             $requestData['avatar'] = $request->file('avatar')
                 ->store('uploads', 'public');
-        } else {
-            $requestData['avatar'] = 'uploads/index.jpeg';
         }
 
         User::create($requestData);
@@ -120,7 +118,7 @@ class GymManagersController extends Controller
             $requestData['password'] = Hash::make($user->password);
         }
         if ($request->hasFile('avatar')) {
-            if ($user->avatar != 'uploads/index.jpeg') {
+            if ($user->avatar) {
                 Storage::disk('public')->delete($user->avatar);
             }
             $requestData['avatar'] = $request->file('avatar')
@@ -142,7 +140,7 @@ class GymManagersController extends Controller
      */
     public function destroy(User $user)
     {
-        if ($user->avatar != 'uploads/index.jpeg') {
+        if ($user->avatar) {
             Storage::disk('public')->delete($user->avatar);
         }
         $user->delete();

@@ -9,11 +9,27 @@ use App\Session;
 use Illuminate\Http\Request;
 use App\Gym;
 use App\Coach;
-
+use Illuminate\Support\Facades\Auth;
 class SessionsController extends Controller
 {
+    public function __construct() {
+        // check if user is allowed to curd
+        $this->middleware(function ($request, $next) {
+            if($request->route('session') !=null)
+                $gym_id = $request->route('session')->gym_id;
+            else
+                $gym_id = $request->gym_id;
+
+            if(!Gym::allowedToSeeGyms()->get()->contains($gym_id))
+                return abort(403);
+            
+            return $next($request);
+        })
+        ->only('edit','show','destroy','update','store');
+    }
+
     public function getJsonData(){
-        return datatables( Session::all() )->toJson();
+        return datatables( Session::with('gym') )->toJson();
     }
     /**
      * Display a listing of the resource.
@@ -32,7 +48,7 @@ class SessionsController extends Controller
      */
     public function create()
     {
-        $gyms = Gym::pluck('name', 'id');;
+        $gyms = Gym::allowedToSeeGyms()->pluck('name', 'id');;
         $coaches = Coach::pluck('name', 'id');;
 
         return view('sessions.create', compact('gyms','coaches'));
@@ -54,7 +70,7 @@ class SessionsController extends Controller
             'gym_id'=>'required|exists:gyms,id',
 		]);
         $requestData = $request->all();
-        
+
         Session::create($requestData)->coaches()->sync($request->coaches);
 
         return redirect('sessions')->with('flash_message', 'Session added!');
@@ -67,9 +83,8 @@ class SessionsController extends Controller
      *
      * @return \Illuminate\View\View
      */
-    public function show($id)
+    public function show(Session $session)
     {
-        $session = Session::findOrFail($id);
         return view('sessions.show', compact('session'));
     }
 
@@ -80,10 +95,9 @@ class SessionsController extends Controller
      *
      * @return \Illuminate\View\View
      */
-    public function edit($id)
+    public function edit(Session $session)
     {
-        $session = Session::findOrFail($id);
-        $gyms = Gym::pluck('name', 'id');
+        $gyms    = Gym::allowedToSeeGyms()->pluck('name', 'id');
         $coaches = Coach::pluck('name', 'id');
 
         return view('sessions.edit', compact('session','gyms','coaches'));
@@ -97,16 +111,15 @@ class SessionsController extends Controller
      *
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Session $session)
     {
         $this->validate($request, [
-			'name' => 'required|max:80|unique:sessions,name,'.$id,
+			'name' => 'required|max:80|unique:sessions,name,'.$$session->id,
 			'starts_at' => 'required',
             'finishes_at' => 'required',
             'gym_id'=> 'required|exists:gyms,id',
         ]);
         $requestData = $request->all();        
-        $session = Session::findOrFail($id);
         
         $session->update($requestData);
         $session->coaches()->sync($request->coaches);
@@ -121,8 +134,8 @@ class SessionsController extends Controller
      *
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
-    public function destroy($id)
+    public function destroy(Session $session)
     {
-        Session::destroy($id);
+        $session->delete();
     }
 }

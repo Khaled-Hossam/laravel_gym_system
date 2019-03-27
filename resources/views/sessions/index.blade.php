@@ -16,6 +16,7 @@
         <div class="row">
 
             <div class=" col-12">
+                    <div style="display:none" id="crudName" title="gyms"></div>
                     <div class="card-header">Sessions</div>
                     <div class="card-body">
                         <a href="{{ route('sessions.create') }}" class="btn btn-success btn-sm" title="Add New Session">
@@ -63,12 +64,12 @@ $(document).ready( function () {
                 {"data":"name"},    
                 {"data":"starts_at"},    
                 {"data":"finishes_at"},    
-                {"data":"gym_id"},    
+                {"data":"gym.name"},    
                        
                 {
                     mRender: function (data, type, row) {
-                        return '<a class="datatable-link view" href="sessions/'+row.id+'" data-id="' + row[0] + '"><i class="fa fa-eye" aria-hidden="true"></i> View</button></a>'
-                            + '<a class="datatable-link edit" href="sessions/'+row.id+'/edit'+'" data-id="' + row[0] + '"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Edit</a>'
+                        return '<a class="datatable-link view" href="/' + crudName + '/' + row.id + '" data-id="' + row[0] + '"><i class="fa fa-eye" aria-hidden="true"></i> View</button></a>'
+                            + '<a class="datatable-link edit" href="/' + crudName + '/' + row.id + '/edit' + '" data-id="' + row[0] + '"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Edit</a>'
                             + '<a class="datatable-link delete" href="#"  row_id="' + row.id + '" data-toggle="modal" data-target="#DeleteModal" id="delete_toggle"><i class="fa fa-trash-o" aria-hidden="true"></i> Delete</a>'
                     }     
                 },

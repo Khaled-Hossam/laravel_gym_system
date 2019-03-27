@@ -164,7 +164,19 @@ class MembersController extends Controller
             'message' => 'Member attended session',
             'data' => [
                 'session' => $session,
+                'remaining' => $member->remaining_sessions,
             ]
         ], 200);
+    }
+
+
+
+    public function remaining_sessions()
+    {
+        $member = auth('api')->user();
+        return response()->json([
+            'total_sessions' => $member->total_sessions,
+            'remaining_sessions' => $member->remaining_sessions
+        ]);
     }
 }

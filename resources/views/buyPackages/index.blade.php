@@ -15,10 +15,7 @@
             <div class=" col-12">
                     <div class="card-header">packages</div>
                     <div class="card-body">
-                        <a href="" class="btn btn-success btn-sm" title="Add New City">
-                            <i class="fa fa-plus" aria-hidden="true"></i> Add New
-                        </a>
-
+                        
                         <br/>
                         <br/>
                         <div >

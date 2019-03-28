@@ -25,7 +25,7 @@ class UsersTableSeeder extends Seeder
         User::updateOrCreate([
                 'id'=>2,
                 'name' => 'city manager',
-                'email' =>'city_manager@city_manager.com',
+                'email' =>'city_manager@citymanager.com',
                 'password'=>bcrypt('123456'),
                 'national_id'=>1,
                 'city_id'=>1
@@ -35,7 +35,7 @@ class UsersTableSeeder extends Seeder
         User::updateOrCreate([
                 'id'=>3,
                 'name' => 'gym manager',
-                'email' =>'gym_manager@gym_manager.com',
+                'email' =>'gym_manager@gymmanager.com',
                 'password'=>bcrypt('123456'),
                 'national_id'=>2,
                 'gym_id'=>1

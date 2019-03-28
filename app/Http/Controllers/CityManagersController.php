@@ -63,7 +63,7 @@ class CityManagersController extends Controller
                 ->store('uploads', 'public');
         }
 
-        User::create($requestData);
+        User::create($requestData)->assignRole('city_manager');
 
         return redirect('city-managers')->with('flash_message', 'User added!');
     }

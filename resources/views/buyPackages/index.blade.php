@@ -56,7 +56,7 @@ $(document).ready( function () {
                 {"data":"id"},    
                 {"data":"name"},
                 {"data":"email"}, 
-                {"data":"sessions_remaining"},      
+                {"data":"remaining_sessions"},      
                        
                 {
                     mRender: function (data, type, row) {

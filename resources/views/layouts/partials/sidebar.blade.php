@@ -106,9 +106,9 @@
 
         
         <li class="nav-item has-treeview">
-        <a href="#" class="nav-link">
+        <a href="{{route('attendances.index')}}" class="nav-link">
             <p>
-            Attendance
+            Attendances
             </p>
         </a>
         </li>

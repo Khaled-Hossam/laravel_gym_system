@@ -21,6 +21,8 @@ class CreateAttendancesTable extends Migration
             
             $table->unsignedBigInteger('member_id');
             $table->foreign('member_id')->references('id')->on('members');
+
+            
         });
     }
 

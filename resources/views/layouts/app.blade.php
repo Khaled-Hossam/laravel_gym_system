@@ -152,7 +152,7 @@
 
           
           <li class="nav-item has-treeview">
-            <a href="#" class="nav-link">
+            <a href="{{route('attendance.index')}}" class="nav-link">
               <p>
               Attendance
               </p>

@@ -12,6 +12,6 @@ class GymTableSeeder extends Seeder
     public function run()
     {
         factory(App\Gym::class, 50)->create();
-        $this->command->info('Gyms Created!');
+        $this->command->info('50 Gyms were created!, ***  all gyms have a creator_id => 2 *** ');
     }
 }

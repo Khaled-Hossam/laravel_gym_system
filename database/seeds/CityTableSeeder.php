@@ -11,7 +11,8 @@ class CityTableSeeder extends Seeder
      */
     public function run()
     {
-        $city = factory(App\City::class, 10)->create();
-        $this->command->info('Genres Created!');
+        $this->command->ask('*** 7atetdrab fi weshak *** 7asseb *** Make sure you have a country with id of 1 in your database and hit enter***');
+        factory(App\City::class, 10)->create();
+        $this->command->info('10 cities were created!');
     }
 }

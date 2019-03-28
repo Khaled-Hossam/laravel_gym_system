@@ -29,6 +29,9 @@ Route::group(['middleware' => ['role:admin']], function () {
     Route::resource('city-managers', 'CityManagersController', ['parameters' => [
         'city-managers' => 'user'
     ]]);
+
+    Route::get('members/get-json-data', 'MembersCrudController@getJsonData');
+    Route::resource('members', 'MembersCrudController');
 });
 
 Route::group(['middleware' => ['role:admin|city_manager']], function () {
@@ -51,7 +54,7 @@ Route::resource('payments', 'PaymentController');
     
 Route::group(['middleware' => ['role:admin|city_manager|gym_manager']], function () {
     Route::get('coaches/get-json-data', 'CoachesController@getJsonData');
-    Route::get('sessions/get-json-data', 'SessionsController@getJsonData');    
+    Route::get('sessions/get-json-data', 'SessionsController@getJsonData');
     Route::resource('sessions', 'SessionsController');
     Route::resource('payments', 'PaymentController');
     Route::resource('coaches', 'CoachesController');

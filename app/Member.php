@@ -9,17 +9,16 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use JWTAuth;
 
-
-class Member extends  Authenticatable implements JWTSubject, MustVerifyEmail
+class Member extends Authenticatable implements JWTSubject, MustVerifyEmail
 {
-
     use Notifiable;
 
     protected $table = 'members';
     protected $member;
 
     protected $fillable = [
-        'name', 'email', 'password', 'date_of_birth', 'gender', 'avatar', 'verified', 'remaining_sessions'
+        'name', 'email', 'password', 'date_of_birth', 'gender', 'avatar',
+        'verified', 'remaining_sessions', 'national_id',
     ];
 
     protected $hidden = [

@@ -19,7 +19,7 @@ class Member extends  Authenticatable implements JWTSubject, MustVerifyEmail
     protected $member;
 
     protected $fillable = [
-        'name', 'email', 'password', 'date_of_birth', 'gender', 'avatar','verified'
+        'name', 'email', 'password', 'date_of_birth', 'gender', 'avatar', 'verified', 'remaining_sessions'
     ];
 
     protected $hidden = [
@@ -47,7 +47,8 @@ class Member extends  Authenticatable implements JWTSubject, MustVerifyEmail
     }
 
 
-    public function sessions(){
-        return $this->belongsToMany('sessions','attendance');
+    public function sessions()
+    {
+        return $this->belongsToMany('sessions', 'attendance');
     }
 }

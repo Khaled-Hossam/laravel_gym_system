@@ -26,7 +26,15 @@ class Package extends Model
      * @var array
      */
     protected $fillable = ['name', 'sessions_number', 'price'];
-    public $timestamps = false;	
+    public $timestamps = false;
 
-    
+    public function setPriceAttribute($value)
+    {
+        $this->attributes['price'] = $value * 100;
+    }
+
+    public function getPriceAttribute($value)
+    {
+        return $value /100;
+    }
 }

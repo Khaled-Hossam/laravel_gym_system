@@ -21,7 +21,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 Route::post('login', 'MembersController@login');
 Route::post('register', 'MembersController@register');
 Route::get('verify/{code}', 'MembersController@verify')->name('members.verify');
-Route::get('test', 'MembersController@test');
+Route::post('test', 'MembersController@test');
 
 Route::group(['middleware' => 'auth:api'], function () {
     Route::get('member', 'MembersController@member');

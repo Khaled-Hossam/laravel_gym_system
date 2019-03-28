@@ -12,24 +12,26 @@ use Illuminate\Http\Request;
 
 class GymsController extends Controller
 {
-    public function __construct() {
+    public function __construct()
+    {
         // check if user is allowed to crud this specific gym
         $this->middleware(function ($request, $next) {
-            if($request->route('gym') !=null)
+            if ($request->route('gym') != null)
                 $city_id = $request->route('gym')->city_id;
             else
                 $city_id = $request->city_id;
 
-            if(!Gym::allowedToSeeGyms()->get()->contains($city_id))
+            if (!Gym::allowedToSeeGyms()->get()->contains($city_id))
                 return abort(403);
 
             return $next($request);
         })
-        ->only('edit','show','destroy','update','store');
+            ->only('edit', 'show', 'destroy', 'update', 'store');
     }
 
-    public function getJsonData(){
-        return datatables( Gym::allowedToSeeGyms()->with('city','creator') )->toJson();
+    public function getJsonData()
+    {
+        return datatables(Gym::allowedToSeeGyms()->with('city', 'creator'))->toJson();
     }
     /**
      * Display a listing of the resource.
@@ -37,7 +39,7 @@ class GymsController extends Controller
      * @return \Illuminate\View\View
      */
     public function index(Request $request)
-    {        
+    {
         return view('gyms.index');
     }
 
@@ -49,7 +51,7 @@ class GymsController extends Controller
     public function create()
     {
         $cities = City::allowedToSeeCities()->pluck('name', 'id');
-        return view('gyms.create',compact('cities'));
+        return view('gyms.create', compact('cities'));
     }
 
     /**
@@ -62,17 +64,17 @@ class GymsController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-			'name' => 'required|string|max:180',
+            'name' => 'required|string|max:180',
             'city_id' => 'exists:cities,id'
         ]);
         $request['creator_id'] = Auth::user()->id;
         $requestData = $request->all();
-        
+
         if ($request->hasFile('cover_image')) {
             $requestData['cover_image'] = $request->file('cover_image')
                 ->store('uploads', 'public');
         }
-    
+
         Gym::create($requestData);
 
         return redirect('gyms')->with('flash_message', 'Gym added!');
@@ -99,8 +101,8 @@ class GymsController extends Controller
      */
     public function edit(Gym $gym)
     {
-        $cities = City::allowedToSeeCities()->pluck('name', 'id'); 
-        return view('gyms.edit', compact('gym','cities'));
+        $cities = City::allowedToSeeCities()->pluck('name', 'id');
+        return view('gyms.edit', compact('gym', 'cities'));
     }
 
     /**
@@ -114,8 +116,8 @@ class GymsController extends Controller
     public function update(Request $request, Gym $gym)
     {
         $this->validate($request, [
-			'name' => 'required|string|max:180',
-			'city_id' => 'exists:cities,id'
+            'name' => 'required|string|max:180',
+            'city_id' => 'exists:cities,id'
         ]);
         $request['creator_id'] = Auth::user()->id;
         $requestData = $request->all();

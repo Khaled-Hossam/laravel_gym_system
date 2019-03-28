@@ -19,6 +19,8 @@ class MembersController extends Controller
 
     public function register(MemberRegisterRequest $request)
     {
+
+
         $member = Member::create([
             'name' => $request->name,
             'email' => $request->email,
@@ -180,5 +182,28 @@ class MembersController extends Controller
             'total_sessions' => $member->total_sessions,
             'remaining_sessions' => $member->remaining_sessions
         ], 200);
+    }
+
+    public function test(Request $request)
+    {
+        $requestData = $request->all();
+        // dd($requestData);
+
+        if ($request->hasFile('cover_image')) {
+            $requestData['cover_image'] = $request->file('cover_image')
+                ->store('uploads', 'public');
+        }
+    }
+    public function save_avatar($request)
+    {
+        if ($request->hasFile('input_img')) {
+            $image = $request->file('input_img');
+            $name   = time() . '.' . $image->getClientOriginalExtension();
+            $destinationPath = public_path('/images');
+            $image->move($destinationPath, $name);
+            $this->save();
+
+            return back()->with(' success  ', 'Image Upload successfully');
+        }
     }
 }

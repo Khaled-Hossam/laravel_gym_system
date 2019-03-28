@@ -26,7 +26,8 @@ class MemberRegisterRequest extends FormRequest
         return [
             'name' => 'required|string',
             'email' => 'required|email|unique:members',
-            'password' => 'required|string|min:6|max:18'
+            'password' => 'required|string|min:6|max:18',
+            'avatar' =>  'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ];
     }
 }

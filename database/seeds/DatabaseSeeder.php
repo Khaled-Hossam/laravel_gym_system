@@ -15,18 +15,16 @@ class DatabaseSeeder extends Seeder
         $this->call([
             RolesAndPermissionsTableSeeder::class,
             UsersTableSeeder::class,
-            CityTableSeeder::class,
-            GymTableSeeder::class,
         ]);
 
-        $this->command->info('Seeded the users!');   
+        $this->command->info('Seeded the users!');
         $this->command->info('Seeded the roles and permissions!');
         $this->call('CountriesSeeder');
-        $this->command->info('Seeded the countries!');    
-        $this->command->info('Seeded the roles and permissions!');   
-        $this->command->info('Seeded the cities!');   
-        $this->command->info('Seeded the cities!');   
-        $this->command->info('Seeded the gyms!');   
+        $this->command->info('Seeded the countries!');
+        $this->call('CityTableSeeder');
+        $this->command->info('Seeded the cities!');
+        $this->command->info('Seeded the roles and permissions!');
+        $this->call('GymTableSeeder');
+        $this->command->info('Seeded the gyms!');
     }
-    
 }

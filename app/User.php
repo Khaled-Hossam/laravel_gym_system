@@ -47,10 +47,12 @@ class User extends Authenticatable
     public function scopeAllowedToSeeGymManagers($query)
     {
         $user = Auth::user();
-        if($user->hasRole('admin'))
+        if ($user->hasRole('admin')) {
             return $query;
+        }
         // return all users in the same city without the city manager himself
-        if($user->hasRole('city_manager'))
-            return $query->where('city_id', $user->city_id)->where('id','!=',$user->id);
+        if ($user->hasRole('city_manager')) {
+            return $query->where('city_id', $user->city_id)->where('id', '!=', $user->id);
+        }
     }
 }

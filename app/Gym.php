@@ -43,14 +43,12 @@ class Gym extends Model
         return $this->belongsToMany('App\Package','gym_package_purshases');;
     }
 
-    protected static function boot()
+    public function scopeAllowedToSeeGyms($query)
     {
-        parent::boot();
-        
-        static::addGlobalScope('city_id', function (Builder $builder) {
-            $user = Auth::user();
-            if($user->hasRole('city_manager'))
-                $builder->where('city_id', $user->city_id);
-        });
+        $user = Auth::user();
+        if($user->hasRole('city_manager'))
+           return $query->where('city_id', $user->city_id);
+
+        return $query;
     }
 }

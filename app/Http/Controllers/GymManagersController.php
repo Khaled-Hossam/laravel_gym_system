@@ -10,12 +10,26 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 use App\Gym;
+use Illuminate\Support\Facades\Auth;
 
 class GymManagersController extends Controller
 {
+    public function __construct() {
+        $this->middleware(function ($request, $next) {
+            $is_admin      = Auth::user()->hasRole('admin');
+            $is_same_city  = Auth::user()->city_id == $request->route('user')->city_id;
+
+            if(!$is_admin && !$is_same_city)
+                return abort(403);
+        
+            return $next($request);
+        })
+        ->only('edit','show','destroy','update');
+    }
+
     public function getJsonData()
     {
-        return datatables(User::all())->toJson();
+        return datatables(User::allowedToSeeGymManagers() )->toJson();
     }
     /**
      * Display a listing of the resource.
@@ -34,7 +48,7 @@ class GymManagersController extends Controller
      */
     public function create()
     {
-        $gyms = Gym::pluck('name', 'id');
+        $gyms = Gym::allowedToSeeGyms()->pluck('name', 'id');
         return view('gym-managers.create', compact('gyms'));
     }
 
@@ -56,6 +70,7 @@ class GymManagersController extends Controller
             'avatar' => 'file|mimes:jpeg,png'
         ]);
         $requestData = $request->all();
+        $requestData['city_id']  = Auth::user()->city_id;
         $requestData['password'] = Hash::make($request->password);
     
         if ($request->hasFile('avatar')) {
@@ -89,7 +104,7 @@ class GymManagersController extends Controller
      */
     public function edit(User $user)
     {
-        $gyms = Gym::pluck('name', 'id');
+        $gyms = Gym::allowedToSeeGyms()->pluck('name', 'id');
         return view('gym-managers.edit', compact('user', 'gyms'));
     }
 

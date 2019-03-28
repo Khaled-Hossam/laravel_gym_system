@@ -1,3 +1,3 @@
 <h1>
-    Hello {{route('members.verify', ['code'=>$code])}}
+    Hello <a href="{{route('members.verify', ['code'=>$code])}}">Click here to complete the registration</a>
 </h1> 

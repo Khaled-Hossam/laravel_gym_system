@@ -16,4 +16,7 @@ class Attendance extends Model
         // return $this->belongsTo('App\User');
         return $this->belongsTo(Session::class);
     }
+    protected $fillable = [
+        'member_id', 'session_id'
+    ];
 }

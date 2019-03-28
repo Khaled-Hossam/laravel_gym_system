@@ -18,14 +18,6 @@
         }}
         {!! $errors->first('city_id', '<p class="help-block text-danger">:message</p>') !!}
     </div>
-    <div class="form-group {{ $errors->has('creator_id') ? 'has-error' : ''}}">
-        <label for="creator_id" class="control-label">{{ 'Creator' }}</label>
-        {{ $formMode === 'edit' ? 
-        Form::select('creator_id', $users, $gym->creator_id, ['select','class'=>'col-12 mb-3'] ) :
-        Form::select('creator_id', $users, null, ['select','class'=>'col-12 mb-3'] ) 
-        }}
-        {!! $errors->first('creator_id', '<p class="help-block text-danger">:message</p>') !!}
-    </div>
 @endhasrole
 
 <div class="form-group">

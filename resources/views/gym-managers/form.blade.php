@@ -30,7 +30,7 @@
     {!! $errors->first('avatar', '<p class="help-block text-danger">:message</p>') !!}
 </div>
 <div class="form-group {{ $errors->has('gym_id') ? 'has-error' : ''}}">
-    <label for="gym_id" class="control-label">{{ 'Gym Id' }}</label>
+    <label for="gym_id" class="control-label">{{ 'Gym' }}</label>
     {{ $formMode === 'edit' ? 
      Form::select('gym_id', $gyms, $user->gym_id, ['select','class'=>'col-12 mb-3'] ) :
      Form::select('gym_id', $gyms, null, ['select','class'=>'col-12 mb-3'] ) 

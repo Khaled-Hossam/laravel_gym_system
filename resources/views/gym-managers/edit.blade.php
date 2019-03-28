@@ -6,7 +6,7 @@
 
             <div class="col-md-12 mt-3">
                 <div class="card">
-                    <div class="card-header">Edit User #{{ $user->id }}</div>
+                    <div class="card-header">Edit Gym Managers #{{ $user->id }}</div>
                     <div class="card-body">
                         <a href="{{ route('gym-managers.index') }}" title="Back"><button class="btn btn-warning btn-sm"><i class="fa fa-arrow-left" aria-hidden="true"></i> Back</button></a>
                         <br />

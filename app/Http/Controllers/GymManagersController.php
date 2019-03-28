@@ -78,7 +78,7 @@ class GymManagersController extends Controller
                 ->store('uploads', 'public');
         }
 
-        User::create($requestData);
+        User::create($requestData)->assignRole('gym_manager');
 
         return redirect('gym-managers')->with('flash_message', 'User added!');
     }

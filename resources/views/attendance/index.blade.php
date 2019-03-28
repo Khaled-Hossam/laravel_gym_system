@@ -8,21 +8,25 @@
 
 @section('content')
 @include('partials.modal')
+@include('partials.flash_message')
 
-    <div style="display:none" id="crudName" title="packages"></div>
+    <div style="display:none" id="crudName" title="attendance"></div>
     <div class="container">
         <div class="row">
             <div class=" col-12">
-                    <div class="card-header">packages</div>
+                    <div class="card-header">Attendance</div>
                     <div class="card-body">
-                        
+                        <a href="{{route('attendance.create')}}" class="btn btn-success btn-sm" title="Add New attendance">
+                            <i class="fa fa-plus" aria-hidden="true"></i> Add New
+                        </a>
+
                         <br/>
                         <br/>
                         <div >
                             <table class="table table-bordered table-striped" id="dataTable">
                                 <thead>
                                     <tr>
-                                        <th>#</th><th>Name</th><th>Email</th><th>Sessions Remaining</th><th>Actions</th>
+                                        <th>#</th><th>Member Name</th><th>Session Name</th><th>From</th><th>To</th><th>Attended at</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -44,25 +48,24 @@
 <script src = "http://cdn.datatables.net/1.10.18/js/jquery.dataTables.min.js" defer ></script>
 <script>
 $(document).ready( function () {
-  var crudName = "membersForPayments";
-    console.log(crudName);
+  var crudName = $('#crudName').attr('title')
+    
   $('#dataTable').DataTable({
         "processing": true,
         "serverSide": true,
-        "ajax": "membersForPayments/get-json-data",
+        "ajax": "/"+crudName+"/get-json-data",
         "type":"get",
         "dataSrc": "",
         "columns": [
                 {"data":"id"},    
-                {"data":"name"},
-                {"data":"email"}, 
-                {"data":"remaining_sessions"},      
+                {"data":"member.name"}, 
+                {"data":"session.name"},
+                {"data":"session.starts_at"},
+                {"data":"session.finishes_at"},   
+                {"data":"attended_at"}
+                   
                        
-                {
-                    mRender: function (data, type, row) {
-                        return '<a class="datatable-link view" href="' + crudName + '/' + row.id + '" data-id="' + row[0] + '"><i class="fa fa-shopping-cart" aria-hidden="true"></i> Buy Package</button></a>'
-                    }     
-                },
+                
             
         ],
         'paging'      : true,
@@ -76,6 +79,6 @@ $(document).ready( function () {
     
 } );
 </script>
-
+@include('partials.delete_script')
 
 @endsection

@@ -20,6 +20,9 @@ class DatabaseSeeder extends Seeder
         ]);
 
         $this->command->info('Seeded the users!');   
+        $this->command->info('Seeded the roles and permissions!');
+        $this->call('CountriesSeeder');
+        $this->command->info('Seeded the countries!');    
         $this->command->info('Seeded the roles and permissions!');   
         $this->command->info('Seeded the cities!');   
         $this->command->info('Seeded the cities!');   

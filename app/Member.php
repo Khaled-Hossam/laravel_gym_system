@@ -18,7 +18,7 @@ class Member extends Authenticatable implements JWTSubject, MustVerifyEmail
 
     protected $fillable = [
         'name', 'email', 'password', 'date_of_birth', 'gender', 'avatar',
-        'verified', 'remaining_sessions', 'national_id',
+        'verified', 'remaining_sessions', 'national_id', 'total_sessions'
     ];
 
     protected $hidden = [

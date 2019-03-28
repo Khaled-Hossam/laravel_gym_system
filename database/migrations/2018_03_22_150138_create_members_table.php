@@ -24,6 +24,7 @@ class CreateMembersTable extends Migration
             $table->boolean('verified')->default(0);
             $table->timestamp('last_login')->nullable();
             $table->integer('remaining_sessions')->default(0);
+            $table->integer('total_sessions')->default(0);
             $table->timestamps();
         });
     }

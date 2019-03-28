@@ -2,11 +2,23 @@
 
 namespace App\Http\Controllers;
 
-use App\atttendance;
+use App\Attendance;
+use App\Session;
 use Illuminate\Http\Request;
 
+use Illuminate\Support\Facades\Auth;
 class AttendanceController extends Controller
 {
+    public function getJsonData(){
+        
+        return datatables( Attendance::with('member','session') )->toJson();
+    }
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\View\View
+     */
+    
     /**
      * Display a listing of the resource.
      *
@@ -15,6 +27,7 @@ class AttendanceController extends Controller
     public function index()
     {
         //
+        return view('attendance.index');
     }
 
     /**
@@ -24,7 +37,7 @@ class AttendanceController extends Controller
      */
     public function create()
     {
-        //
+        
     }
 
     /**

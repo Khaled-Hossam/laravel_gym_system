@@ -26,7 +26,13 @@
                             <table class="table table-bordered table-striped" id="dataTable">
                                 <thead>
                                     <tr>
-                                        <th>#</th><th>Name</th><th>City</th><th>Creator</th><th>Actions</th>
+                                        <th>#</th><th>Name</th>
+                                        <th>Created at</th>
+                                        <th>Image</th>
+                                        @hasrole('admin')
+                                        <th>City manager</th>
+                                        @endhasrole
+                                        <th>Actions</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -59,8 +65,16 @@ $(document).ready( function () {
         "columns": [
                 {"data":"id"},    
                 {"data":"name"},    
-                {"data":"created_at"},    
-                {"data":"creator.name"},    
+                {"data":"created_at"},
+                @hasrole('admin')
+                    {"data":"creator.name"},    
+                @endhasrole
+                
+                {
+                mRender: function (data, type, row) {
+                    return '<img width="50px" height="50px" src="/storage/' + row.cover_image + '">'
+                }     
+                },   
                 
                 {
                     mRender: function (data, type, row) {

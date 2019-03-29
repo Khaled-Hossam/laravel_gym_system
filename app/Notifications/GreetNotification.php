@@ -43,7 +43,6 @@ class GreetNotification extends Notification implements ShouldQueue
         return (new MailMessage)
                     ->line('Awesome!! We are glad to have you with us.')
                     ->line("Now get to the gym rookie and lift some weight!");
-                    // ->line('Hercules is looking for ya mate where have you been  ?!')
     }
 
     /**

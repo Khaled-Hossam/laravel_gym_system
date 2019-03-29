@@ -24,6 +24,7 @@ class RolesAndPermissionsTableSeeder extends Seeder
         Permission::create(['name'=> 'crud attendance',]);
         Permission::create(['name'=> 'crud buy_package_for_user']); 
         Permission::create(['name'=> 'crud revenue']);
+        Permission::create(['name'=> 'crud members']);
         
         
         // or may be done by chaining
@@ -51,6 +52,7 @@ class RolesAndPermissionsTableSeeder extends Seeder
                 'crud attendance', 
                 'crud buy_package_for_user', 
                 'crud revenue',
+                'crud members',
             ]);
         DB::statement('SET FOREIGN_KEY_CHECKS=1');
 

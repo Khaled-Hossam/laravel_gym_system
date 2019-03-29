@@ -46,6 +46,7 @@
         </li>
         @endcan
 
+        @can('crud members')
         <li class="nav-item has-treeview">
         <a href="{{route('members.index')}}" class="nav-link">
             <p>
@@ -53,6 +54,7 @@
             </p>
         </a>
         </li>
+        @endcan
 
         @can('crud cities')
         <li class="nav-item has-treeview">

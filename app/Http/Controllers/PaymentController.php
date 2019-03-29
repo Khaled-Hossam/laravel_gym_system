@@ -44,7 +44,6 @@ class PaymentController extends Controller
                     'currency' => 'usd',
                     'description' => 'buy package '.$package->name. ' has '. $package->sessions_number.' with '.number_format($package->price/100,2).' for member '.$member->email ." at ".date("M,d,Y h:i:s A"),
                     'source' => $token,
-                    
                 ]);
                 if($charge["status"]="succeeded")
                 {

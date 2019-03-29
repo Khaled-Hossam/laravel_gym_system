@@ -1,7 +1,8 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use App\Http\Requests\package\StorePackageRequest;
+use App\Http\Requests\package\UpdatePackageRequest;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
@@ -40,13 +41,9 @@ class PackagesController extends Controller
      *
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
-    public function store(Request $request)
+    public function store(StorePackageRequest $request)
     {
-        $this->validate($request, [
-			'name' => 'required|max:80',
-			'sessions_number' => 'required|integer',
-			'price' => 'required|numeric'
-		]);
+        
         $requestData = $request->all();
         
         Package::create($requestData);
@@ -90,13 +87,9 @@ class PackagesController extends Controller
      *
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
-    public function update(Request $request, $id)
+    public function update(UpdatePackageRequest $request, $id)
     {
-        $this->validate($request, [
-			'name' => 'required|max:80',
-			'sessions_number' => 'required|integer',
-			'price' => 'required|numeric'
-		]);
+       
         $requestData = $request->all();
         
         $package = Package::findOrFail($id);

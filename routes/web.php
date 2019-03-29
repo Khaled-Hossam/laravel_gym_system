@@ -36,9 +36,6 @@ Route::group(['middleware' => 'auth'], function () {
     });
 
     Route::group(['middleware' => ['role:admin|city_manager']], function () {
-        Route::get('attendances/get-json-data', 'AttendancesController@getJsonData');
-        Route::get('attendances', 'AttendancesController@index')->name('attendances.index');
-        
         Route::get('gym-managers/get-json-data', 'GymManagersController@getJsonData');
         Route::get('gym-managers/{user}/ban', 'GymManagersController@banUser');
         Route::resource('gym-managers', 'GymManagersController', ['parameters' => [
@@ -55,17 +52,16 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('membersForPayments/{member}', 'PaymentController@buy');
     Route::post('paymentContinue/{member}', 'PaymentController@continue');
     Route::resource('payments', 'PaymentController');
-    Route::resource('coaches', 'CoachesController');
-
     
-});
-
-Route::get('revenues/get-json-data', 'PackagePurshaseController@getJsonData');
-Route::resource('revenues', 'PackagePurshaseController');
+    Route::get('revenues/get-json-data', 'PackagePurshaseController@getJsonData');
+    Route::resource('revenues', 'PackagePurshaseController');
 
 
         
     Route::group(['middleware' => ['role:admin|city_manager|gym_manager']], function () {
+        Route::get('attendances/get-json-data', 'AttendancesController@getJsonData');
+        Route::get('attendances', 'AttendancesController@index')->name('attendances.index');
+        
         Route::get('coaches/get-json-data', 'CoachesController@getJsonData');
         Route::get('sessions/get-json-data', 'SessionsController@getJsonData');
         Route::resource('sessions', 'SessionsController');
@@ -73,4 +69,3 @@ Route::resource('revenues', 'PackagePurshaseController');
         Route::resource('coaches', 'CoachesController');
         Route::resource('revenues', 'PackagePurshaseController');
     });
-});

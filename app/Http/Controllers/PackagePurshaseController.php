@@ -7,24 +7,20 @@ use App\Gym;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use DB;
+
 class PackagePurshaseController extends Controller
 {
     public function getJsonData()
-    { 
-       if(Auth::user()->hasRole('gym_manager'))
-         {  
-            
-         }
-        else if(Auth::user()->hasRole('city_manager'))
-        {
-            
-
-        }else{
-            
-            
+    {
+        if (Auth::user()->hasRole('gym_manager')) {
+            $result=GymPackagePurshase::with('Member', 'Gym.city', 'Package');
+        } elseif (Auth::user()->hasRole('city_manager')) {
+            $result=GymPackagePurshase::with('Member', 'Gym.city', 'Package');
+        } else {
+            $result=GymPackagePurshase::with('Member', 'Gym.city', 'Package');
         }
         //dd( $result);
-        return datatables( $result  )->toJson();
+        return datatables($result)->toJson();
     }
     /**
      * Display a listing of the resource.
@@ -33,20 +29,15 @@ class PackagePurshaseController extends Controller
      */
     public function index()
     {   // dd(Auth::user()->id);
-        if(Auth::user()->hasRole('gym_manager'))
-         { 
-            $revenues= DB::table('gym_package_purshases')->where('gym_id','=',Auth::user()->gym_id)->sum('bought_price');
-         }
-         else if(Auth::user()->hasRole('city_manager'))
-         {
-            $revenues= DB::table('gym_package_purshases')->join('gyms', 'gyms.id', '=', 'gym_package_purshases.gym_id')->where('city_id','=',Auth::user()->city_id)->sum('bought_price');
-         }else
-        {
+        if (Auth::user()->hasRole('gym_manager')) {
+            $revenues= DB::table('gym_package_purshases')->where('gym_id', '=', Auth::user()->gym_id)->sum('bought_price');
+        } elseif (Auth::user()->hasRole('city_manager')) {
+            $revenues= DB::table('gym_package_purshases')->join('gyms', 'gyms.id', '=', 'gym_package_purshases.gym_id')->where('city_id', '=', Auth::user()->city_id)->sum('bought_price');
+        } else {
             $revenues= DB::table('gym_package_purshases')->sum('bought_price');
         }
             
-        return view('revenues.index',["revenues"=>$revenues]);
-        
+        return view('revenues.index', ["revenues"=>$revenues]);
     }
 
     /**

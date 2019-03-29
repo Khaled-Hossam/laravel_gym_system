@@ -72,7 +72,7 @@ $(document).ready( function () {
                 
                 {
                 mRender: function (data, type, row) {
-                    return '<img width="50px" height="50px" src="/storage/' + row.cover_image + '">'
+                    return '<img width="50px" height="40px" src="/storage/' + row.cover_image + '">'
                 }     
                 },   
                 

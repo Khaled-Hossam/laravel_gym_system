@@ -1,7 +1,8 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use App\Http\Requests\session\UpdateSessionRequest;
+use App\Http\Requests\session\StoreSessionRequest;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
@@ -20,7 +21,7 @@ class SessionsController extends Controller
             else
                 $gym_id = $request->gym_id;
 
-            if(!Gym::allowedToSeeGyms()->get()->contains($gym_id))
+            if(!Gym::allowedToSeeGyms()->get()->contains('id',$gym_id))
                 return abort(403);
             
             return $next($request);
@@ -61,14 +62,9 @@ class SessionsController extends Controller
      *
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
-    public function store(Request $request)
+    public function store(StoreSessionRequest $request)
     {
-        $this->validate($request, [
-			'name' => 'required|max:80|unique:sessions',
-			'starts_at' => 'required',
-            'finishes_at' => 'required',
-            'gym_id'=>'required|exists:gyms,id',
-		]);
+       
         $requestData = $request->all();
 
         Session::create($requestData)->coaches()->sync($request->coaches);
@@ -111,14 +107,9 @@ class SessionsController extends Controller
      *
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
-    public function update(Request $request, Session $session)
+    public function update(UpdateSessionRequest $request, Session $session)
     {
-        $this->validate($request, [
-			'name' => 'required|max:80|unique:sessions,name,'.$$session->id,
-			'starts_at' => 'required',
-            'finishes_at' => 'required',
-            'gym_id'=> 'required|exists:gyms,id',
-        ]);
+      
         $requestData = $request->all();        
         
         $session->update($requestData);

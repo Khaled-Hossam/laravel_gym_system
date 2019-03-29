@@ -4,26 +4,30 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
-
-use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
-use App\Gym;
 use Illuminate\Support\Facades\Auth;
+
+use App\Http\Requests\gymmanager\StoreGymManagerRequest;
+use App\Http\Requests\citymanager\UpdateCityManagerRequest;
+use App\User;
+use App\Gym;
 use App\City;
 
 class GymManagersController extends Controller
 {
-    public function __construct() {
+    public function __construct()
+    {
         // Check if user is allowed to crud the specified manager, Add the city id to the request bdoy
         $this->middleware(function ($request, $next) {
             $request['city_id'] = $request->route('user') ?$request->route('user')->city_id:
                 Gym::where('id', $request["gym_id"])->first()->value("city_id");
                 
-            if(!Auth::user()->hasRole('admin')){
-                if (!City::allowedToSeeCities()->get()->contains($request['city_id']))
+            if (!Auth::user()->hasRole('admin')) {
+                if (!City::allowedToSeeCities()->get()->contains($request['city_id'])) {
                     return abort(403);
+                }
             }
             return $next($request);
         })
@@ -32,7 +36,7 @@ class GymManagersController extends Controller
 
     public function getJsonData()
     {
-        return datatables(User::allowedToSeeGymManagers() )->toJson();
+        return datatables(User::allowedToSeeGymManagers())->toJson();
     }
     /**
      * Display a listing of the resource.
@@ -62,16 +66,8 @@ class GymManagersController extends Controller
      *
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
-    public function store(Request $request)
+    public function store(StoreGymManagerRequest $request)
     {
-        $this->validate($request, [
-            'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users',
-            'national_id' => 'required|string|max:255|unique:users',
-            'password' => 'required|string|min:8|confirmed',
-            'gym_id'=>'exists:gyms,id',
-            'avatar' => 'file|mimes:jpeg,png'
-        ]);
         $requestData = $request->all();
         $requestData['password'] = Hash::make($request->password);
     
@@ -118,16 +114,9 @@ class GymManagersController extends Controller
      *
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
-    public function update(Request $request, User $user)
+    public function update(UpdateCityManagerRequest $request, User $user)
     {
-        $this->validate($request, [
-            'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users,email,'.$user->id,
-            'national_id' => 'required|string|max:255|unique:users,national_id,'.$user->id,
-            'password' => 'nullable|string|min:8|confirmed',
-            'gym_id'=>'exists:gyms,id',
-            'avatar' => 'file|mimes:jpeg,png'
-        ]);
+        
         $requestData = $request->all();
         if (!$request->password) {
             $requestData['password'] = $user->password;
@@ -161,5 +150,16 @@ class GymManagersController extends Controller
             Storage::disk('public')->delete($user->avatar);
         }
         $user->delete();
+    }
+
+
+    public function banUser(User $user)
+    {
+        if ($user->isBanned()) {
+            $user->unban();
+        } else {
+            $user->ban();
+        }
+        return back();
     }
 }

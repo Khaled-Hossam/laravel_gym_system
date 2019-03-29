@@ -23,7 +23,8 @@ $(document).on('click','#delete_item',function () {
             }
         },
         error: function (response) {
-            alert(' error');
+            response = response.responseJSON.message ? response.responseJSON.message:response
+            alert(response);
             console.log(response);
         }
     });

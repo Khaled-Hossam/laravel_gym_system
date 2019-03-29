@@ -5,6 +5,8 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Carbon;
+
 class Gym extends Model
 {
     /**
@@ -27,7 +29,7 @@ class Gym extends Model
      * @var array
      */
     protected $fillable = ['name', 'cover_image', 'city_id', 'creator_id'];
-   
+
     public function city()
     {
         return $this->belongsTo('App\City');
@@ -40,15 +42,23 @@ class Gym extends Model
     
     public function GymPackagePurshases()
     {
-        return $this->belongsToMany('App\Package','gym_package_purshases');;
+        return $this->belongsToMany('App\Package', 'gym_package_purshases');
+        ;
     }
 
     public function scopeAllowedToSeeGyms($query)
     {
         $user = Auth::user();
-        if($user->hasRole('city_manager'))
-           return $query->where('city_id', $user->city_id);
+        if ($user->hasRole('city_manager')) {
+            return $query->where('city_id', $user->city_id);
+        }
 
         return $query;
     }
+
+    public function getCreatedAtAttribute($value)
+    {
+        return Carbon::parse($value)->toDateString();
+    }
+    
 }

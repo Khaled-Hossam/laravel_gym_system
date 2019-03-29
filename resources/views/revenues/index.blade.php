@@ -4,21 +4,19 @@
 <link rel="stylesheet" href="//cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css"> 
 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs4/jq-3.3.1/dt-1.10.18/b-1.5.6/datatables.min.css"/>
 @include('partials.datatables_style')
-
 @endsection
 
 @section('content')
 @include('partials.modal')
+@include('partials.flash_message')
 
-    <div style="display:none" id="crudName" title="gyms"></div>
+    <div style="display:none" id="crudName" title="revenues"></div>
     <div class="container">
         <div class="row">
             <div class=" col-12">
-                    <div class="card-header">Gyms</div>
+                    <div class="card-header">Revenues is {{$revenues}}</div>
                     <div class="card-body">
-                        <a href="{{ route('gyms.create') }}" class="btn btn-success btn-sm" title="Add New Gym">
-                            <i class="fa fa-plus" aria-hidden="true"></i> Add New
-                        </a>
+                        
 
                         <br/>
                         <br/>
@@ -26,13 +24,7 @@
                             <table class="table table-bordered table-striped" id="dataTable">
                                 <thead>
                                     <tr>
-                                        <th>#</th><th>Name</th>
-                                        <th>Created at</th>
-                                        <th>Image</th>
-                                        @hasrole('admin')
-                                        <th>City manager</th>
-                                        @endhasrole
-                                        <th>Actions</th>
+                                    <th># </th>   <th>Member Name </th><th>Member Email</th><th>Package Name</th><th>Paid Price</th><th>Gym Name</th><th>City Name</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -63,27 +55,13 @@ $(document).ready( function () {
         "type":"get",
         "dataSrc": "",
         "columns": [
-                {"data":"id"},    
-                {"data":"name"},    
-                {"data":"created_at"},
-                @hasrole('admin')
-                    {"data":"creator.name"},    
-                @endhasrole
-                
-                {
-                mRender: function (data, type, row) {
-                    return '<img width="50px" height="50px" src="/storage/' + row.cover_image + '">'
-                }     
-                },   
-                
-                {
-                    mRender: function (data, type, row) {
-                        return '<a class="datatable-link view" href="' + crudName + '/' + row.id + '" data-id="' + row[0] + '"><i class="fa fa-eye" aria-hidden="true"></i> View</button></a>'
-                            + '<a class="datatable-link edit" href="' + crudName + '/' + row.id + '/edit' + '" data-id="' + row[0] + '"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Edit</a>'
-                            + '<a class="datatable-link delete" href="#"  row_id="' + row.id + '" data-toggle="modal" data-target="#DeleteModal" id="delete_toggle"><i class="fa fa-trash-o" aria-hidden="true"></i> Delete</a>'
-                    }     
-                },
-            
+                {"data":"id"}, 
+                {"data":"member.name"},    
+                {"data":"member.email"},
+                {"data":"package.name"},
+                {"data":"bought_price"},
+                {"data":"gym.name"},
+                {"data":"gym.city.name"},                       
         ],
         'paging'      : true,
         'lengthChange': true,
@@ -99,3 +77,4 @@ $(document).ready( function () {
 @include('partials.delete_script')
 
 @endsection
+

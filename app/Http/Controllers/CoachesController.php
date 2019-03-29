@@ -4,9 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
 
 use App\Coach;
-use Illuminate\Http\Request;
+use App\Http\Requests\coach\UpdateCoachRequest;
+use App\Http\Requests\coach\StoreCoachRequest;
 
 class CoachesController extends Controller
 {
@@ -41,11 +43,8 @@ class CoachesController extends Controller
      *
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
-    public function store(Request $request)
+    public function store(StoreCoachRequest $request)
     {
-        $this->validate($request, [
-            'name' => 'required|max:80|string|unique:coaches'
-        ]);
         $requestData = $request->all();
         
         Coach::create($requestData);
@@ -89,11 +88,8 @@ class CoachesController extends Controller
      *
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
-    public function update(Request $request, $id)
+    public function update(UpdateCoachRequest $request, $id)
     {
-        $this->validate($request, [
-            'name' => 'required|max:80|string|unique:coaches,name,'.$id
-        ]);
         $requestData = $request->all();
         
         $coach = Coach::findOrFail($id);

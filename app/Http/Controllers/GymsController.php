@@ -9,6 +9,7 @@ use App\Gym;
 use App\City;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
+use App\Session;
 
 class GymsController extends Controller
 {
@@ -16,17 +17,17 @@ class GymsController extends Controller
     {
         // check if user is allowed to crud this specific gym
         $this->middleware(function ($request, $next) {
-            if ($request->route('gym') != null)
+            if ($request->route('gym') != null) {
                 $city_id = $request->route('gym')->city_id;
-            else
+            } else {
                 $city_id = $request->city_id;
+            }
 
-            if (!Gym::allowedToSeeGyms()->get()->contains($city_id))
+            if (!Gym::allowedToSeeGyms()->get()->contains('city_id', $city_id))
                 return abort(403);
 
             return $next($request);
-        })
-            ->only('edit', 'show', 'destroy', 'update', 'store');
+        })->only('edit', 'show', 'destroy', 'update', 'store');
     }
 
     public function getJsonData()
@@ -65,7 +66,8 @@ class GymsController extends Controller
     {
         $this->validate($request, [
             'name' => 'required|string|max:180',
-            'city_id' => 'exists:cities,id'
+            'city_id' => 'exists:cities,id',
+            'cover_image' => 'required|file|mimes:jpeg,png',
         ]);
         $request['creator_id'] = Auth::user()->id;
         $requestData = $request->all();
@@ -140,6 +142,11 @@ class GymsController extends Controller
      */
     public function destroy(Gym $gym)
     {
-        $gym->delete();
+        $sessions = Session::where('gym_id', $gym->id)->first();
+        if ($sessions) {
+            return abort(500, "can't delete this gym because it contains traning sessions");
+        } else {
+            $gym->delete();
+        }
     }
 }

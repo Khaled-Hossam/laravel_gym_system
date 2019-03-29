@@ -7,6 +7,7 @@
 <div class="wrapper">
   @include('layouts.partials.navbar')
 
+         
   @include('layouts.partials.sidebar')
 
   <!-- Content Wrapper. Contains page content -->

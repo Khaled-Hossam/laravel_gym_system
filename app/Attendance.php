@@ -17,6 +17,6 @@ class Attendance extends Model
         return $this->belongsTo(Session::class);
     }
     protected $fillable = [
-        'member_id', 'session_id'
+        'member_id', 'session_id','attended_at'
     ];
 }

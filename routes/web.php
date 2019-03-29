@@ -29,11 +29,14 @@ Route::group(['middleware' => ['role:admin']], function () {
     Route::resource('city-managers', 'CityManagersController', ['parameters' => [
         'city-managers' => 'user'
     ]]);
+
+    Route::get('members/get-json-data', 'MembersCrudController@getJsonData');
+    Route::resource('members', 'MembersCrudController');
 });
 
 Route::group(['middleware' => ['role:admin|city_manager']], function () {
-    Route::get('attendance/get-json-data', 'AttendanceController@getJsonData');
-    Route::resource('attendance', 'AttendanceController');
+    Route::get('attendances/get-json-data', 'AttendancesController@getJsonData');
+    Route::get('attendances', 'AttendancesController@index')->name('attendances.index');
     Route::get('gym-managers/get-json-data', 'GymManagersController@getJsonData');
     Route::resource('gym-managers', 'GymManagersController', ['parameters' => [
         'gym-managers' => 'user'
@@ -53,7 +56,7 @@ Route::resource('payments', 'PaymentController');
     
 Route::group(['middleware' => ['role:admin|city_manager|gym_manager']], function () {
     Route::get('coaches/get-json-data', 'CoachesController@getJsonData');
-    Route::get('sessions/get-json-data', 'SessionsController@getJsonData');    
+    Route::get('sessions/get-json-data', 'SessionsController@getJsonData');
     Route::resource('sessions', 'SessionsController');
     Route::resource('payments', 'PaymentController');
     Route::resource('coaches', 'CoachesController');

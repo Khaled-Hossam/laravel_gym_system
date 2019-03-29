@@ -49,7 +49,8 @@ class PaymentController extends Controller
                 if($charge["status"]="succeeded")
                 {
                     GymPackagePurshase::create(['member_id' => $request->member,'package_id' =>$request->package_id,'gym_id'=>$request->gym_id,'bought_price'=>$package->price]);
-                    DB::table('members')->where('id', $request->member)->increment('sessions_remaining', $package->sessions_number);
+                    DB::table('members')->where('id', $request->member)->increment('remaining_sessions', $package->sessions_number);
+                    DB::table('members')->where('id', $request->member)->increment('remaining_sessions', $package->total_sessions);
                     return redirect()->route('payments.index');
                 }
           

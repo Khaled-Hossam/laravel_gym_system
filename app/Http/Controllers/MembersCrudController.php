@@ -5,34 +5,16 @@ namespace App\Http\Controllers;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
-use App\User;
+use App\Member;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
-use App\Gym;
-use Illuminate\Support\Facades\Auth;
-use App\City;
 
-class GymManagersController extends Controller
+class MembersCrudController extends Controller
 {
-    public function __construct() {
-        // Check if user is allowed to crud the specified manager, Add the city id to the request bdoy
-        $this->middleware(function ($request, $next) {
-            $request['city_id'] = $request->route('user') ?$request->route('user')->city_id:
-                Gym::where('id', $request["gym_id"])->first()->value("city_id");
-                
-            if(!Auth::user()->hasRole('admin')){
-                if (!City::allowedToSeeCities()->get()->contains($request['city_id']))
-                    return abort(403);
-            }
-            return $next($request);
-        })
-            ->only('edit', 'show', 'destroy', 'update', 'store');
-    }
-
     public function getJsonData()
     {
-        return datatables(User::allowedToSeeGymManagers() )->toJson();
+        return datatables(Member::all())->toJson();
     }
     /**
      * Display a listing of the resource.
@@ -41,7 +23,7 @@ class GymManagersController extends Controller
      */
     public function index(Request $request)
     {
-        return view('gym-managers.index');
+        return view('members.index');
     }
 
     /**
@@ -51,8 +33,7 @@ class GymManagersController extends Controller
      */
     public function create()
     {
-        $gyms = Gym::allowedToSeeGyms()->pluck('name', 'id');
-        return view('gym-managers.create', compact('gyms'));
+        return view('members.create');
     }
 
     /**
@@ -66,10 +47,9 @@ class GymManagersController extends Controller
     {
         $this->validate($request, [
             'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users',
-            'national_id' => 'required|string|max:255|unique:users',
+            'email' => 'required|string|email|max:255|unique:members',
+            'national_id' => 'required|string|max:255|unique:members',
             'password' => 'required|string|min:8|confirmed',
-            'gym_id'=>'exists:gyms,id',
             'avatar' => 'file|mimes:jpeg,png'
         ]);
         $requestData = $request->all();
@@ -80,9 +60,9 @@ class GymManagersController extends Controller
                 ->store('uploads', 'public');
         }
 
-        User::create($requestData)->assignRole('gym_manager');
+        Member::create($requestData);
 
-        return redirect('gym-managers')->with('flash_message', 'User added!');
+        return redirect('members')->with('flash_message', 'Member added!');
     }
 
     /**
@@ -92,9 +72,9 @@ class GymManagersController extends Controller
      *
      * @return \Illuminate\View\View
      */
-    public function show(User $user)
+    public function show(Member $member)
     {
-        return view('gym-managers.show', compact('user'));
+        return view('members.show', compact('member'));
     }
 
     /**
@@ -104,10 +84,9 @@ class GymManagersController extends Controller
      *
      * @return \Illuminate\View\View
      */
-    public function edit(User $user)
+    public function edit(Member $member)
     {
-        $gyms = Gym::allowedToSeeGyms()->pluck('name', 'id');
-        return view('gym-managers.edit', compact('user', 'gyms'));
+        return view('members.edit', compact('member'));
     }
 
     /**
@@ -118,34 +97,32 @@ class GymManagersController extends Controller
      *
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
-    public function update(Request $request, User $user)
+    public function update(Request $request, Member $member)
     {
         $this->validate($request, [
             'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users,email,'.$user->id,
-            'national_id' => 'required|string|max:255|unique:users,national_id,'.$user->id,
+            'email' => 'required|string|email|max:255|unique:members,email,'.$member->id,
+            'national_id' => 'required|string|max:255|unique:members,national_id,'.$member->id,
             'password' => 'nullable|string|min:8|confirmed',
-            'gym_id'=>'exists:gyms,id',
             'avatar' => 'file|mimes:jpeg,png'
         ]);
         $requestData = $request->all();
         if (!$request->password) {
-            $requestData['password'] = $user->password;
+            $requestData['password'] = $member->password;
         } else {
-            $requestData['password'] = Hash::make($user->password);
+            $requestData['password'] = Hash::make($member->password);
         }
         if ($request->hasFile('avatar')) {
-            if ($user->avatar) {
-                Storage::disk('public')->delete($user->avatar);
+            if ($member->avatar) {
+                Storage::disk('public')->delete($member->avatar);
             }
             $requestData['avatar'] = $request->file('avatar')
                 ->store('uploads', 'public');
         }
 
-
-        $user->update($requestData);
-
-        return redirect('gym-managers')->with('flash_message', 'User updated!');
+        $member->update($requestData);
+        
+        return redirect('members')->with('flash_message', 'Member updated!');
     }
 
     /**
@@ -155,11 +132,11 @@ class GymManagersController extends Controller
      *
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
-    public function destroy(User $user)
+    public function destroy(Member $member)
     {
-        if ($user->avatar) {
-            Storage::disk('public')->delete($user->avatar);
+        if ($member->avatar) {
+            Storage::disk('public')->delete($member->avatar);
         }
-        $user->delete();
+        $member->delete();
     }
 }

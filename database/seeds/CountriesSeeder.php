@@ -38,6 +38,11 @@ class CountriesSeeder extends Seeder {
                 'flag' =>((isset($country['flag'])) ? $country['flag'] : null),
             ));
         }
+        DB::table(\Config::get('countries.table_name'))->insert(array(
+            'id' => 1,
+            'capital' => 'Cairo',
+            'name' => 'Egypt',
+        ));
     }
     
 }

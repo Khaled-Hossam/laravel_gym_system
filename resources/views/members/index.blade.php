@@ -1,22 +1,28 @@
 @extends('layouts.app')
 
 @section('extra_styles')
-<link rel="stylesheet" href="//cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css"> 
-<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs4/jq-3.3.1/dt-1.10.18/b-1.5.6/datatables.min.css"/>
-@include('partials.datatables_style')
+
+    @include('partials.datatables_style')
+
 @endsection
 
 @section('content')
-@include('partials.modal')
-@include('partials.flash_message')
+    @include('partials.modal')
 
-    <div style="display:none" id="crudName" title="attendance"></div>
+    @if ($message = Session::get('flash_message'))
+    <div class="alert alert-success alert-block">
+        <button type="button" class="close" data-dismiss="alert">×</button>	
+            <strong>{{ $message }}</strong>
+    </div>
+    @endif
+
+    <div style="display:none" id="crudName" title="members"></div>
     <div class="container">
         <div class="row">
             <div class=" col-12">
-                    <div class="card-header">Attendance</div>
+                    <div class="card-header">Members</div>
                     <div class="card-body">
-                        <a href="{{route('attendance.create')}}" class="btn btn-success btn-sm" title="Add New attendance">
+                        <a href="{{ route('members.create') }}" class="btn btn-success btn-sm" title="Add New member">
                             <i class="fa fa-plus" aria-hidden="true"></i> Add New
                         </a>
 
@@ -26,7 +32,7 @@
                             <table class="table table-bordered table-striped" id="dataTable">
                                 <thead>
                                     <tr>
-                                        <th>#</th><th>Member Name</th><th>Session Name</th><th>From</th><th>To</th><th>Attended at</th>
+                                        <th>#</th><th>Name</th><th>Email</th><th>National Id</th><th>Actions</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -43,9 +49,7 @@
 
 
 @section('extra_scripts')
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-<script type="text/javascript" src="https://cdn.datatables.net/v/bs4/jq-3.3.1/dt-1.10.18/b-1.5.6/datatables.min.js"></script>
-<script src = "http://cdn.datatables.net/1.10.18/js/jquery.dataTables.min.js" defer ></script>
+@include('partials.datatables_scripts')
 <script>
 $(document).ready( function () {
   var crudName = $('#crudName').attr('title')
@@ -58,14 +62,17 @@ $(document).ready( function () {
         "dataSrc": "",
         "columns": [
                 {"data":"id"},    
-                {"data":"member.name"}, 
-                {"data":"session.name"},
-                {"data":"session.starts_at"},
-                {"data":"session.finishes_at"},   
-                {"data":"attended_at"}
-                   
+                {"data":"name"},    
+                {"data":"email"},    
+                {"data":"national_id"},    
                        
-                
+                {
+                    mRender: function (data, type, row) {
+                        return '<a class="datatable-link view" href="' + crudName + '/' + row.id + '" data-id="' + row[0] + '"><i class="fa fa-eye" aria-hidden="true"></i> View</button></a>'
+                            + '<a class="datatable-link edit" href="' + crudName + '/' + row.id + '/edit' + '" data-id="' + row[0] + '"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Edit</a>'
+                            + '<a class="datatable-link delete" href="#"  row_id="' + row.id + '" data-toggle="modal" data-target="#DeleteModal" id="delete_toggle"><i class="fa fa-trash-o" aria-hidden="true"></i> Delete</a>'
+                    }     
+                },
             
         ],
         'paging'      : true,

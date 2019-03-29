@@ -46,11 +46,29 @@
         </li>
         @endcan
 
+        <li class="nav-item has-treeview">
+        <a href="{{route('members.index')}}" class="nav-link">
+            <p>
+            Members
+            </p>
+        </a>
+        </li>
+
         @can('crud cities')
         <li class="nav-item has-treeview">
         <a href="{{route('cities.index')}}" class="nav-link">
             <p>
             Cities
+            </p>
+        </a>
+        </li>
+        @endcan
+
+        @can('crud gyms')
+        <li class="nav-item has-treeview">
+        <a href="{{route('gyms.index')}}" class="nav-link">
+            <p>
+            Gyms
             </p>
         </a>
         </li>
@@ -76,16 +94,6 @@
         </li>
         @endcan
 
-        @can('crud gyms')
-        <li class="nav-item has-treeview">
-        <a href="{{route('gyms.index')}}" class="nav-link">
-            <p>
-            Gyms
-            </p>
-        </a>
-        </li>
-        @endcan
-
         @can('crud sessions')
         <li class="nav-item has-treeview">
         <a href="{{route('sessions.index')}}" class="nav-link">
@@ -96,22 +104,15 @@
         </li>
         @endcan
 
-        <li class="nav-item has-treeview">
-        <a href="#" class="nav-link">
-            <p>
-            Members
-            </p>
-        </a>
-        </li>
-
         
         <li class="nav-item has-treeview">
-        <a href="#" class="nav-link">
+        <a href="{{route('attendances.index')}}" class="nav-link">
             <p>
-            Attendance
+            Attendances
             </p>
         </a>
         </li>
+        
         <li class="nav-item has-treeview">
         <a href="{{route('payments.index')}}" class="nav-link">
             <p>

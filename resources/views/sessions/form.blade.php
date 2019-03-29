@@ -5,12 +5,12 @@
 </div>
 <div class="form-group {{ $errors->has('starts_at') ? 'has-error' : ''}}">
     <label for="starts_at" class="control-label">{{ 'Starts At' }}</label>
-    <input class="form-control" name="starts_at" type="datetime-local" id="starts_at" value="{{ isset($session->starts_at) ? $session->starts_at->format('Y-m-d\TH:i:s')  : ''}}" required>
+    <input class="form-control" name="starts_at" type="datetime-local" id="starts_at" value="{{ isset($session->starts_at) ? $session->starts_at->format('Y-m-d\ H:i:s')  : ''}}" required>
     {!! $errors->first('starts_at', '<p class="help-block">:message</p>') !!}
 </div>
 <div class="form-group {{ $errors->has('finishes_at') ? 'has-error' : ''}}">
     <label for="finishes_at" class="control-label">{{ 'Finishes At' }}</label>
-    <input class="form-control" name="finishes_at" type="datetime-local" id="finishes_at" value="{{ isset($session->finishes_at) ? $session->finishes_at->format('Y-m-d\TH:i:s') : ''}}" required>
+    <input class="form-control" name="finishes_at" type="datetime-local" id="finishes_at" value="{{ isset($session->finishes_at) ? $session->finishes_at->format('Y-m-d\ H:i:s') : ''}}" required>
     {!! $errors->first('finishes_at', '<p class="help-block">:message</p>') !!}
 </div>
 <div class="form-group {{ $errors->has('gym_id') ? 'has-error' : ''}}">

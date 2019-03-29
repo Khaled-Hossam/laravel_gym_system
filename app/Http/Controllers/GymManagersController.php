@@ -15,15 +15,17 @@ use App\City;
 
 class GymManagersController extends Controller
 {
-    public function __construct() {
+    public function __construct()
+    {
         // Check if user is allowed to crud the specified manager, Add the city id to the request bdoy
         $this->middleware(function ($request, $next) {
             $request['city_id'] = $request->route('user') ?$request->route('user')->city_id:
                 Gym::where('id', $request["gym_id"])->first()->value("city_id");
                 
-            if(!Auth::user()->hasRole('admin')){
-                if (!City::allowedToSeeCities()->get()->contains($request['city_id']))
+            if (!Auth::user()->hasRole('admin')) {
+                if (!City::allowedToSeeCities()->get()->contains($request['city_id'])) {
                     return abort(403);
+                }
             }
             return $next($request);
         })
@@ -32,7 +34,7 @@ class GymManagersController extends Controller
 
     public function getJsonData()
     {
-        return datatables(User::allowedToSeeGymManagers() )->toJson();
+        return datatables(User::allowedToSeeGymManagers())->toJson();
     }
     /**
      * Display a listing of the resource.
@@ -161,5 +163,16 @@ class GymManagersController extends Controller
             Storage::disk('public')->delete($user->avatar);
         }
         $user->delete();
+    }
+
+
+    public function banUser(User $user)
+    {
+        if ($user->isBanned()) {
+            $user->unban();
+        } else {
+            $user->ban();
+        }
+        return back();
     }
 }

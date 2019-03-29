@@ -59,9 +59,9 @@ $(document).ready( function () {
         "columns": [
                 {"data":"id"},    
                 {"data":"name"},    
-                {"data":"city.name"},    
+                {"data":"created_at"},    
                 {"data":"creator.name"},    
-                       
+                
                 {
                     mRender: function (data, type, row) {
                         return '<a class="datatable-link view" href="' + crudName + '/' + row.id + '" data-id="' + row[0] + '"><i class="fa fa-eye" aria-hidden="true"></i> View</button></a>'

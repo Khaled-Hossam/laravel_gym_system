@@ -21,7 +21,7 @@ class GymsController extends Controller
             else
                 $city_id = $request->city_id;
 
-            if (!Gym::allowedToSeeGyms()->get()->contains($city_id))
+            if (!Gym::allowedToSeeGyms()->get()->contains('city_id', $city_id))
                 return abort(403);
 
             return $next($request);

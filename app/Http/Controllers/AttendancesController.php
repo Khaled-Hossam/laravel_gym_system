@@ -3,95 +3,25 @@
 namespace App\Http\Controllers;
 
 use App\Attendance;
-use App\Session;
-use Illuminate\Http\Request;
-
 use Illuminate\Support\Facades\Auth;
+
 class AttendancesController extends Controller
 {
-    public function getJsonData(){
-        return datatables( Attendance::with('member','session.gym') )->toJson();
+    public function getJsonData()
+    {
+        $attendances = Attendance::with('member','session.gym')->whereHas(
+            'session.gym', function($query){
+                if(Auth::user()->hasRole('city_manager'))
+                    $query->where('city_id', Auth::user()->city_id);
+                if(Auth::user()->hasRole('gym_manager'))
+                    $query->where('gym_id', Auth::user()->gym_id);
+            })->get();
+
+        return datatables($attendances)->toJson();
     }
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\View\View
-     */
-    
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function index()
     {
-        //
         return view('attendances.index');
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\atttendance  $atttendance
-     * @return \Illuminate\Http\Response
-     */
-    public function show(atttendance $atttendance)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\atttendance  $atttendance
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(atttendance $atttendance)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\atttendance  $atttendance
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, atttendance $atttendance)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\atttendance  $atttendance
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(atttendance $atttendance)
-    {
-        //
     }
 }

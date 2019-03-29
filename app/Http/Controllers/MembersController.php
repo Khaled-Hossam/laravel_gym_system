@@ -191,15 +191,14 @@ class MembersController extends Controller
         $member->remaining_sessions--;
         $member->save();
 
+
         // Create a new attendance record
         $attendance = Attendance::create([
             'session_id' => $session->id,
             'member_id' => $member->id,
-            'attendance_date'=>Carbon::now()->toDateString(),
-            'attendance_time'=>Carbon::now()->toTimeString()
+            'attended_at'=>Carbon::now()->toDateTimeString(),
         ]);
 
-        dd($attendance);
 
         // return success
         return response()->json([
@@ -207,7 +206,8 @@ class MembersController extends Controller
             'message' => 'Member attended session',
             'data' => [
                 'session' => $session,
-                'remaining' => $member->remaining_sessions,
+                'attended_at' => $attendance->attended_at,
+                'remaining-sessions' => $member->remaining_sessions,
             ]
         ], 200);
     }

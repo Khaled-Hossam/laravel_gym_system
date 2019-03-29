@@ -22,7 +22,7 @@ class CreateAttendancesTable extends Migration
             $table->unsignedBigInteger('member_id');
             $table->foreign('member_id')->references('id')->on('members');
            
-            $table->time('attended_at');
+            $table->timestamp('attended_at');
             
             $table->timestamps();
         });

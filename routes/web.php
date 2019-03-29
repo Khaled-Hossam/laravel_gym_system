@@ -58,17 +58,18 @@ Route::group(['middleware' => 'auth'], function () {
     
 });
 
-Route::get('revenues/get-json-data', 'PackagePurshaseController@getJsonData');
-Route::resource('revenues', 'PackagePurshaseController');
+
+
 
 
         
-    Route::group(['middleware' => ['role:admin|city_manager|gym_manager']], function () {
-        Route::get('coaches/get-json-data', 'CoachesController@getJsonData');
-        Route::get('sessions/get-json-data', 'SessionsController@getJsonData');
-        Route::resource('sessions', 'SessionsController');
-        Route::resource('payments', 'PaymentController');
-        Route::resource('coaches', 'CoachesController');
-        Route::resource('revenues', 'PackagePurshaseController');
-    });
+Route::group(['middleware' => ['role:admin|city_manager|gym_manager']], function () {
+    Route::get('coaches/get-json-data', 'CoachesController@getJsonData');
+    Route::get('sessions/get-json-data', 'SessionsController@getJsonData');
+    Route::resource('sessions', 'SessionsController');
+    Route::resource('payments', 'PaymentController');
+    Route::resource('coaches', 'CoachesController');
+    Route::get('revenues/get-json-data', 'PackagePurshaseController@getJsonData');
+    Route::resource('revenues', 'PackagePurshaseController');
 });
+

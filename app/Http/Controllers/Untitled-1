@@ -1,0 +1,74 @@
+with(['Member' => function($query){$query->where('id', '=', 1);}])
+ if(Auth::user()->city_id)
+        {
+            //return datatables(  GymPackagePurshase::with('Member')->with(['Gym.city'=> function($query){$query->where('id', '=', Auth::user()->city_id);}])->with('Package')->where('id', '>', 1) )->toJson();
+        }else if(Auth::user()->gym_id)
+        {
+            //return datatables(  GymPackagePurshase::with('Member')->with(['Gym.city'=> function($query){$query->where('id', '=', 3);}])->with('Package')->where('id', '>', 1) )->toJson();  
+        }else{
+
+
+
+return datatables(  Gym::with('GymPackagePurshases')->where('city_id','=',Auth::user()->city_id)->with('Member') )->toJson();
+return datatables(  GymPackagePurshase::with('Member')->where("gym_id","=",Auth::user()->gym_id) )->toJson();   
+if(Auth::user()->hasRole('gym_manager'))
+         {  
+            $result= DB::table('gym_package_purshases')->join('gyms', 'gyms.id', '=', 'gym_package_purshases.gym_id')->join('members', 'members.id', '=', 'gym_package_purshases.member_id')->where('gym_id','=',Auth::user()->gym_id);
+         }
+        else if(Auth::user()->hasRole('city_manager'))
+        {
+            $result=DB::table('gym_package_purshases')->join('gyms', 'gyms.id', '=', 'gym_package_purshases.gym_id')->where('city_id','=',Auth::user()->city_id);
+
+        }else{
+            
+            $result=DB::table('gym_package_purshases')->join('gyms', 'gyms.id', '=', 'gym_package_purshases.gym_id')->join('members', 'members.id', '=', 'gym_package_purshases.member_id');
+        }
+
+
+
+
+
+        $this->validate($request, [
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:members',
+            'national_id' => 'required|string|max:255|unique:members',
+            'password' => 'required|string|min:8|confirmed',
+            'avatar' => 'file|mimes:jpeg,png'
+        ]);
+
+
+
+
+        $this->validate($request, [
+			'name' => 'required|max:80',
+			'sessions_number' => 'required|integer',
+			'price' => 'required|numeric'
+		]);
+
+
+
+
+         $this->validate($request, [
+			'name' => 'required|max:80',
+			'sessions_number' => 'required|integer',
+			'price' => 'required|numeric'
+		]);         
+          $this->validate($request, [
+			'name' => 'required|max:80|unique:sessions,name,'.$$session->id,
+			'starts_at' => 'required',
+            'finishes_at' => 'required',
+            'gym_id'=> 'required|exists:gyms,id',
+        ]);
+
+
+
+         $this->validate($request, [
+			'name' => 'required|max:80|unique:sessions',
+			'starts_at' => 'required',
+            'finishes_at' => 'required',
+            'gym_id'=>'required|exists:gyms,id',
+		]);
+                $this->validate($request, [
+            'name' => 'required|string|max:180',
+            'city_id' => 'exists:cities,id'
+        ]);

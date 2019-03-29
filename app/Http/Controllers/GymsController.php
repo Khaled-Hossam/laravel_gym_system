@@ -4,7 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
-
+use App\Http\Requests\gym\StoreGymRequest;
+use App\Http\Requests\gym\UpdateGymRequest;
 use App\Gym;
 use App\City;
 use Illuminate\Support\Facades\Auth;
@@ -62,13 +63,9 @@ class GymsController extends Controller
      *
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
-    public function store(Request $request)
+    public function store(StoreGymRequest $request)
     {
-        $this->validate($request, [
-            'name' => 'required|string|max:180',
-            'city_id' => 'exists:cities,id',
-            'cover_image' => 'required|file|mimes:jpeg,png',
-        ]);
+        
         $request['creator_id'] = Auth::user()->id;
         $requestData = $request->all();
 
@@ -115,12 +112,9 @@ class GymsController extends Controller
      *
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
-    public function update(Request $request, Gym $gym)
+    public function update(UpdateGymRequest $request, Gym $gym)
     {
-        $this->validate($request, [
-            'name' => 'required|string|max:180',
-            'city_id' => 'exists:cities,id'
-        ]);
+
         $request['creator_id'] = Auth::user()->id;
         $requestData = $request->all();
         if ($request->hasFile('cover_image')) {

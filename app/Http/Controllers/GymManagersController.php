@@ -11,20 +11,23 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 use App\Gym;
 use Illuminate\Support\Facades\Auth;
+use App\City;
 
 class GymManagersController extends Controller
 {
     public function __construct() {
+        // Check if user is allowed to crud the specified manager, Add the city id to the request bdoy
         $this->middleware(function ($request, $next) {
-            $is_admin      = Auth::user()->hasRole('admin');
-            $is_same_city  = Auth::user()->city_id == $request->route('user')->city_id;
-
-            if(!$is_admin && !$is_same_city)
-                return abort(403);
-        
+            $request['city_id'] = $request->route('user') ?$request->route('user')->city_id:
+                Gym::where('id', $request["gym_id"])->first()->value("city_id");
+                
+            if(!Auth::user()->hasRole('admin')){
+                if (!City::allowedToSeeCities()->get()->contains($request['city_id']))
+                    return abort(403);
+            }
             return $next($request);
         })
-        ->only('edit','show','destroy','update');
+            ->only('edit', 'show', 'destroy', 'update', 'store');
     }
 
     public function getJsonData()
@@ -70,7 +73,6 @@ class GymManagersController extends Controller
             'avatar' => 'file|mimes:jpeg,png'
         ]);
         $requestData = $request->all();
-        $requestData['city_id']  = Auth::user()->city_id;
         $requestData['password'] = Hash::make($request->password);
     
         if ($request->hasFile('avatar')) {

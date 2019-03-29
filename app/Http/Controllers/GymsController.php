@@ -10,6 +10,7 @@ use App\Gym;
 use App\City;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
+use App\Session;
 
 class GymsController extends Controller
 {
@@ -23,13 +24,11 @@ class GymsController extends Controller
                 $city_id = $request->city_id;
             }
 
-            if (!Gym::allowedToSeeGyms()->get()->contains($city_id)) {
+            if (!Gym::allowedToSeeGyms()->get()->contains('city_id', $city_id))
                 return abort(403);
-            }
 
             return $next($request);
-        })
-            ->only('edit', 'show', 'destroy', 'update', 'store');
+        })->only('edit', 'show', 'destroy', 'update', 'store');
     }
 
     public function getJsonData()
@@ -137,6 +136,11 @@ class GymsController extends Controller
      */
     public function destroy(Gym $gym)
     {
-        $gym->delete();
+        $sessions = Session::where('gym_id', $gym->id)->first();
+        if ($sessions) {
+            return abort(500, "can't delete this gym because it contains traning sessions");
+        } else {
+            $gym->delete();
+        }
     }
 }

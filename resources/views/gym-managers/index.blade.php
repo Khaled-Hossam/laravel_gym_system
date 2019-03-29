@@ -65,13 +65,18 @@ $(document).ready( function () {
                 {"data":"name"},    
                 {"data":"email"},    
                 {"data":"national_id"},    
-                {"data":"gym_id"},    
-                       
+                {"data":"gym_id"},      
                 {
                     mRender: function (data, type, row) {
+                        var status = 'ban';
+                        if(row.banned_at)
+                            status = 'unban';
+
                         return '<a class="datatable-link view" href="/' + crudName + '/' + row.id + '" data-id="' + row[0] + '"><i class="fa fa-eye" aria-hidden="true"></i> View</button></a>'
                             + '<a class="datatable-link edit" href="/' + crudName + '/' + row.id + '/edit' + '" data-id="' + row[0] + '"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Edit</a>'
                             + '<a class="datatable-link delete" href="#"  row_id="' + row.id + '" data-toggle="modal" data-target="#DeleteModal" id="delete_toggle"><i class="fa fa-trash-o" aria-hidden="true"></i> Delete</a>'
+                            + '<a class="datatable-link delete" href="/' + crudName + '/' + row.id + '/ban' + '" data-id="' + row[0] + '"><i class="fa fa-ban" aria-hidden="true"></i>'+status +'</a>'
+
                     }     
                 },
             

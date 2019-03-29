@@ -11,26 +11,31 @@ use Illuminate\Http\Request;
 use App\Gym;
 use App\Coach;
 use Illuminate\Support\Facades\Auth;
+
 class SessionsController extends Controller
 {
-    public function __construct() {
+    public function __construct()
+    {
         // check if user is allowed to curd
         $this->middleware(function ($request, $next) {
-            if($request->route('session') !=null)
+            if ($request->route('session') !=null) {
                 $gym_id = $request->route('session')->gym_id;
-            else
+            } else {
                 $gym_id = $request->gym_id;
+            }
 
-            if(!Gym::allowedToSeeGyms()->get()->contains('id',$gym_id))
+            if (!Gym::allowedToSeeGyms()->get()->contains($gym_id)) {
                 return abort(403);
+            }
             
             return $next($request);
         })
-        ->only('edit','show','destroy','update','store');
+        ->only('edit', 'show', 'destroy', 'update', 'store');
     }
 
-    public function getJsonData(){
-        return datatables( Session::with('gym') )->toJson();
+    public function getJsonData()
+    {
+        return datatables(Session::with('gym'))->toJson();
     }
     /**
      * Display a listing of the resource.
@@ -38,7 +43,7 @@ class SessionsController extends Controller
      * @return \Illuminate\View\View
      */
     public function index(Request $request)
-    {        
+    {
         return view('sessions.index');
     }
 
@@ -49,10 +54,12 @@ class SessionsController extends Controller
      */
     public function create()
     {
-        $gyms = Gym::allowedToSeeGyms()->pluck('name', 'id');;
-        $coaches = Coach::pluck('name', 'id');;
+        $gyms = Gym::allowedToSeeGyms()->pluck('name', 'id');
+        ;
+        $coaches = Coach::pluck('name', 'id');
+        ;
 
-        return view('sessions.create', compact('gyms','coaches'));
+        return view('sessions.create', compact('gyms', 'coaches'));
     }
 
     /**
@@ -96,7 +103,7 @@ class SessionsController extends Controller
         $gyms    = Gym::allowedToSeeGyms()->pluck('name', 'id');
         $coaches = Coach::pluck('name', 'id');
 
-        return view('sessions.edit', compact('session','gyms','coaches'));
+        return view('sessions.edit', compact('session', 'gyms', 'coaches'));
     }
 
     /**

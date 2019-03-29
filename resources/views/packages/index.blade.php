@@ -27,7 +27,7 @@
                             <table class="table table-bordered table-striped" id="dataTable">
                                 <thead>
                                     <tr>
-                                        <th>#</th><th>Name</th><th>Sessions Number</th><th>Price</th><th>Actions</th>
+                                        <th>#</th><th>Name</th><th>Sessions Number</th><th>Price $</th><th>Actions</th>
                                     </tr>
                                 </thead>
                                 <tbody>

@@ -14,4 +14,18 @@ class GymPackagePurshase extends Model
         'bought_price',
     ];
     public $timestamps = false;
+
+
+    public function Member()
+    {
+          return $this->belongsTo('App\Member');
+    }
+    public function Package()
+    {
+        return $this->belongsTo('App\Package');
+    }
+    public function Gym()
+    {
+        return $this->belongsTo('App\Gym');
+    }
 }

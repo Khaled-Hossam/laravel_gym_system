@@ -44,13 +44,13 @@ class PaymentController extends Controller
                     'currency' => 'usd',
                     'description' => 'buy package '.$package->name. ' has '. $package->sessions_number.' with '.number_format($package->price/100,2).' for member '.$member->email ." at ".date("M,d,Y h:i:s A"),
                     'source' => $token,
-                    'metadata' => ['order_id' => 7777,'customer_id' => 7777],
+                    
                 ]);
                 if($charge["status"]="succeeded")
                 {
                     GymPackagePurshase::create(['member_id' => $request->member,'package_id' =>$request->package_id,'gym_id'=>$request->gym_id,'bought_price'=>$package->price]);
                     DB::table('members')->where('id', $request->member)->increment('remaining_sessions', $package->sessions_number);
-                    DB::table('members')->where('id', $request->member)->increment('remaining_sessions', $package->total_sessions);
+                    DB::table('members')->where('id', $request->member)->increment('total_sessions', $package->sessions_number);
                     return redirect()->route('payments.index');
                 }
           

@@ -60,4 +60,5 @@ class Gym extends Model
     {
         return Carbon::parse($value)->toDateString();
     }
+    
 }

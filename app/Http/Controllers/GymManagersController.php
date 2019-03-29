@@ -4,13 +4,15 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
-
-use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
-use App\Gym;
 use Illuminate\Support\Facades\Auth;
+
+use App\Http\Requests\gymmanager\StoreGymManagerRequest;
+use App\Http\Requests\citymanager\UpdateCityManagerRequest;
+use App\User;
+use App\Gym;
 use App\City;
 
 class GymManagersController extends Controller
@@ -64,16 +66,8 @@ class GymManagersController extends Controller
      *
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
-    public function store(Request $request)
+    public function store(StoreGymManagerRequest $request)
     {
-        $this->validate($request, [
-            'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users',
-            'national_id' => 'required|string|max:255|unique:users',
-            'password' => 'required|string|min:8|confirmed',
-            'gym_id'=>'exists:gyms,id',
-            'avatar' => 'file|mimes:jpeg,png'
-        ]);
         $requestData = $request->all();
         $requestData['password'] = Hash::make($request->password);
     
@@ -120,16 +114,9 @@ class GymManagersController extends Controller
      *
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
-    public function update(Request $request, User $user)
+    public function update(UpdateCityManagerRequest $request, User $user)
     {
-        $this->validate($request, [
-            'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users,email,'.$user->id,
-            'national_id' => 'required|string|max:255|unique:users,national_id,'.$user->id,
-            'password' => 'nullable|string|min:8|confirmed',
-            'gym_id'=>'exists:gyms,id',
-            'avatar' => 'file|mimes:jpeg,png'
-        ]);
+        
         $requestData = $request->all();
         if (!$request->password) {
             $requestData['password'] = $user->password;

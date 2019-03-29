@@ -26,7 +26,7 @@
             <label for="Package">Package</label>
             <select class="form-control" name="package_id" id="package">
                 @foreach($packages as $package)
-                    <option value="{{$package->id}}" price="{{$package->price}}">{{$package->name}} has {{$package->sessions_number}} with {{number_format($package->price/100,2)}} dollar</option>
+                    <option value="{{$package->id}}" price="{{$package->price}}">{{$package->name}} has {{$package->sessions_number}} session  with {{number_format($package->price/100,2)}} dollar</option>
                 @endforeach
             </select>
         </div>

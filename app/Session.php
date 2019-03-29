@@ -27,7 +27,7 @@ class Session extends Model
      */
     protected $fillable = ['name', 'starts_at', 'finishes_at', 'gym_id'];
     public $timestamps = false;	
-
+    protected $dates = ['finishes_at','starts_at'];
     public function gym()
     {
         return $this->belongsTo('App\Gym');

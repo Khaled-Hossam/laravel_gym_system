@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
-
+use App\Http\Requests\gym\StoreGymRequest;
 use App\Gym;
 use App\City;
 use Illuminate\Support\Facades\Auth;
@@ -63,13 +63,9 @@ class GymsController extends Controller
      *
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
-    public function store(Request $request)
+    public function store(StoreGymRequest $request)
     {
-        $this->validate($request, [
-            'name' => 'required|string|max:180',
-            'city_id' => 'exists:cities,id',
-            'cover_image' => 'required|file|mimes:jpeg,png',
-        ]);
+        
         $request['creator_id'] = Auth::user()->id;
         $requestData = $request->all();
 

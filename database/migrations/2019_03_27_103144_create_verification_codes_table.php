@@ -17,7 +17,7 @@ class CreateVerificationCodesTable extends Migration
             $table->bigIncrements('id');
             $table->string('code');
             $table->unsignedBigInteger('member_id');
-            $table->foreign('member_id')->references('id')->on('members');
+            $table->foreign('member_id')->references('id')->on('members')->onDelete('cascade');
             $table->timestamps();
         });
     }

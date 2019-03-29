@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Requests\MemberRegisterRequest;
+use Illuminate\Support\Facades\Storage;
+
 use App\Http\Requests\AttendSessionRequest;
 use App\Member;
 use App\Session;
@@ -11,7 +13,10 @@ use Mail;
 use App\VerificationCode;
 use Illuminate\Support\Carbon;
 use App\Attendance;
+use App\Rules\Test;
+use Carbon\CarbonPeriod;
 
+// update photo 
 
 
 class MembersController extends Controller
@@ -19,8 +24,6 @@ class MembersController extends Controller
 
     public function register(MemberRegisterRequest $request)
     {
-
-
         $member = Member::create([
             'name' => $request->name,
             'email' => $request->email,
@@ -28,13 +31,21 @@ class MembersController extends Controller
             'date_of_birth' => $request->date_of_birth,
             'gender' => $request->gender,
         ]);
+        // Storage::disk('public')->url(Auth::user()->avatar);
+
+        if ($request->hasFile('avatar')) {
+            $member->avatar = $request->file('avatar')->store('members', 'public');
+            $member->save();
+        }
+
+
         $this->send_verification_email($member);
 
         return response()->json([
             'success' => true,
             'message' => 'Member created successfully',
             'descritption' => 'Please follow the email we have sent you to complete your registration',
-            'data' => $request->all()
+            'data' => $member
         ], 201);
     }
 
@@ -82,7 +93,10 @@ class MembersController extends Controller
     public function member(Request $request)
     {
         return response()->json([
-            'member' => auth('api')->user(),
+            'data' => [
+                'member' => auth('api')->user(),
+                'avatar' => Storage::disk('public')->url(auth('api')->user()->avatar)
+            ]
         ]);
     }
 
@@ -96,6 +110,9 @@ class MembersController extends Controller
         $member->save();
         return response()->json(['member' => $member]);
     }
+
+
+
     protected function send_verification_email($member)
     {
         // making sure that the random code is unique
@@ -116,8 +133,8 @@ class MembersController extends Controller
             'email.verify',
             ['name' => $member->name, 'code' => $code],
             function ($mail) use ($email, $name, $subject) {
-                // $mail->from(getenv('MAIL_USERNAME'), "laragymvel@gmail.com");
-                $mail->from(getenv('FROM_EMAIL_ADDRESS'), "laragymvel@gmail.com");
+                $mail->from(getenv('MAIL_USERNAME'));
+                // $mail->from(getenv('FROM_EMAIL_ADDRESS'), "laragymvel@gmail.com");
                 $mail->to($email, $name);
                 $mail->subject($subject);
             }
@@ -132,9 +149,13 @@ class MembersController extends Controller
             $member->verified = true;
             $member->save();
             $verification_code->delete();
-            dd($member);
+            return ('<h1>Glad to see you get verified brothah</h1><p>you can now use POSTMAN for some action </p>');
         }
+        return ('<h1>Oops something went wrong </h1>');
     }
+
+
+
     public function attend($session_id)
     {
         // checks to see if session exists
@@ -145,7 +166,16 @@ class MembersController extends Controller
             ], 404);
         }
 
-        // checking to see if the member can attend the session
+        // checks to see if the  attending time is in session time
+        if( !Carbon::now()->between(
+            new Carbon($session->starts_at),
+            new Carbon($session->finishes_at)))
+            return response()->json([
+                'success'=>false,
+                'message'=> 'Sorry you can not attend at the current time'
+            ],403);
+        
+        
         $member = auth('api')->user();
         if (!$member->remaining_sessions) {
             return response()->json([
@@ -155,22 +185,29 @@ class MembersController extends Controller
         }
 
 
+
+
         // Passes all validations and attend the session
         $member->remaining_sessions--;
         $member->save();
 
 
-        Attendance::create([
+        // Create a new attendance record
+        $attendance = Attendance::create([
             'session_id' => $session->id,
-            'member_id' => $member->id
+            'member_id' => $member->id,
+            'attended_at'=>Carbon::now()->toDateTimeString(),
         ]);
 
+
+        // return success
         return response()->json([
             'success' => true,
             'message' => 'Member attended session',
             'data' => [
                 'session' => $session,
-                'remaining' => $member->remaining_sessions,
+                'attended_at' => $attendance->attended_at,
+                'remaining-sessions' => $member->remaining_sessions,
             ]
         ], 200);
     }
@@ -186,11 +223,19 @@ class MembersController extends Controller
 
     public function test(Request $request)
     {
-        $requestData = $request->all();
-        // dd($requestData);
+        // dd(env('APP_URL').'/storage');
+        // Storage::disk('public')->url();
+        // dd(Storage::disk('public')->url('members/WiuLDyjoy4SDdO0uwvlcLhBDHK3ZFeBfg3nUjkVg.jpeg'));
 
-        if ($request->hasFile('cover_image')) {
-            $requestData['cover_image'] = $request->file('cover_image')
+        // $avatar = ($request->hasFile('avatar'))? $request->file('avatar')->store('uploads', 'public'):'uploads/members/default.jpeg';
+
+        // dd(public_path()->url());
+
+        // dd($request);
+        $requestData = $request->all();
+
+        if ($request->hasFile('avatar')) {
+            $requestData['avatar'] = $request->file('avatar')
                 ->store('uploads', 'public');
         }
     }
@@ -205,5 +250,11 @@ class MembersController extends Controller
 
             return back()->with(' success  ', 'Image Upload successfully');
         }
+    }
+
+    public function attendance()
+    {
+        $member = auth('api')->user();
+        return response()->json($member->attendance);
     }
 }

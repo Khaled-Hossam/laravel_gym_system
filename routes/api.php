@@ -30,5 +30,5 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::get('sessions', 'MembersController@sessions');
     Route::get('sessions/{session_id}/attend', 'MembersController@attend');
     Route::get('remaining_sessions', 'MembersController@remaining_sessions');
-    // Route::get('attend', 'ProductController@attend');
+    Route::get('attendance', 'MembersController@attendance');
 });

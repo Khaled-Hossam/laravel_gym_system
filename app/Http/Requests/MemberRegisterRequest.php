@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Rules\test;
 use Illuminate\Foundation\Http\FormRequest;
 
 class MemberRegisterRequest extends FormRequest
@@ -27,7 +28,7 @@ class MemberRegisterRequest extends FormRequest
             'name' => 'required|string',
             'email' => 'required|email|unique:members',
             'password' => 'required|string|min:6|max:18',
-            'avatar' =>  'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'avatar' =>  'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ];
     }
 }

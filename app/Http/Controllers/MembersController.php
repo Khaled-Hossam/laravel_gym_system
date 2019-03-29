@@ -107,6 +107,12 @@ class MembersController extends Controller
         $member->name = $request->name;
         $member->date_of_birth = $request->date_of_birth;
         $member->gender = $request->gender;
+
+        if ($request->hasFile('avatar')) {
+            Storage::delete('public/'.$member->avatar);
+            $member->avatar = $request->file('avatar')->store('members', 'public');
+        }
+
         $member->save();
         return response()->json(['member' => $member]);
     }
@@ -134,9 +140,8 @@ class MembersController extends Controller
             ['name' => $member->name, 'code' => $code],
             function ($mail) use ($email, $name, $subject) {
                 $mail->from(getenv('MAIL_USERNAME'));
-                // $mail->from(getenv('FROM_EMAIL_ADDRESS'), "laragymvel@gmail.com");
                 $mail->to($email, $name);
-                $mail->subject($subject);
+                $mail->subject($subject);       
             }
         );
     }

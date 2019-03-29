@@ -16,7 +16,7 @@
                         <a href="{{ route('members.edit', $member->id) }}" title="Edit member"><button class="btn btn-primary btn-sm"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Edit</button></a>
 
                         <a class="datatable-link delete" href="#"  row_id="{{$member->id}}" data-toggle="modal" data-target="#DeleteModal" id="delete_toggle"><button class="btn btn-danger btn-sm"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Delete</button></a>
-                          
+                        
                         <br/>
                         <br/>
 
@@ -26,7 +26,7 @@
                                     <tr>
                                         <th>ID</th><td>{{ $member->id }}</td>
                                     </tr>
-                                    <tr><th> Name </th><td> {{ $member->name }} </td></tr><tr><th> Email </th><td> {{ $member->email }} </td></tr><tr><th> National Id </th><td> {{ $member->national_id }} </td></tr><tr><th> Avatar </th><td> {{ $member->avatar }} </td></tr><tr><th> Gym Id </th><td> {{ $member->gym_id }} </td></tr>
+                                    <tr><th> Name </th><td> {{ $member->name }} </td></tr><tr><th> Email </th><td> {{ $member->email }} </td></tr><tr><th> National Id </th><td> {{ $member->national_id }} </td></tr>
                                 </tbody>
                             </table>
                         </div>

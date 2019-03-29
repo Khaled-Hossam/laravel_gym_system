@@ -10,23 +10,17 @@
 @include('partials.modal')
 @include('partials.flash_message')
 
-    <div style="display:none" id="crudName" title="attendance"></div>
+    <div style="display:none" id="crudName" title="attendances"></div>
     <div class="container">
         <div class="row">
             <div class=" col-12">
                     <div class="card-header">Attendance</div>
                     <div class="card-body">
-                        <a href="{{route('attendance.create')}}" class="btn btn-success btn-sm" title="Add New attendance">
-                            <i class="fa fa-plus" aria-hidden="true"></i> Add New
-                        </a>
-
-                        <br/>
-                        <br/>
                         <div >
                             <table class="table table-bordered table-striped" id="dataTable">
                                 <thead>
                                     <tr>
-                                        <th>#</th><th>Member Name</th><th>Session Name</th><th>From</th><th>To</th><th>Attended at</th>
+                                        <th>#</th><th>Member</th><th>Name</th><th>Gym</th><th>From</th><th>To</th><th>Attended at</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -60,6 +54,7 @@ $(document).ready( function () {
                 {"data":"id"},    
                 {"data":"member.name"}, 
                 {"data":"session.name"},
+                {"data":"session.gym.name"},
                 {"data":"session.starts_at"},
                 {"data":"session.finishes_at"},   
                 {"data":"attended_at"}

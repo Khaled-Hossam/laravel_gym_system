@@ -35,8 +35,8 @@ Route::group(['middleware' => ['role:admin']], function () {
 });
 
 Route::group(['middleware' => ['role:admin|city_manager']], function () {
-    Route::get('attendance/get-json-data', 'AttendanceController@getJsonData');
-    Route::resource('attendance', 'AttendanceController');
+    Route::get('attendances/get-json-data', 'AttendancesController@getJsonData');
+    Route::get('attendances', 'AttendancesController@index')->name('attendances.index');
     Route::get('gym-managers/get-json-data', 'GymManagersController@getJsonData');
     Route::resource('gym-managers', 'GymManagersController', ['parameters' => [
         'gym-managers' => 'user'

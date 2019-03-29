@@ -7,11 +7,10 @@ use App\Session;
 use Illuminate\Http\Request;
 
 use Illuminate\Support\Facades\Auth;
-class AttendanceController extends Controller
+class AttendancesController extends Controller
 {
     public function getJsonData(){
-        
-        return datatables( Attendance::with('member','session') )->toJson();
+        return datatables( Attendance::with('member','session.gym') )->toJson();
     }
     /**
      * Display a listing of the resource.
@@ -27,7 +26,7 @@ class AttendanceController extends Controller
     public function index()
     {
         //
-        return view('attendance.index');
+        return view('attendances.index');
     }
 
     /**

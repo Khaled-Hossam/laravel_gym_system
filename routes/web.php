@@ -60,6 +60,10 @@ Route::group(['middleware' => ['role:admin|city_manager|gym_manager']], function
     Route::resource('sessions', 'SessionsController');
     Route::resource('payments', 'PaymentController');
     Route::resource('coaches', 'CoachesController');
-    Route::resource('revenues', 'PackagePurshaseController');
+
+    
 });
+
+Route::get('revenues/get-json-data', 'PackagePurshaseController@getJsonData');
+Route::resource('revenues', 'PackagePurshaseController');
 

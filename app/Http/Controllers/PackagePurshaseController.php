@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\GymPackagePurshase;
 use Illuminate\Http\Request;
 
-class GymPackagePurshaseController extends Controller
+class PackagePurshaseController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,7 +14,7 @@ class GymPackagePurshaseController extends Controller
      */
     public function index()
     {
-        //
+        
     }
 
     /**

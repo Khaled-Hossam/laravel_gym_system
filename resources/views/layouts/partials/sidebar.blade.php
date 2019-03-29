@@ -121,7 +121,7 @@
         </a>
         </li>
         <li class="nav-item has-treeview">
-        <a href="#" class="nav-link">
+        <a href="{{route('revenues.index')}}" class="nav-link">
             <p>
             Revenue​ 
             </p>

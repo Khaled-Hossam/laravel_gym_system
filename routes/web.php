@@ -73,4 +73,3 @@ Route::resource('revenues', 'PackagePurshaseController');
         Route::resource('coaches', 'CoachesController');
         Route::resource('revenues', 'PackagePurshaseController');
     });
-});

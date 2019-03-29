@@ -16,6 +16,9 @@ use App\Attendance;
 use App\Rules\Test;
 use Carbon\CarbonPeriod;
 use App\Notifications\GreetNotification;
+use App\Http\Resources\AttendanceResource;
+
+use Illuminate\Support\Facades\Auth;
 // update photo 
 
 
@@ -260,7 +263,6 @@ class MembersController extends Controller
 
     public function attendance()
     {
-        $member = auth('api')->user();
-        return response()->json($member->attendance);
+        return AttendanceResource::collection(Auth::user()->attendance);
     }
 }

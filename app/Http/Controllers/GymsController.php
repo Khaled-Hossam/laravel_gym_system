@@ -9,6 +9,7 @@ use App\Gym;
 use App\City;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
+use App\Session;
 
 class GymsController extends Controller
 {
@@ -143,6 +144,11 @@ class GymsController extends Controller
      */
     public function destroy(Gym $gym)
     {
-        $gym->delete();
+        $sessions = Session::where('gym_id', $gym->id)->first();
+        if ($sessions) {
+            return abort(500, "can't delete this gym because it contains traning sessions");
+        } else {
+            $gym->delete();
+        }
     }
 }

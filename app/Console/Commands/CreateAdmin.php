@@ -70,7 +70,7 @@ class CreateAdmin extends Command
             'name' => 'Admin',
             'email' => $email,
             'password' => Hash::make($password),
-        ]);
+        ])->assignRole('admin');
         
         $this->info('Admin Account created.');
         

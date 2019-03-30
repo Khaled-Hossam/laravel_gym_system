@@ -35,9 +35,9 @@ Route::group(['middleware' => 'auth'], function () {
         Route::resource('members', 'MembersCrudController');
     });
 
-    Route::group(['middleware' => ['role:admin|city_manager']], function () {
-        Route::get('gym-managers/get-json-data', 'GymManagersController@getJsonData');
-        Route::get('gym-managers/{user}/ban', 'GymManagersController@banUser');
+    Route::group(['middleware' => ['role:admin|city_manager'] , 'namespace' => 'GymManagers'], function () {
+        Route::get('gym-managers/data-tables', 'GymManagersDataTablesController@index');
+        Route::update('gym-managers/{user}/ban', 'GymManagersBanController@update');
         Route::resource('gym-managers', 'GymManagersController', ['parameters' => [
             'gym-managers' => 'user'
         ]]);

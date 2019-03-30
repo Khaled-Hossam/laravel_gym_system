@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\GymManagers;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
@@ -34,10 +34,6 @@ class GymManagersController extends Controller
             ->only('edit', 'show', 'destroy', 'update', 'store');
     }
 
-    public function getJsonData()
-    {
-        return datatables(User::allowedToSeeGymManagers())->toJson();
-    }
     /**
      * Display a listing of the resource.
      *
@@ -151,15 +147,5 @@ class GymManagersController extends Controller
         }
         $user->delete();
     }
-
-
-    public function banUser(User $user)
-    {
-        if ($user->isBanned()) {
-            $user->unban();
-        } else {
-            $user->ban();
-        }
-        return back();
-    }
+ 
 }

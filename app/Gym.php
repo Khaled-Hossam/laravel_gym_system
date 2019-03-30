@@ -60,5 +60,15 @@ class Gym extends Model
     {
         return Carbon::parse($value)->toDateString();
     }
-    
+
+    public function scopeFilterAttendanceByMyRole($query)
+    {
+        if (Auth::user()->hasRole('city_manager')) {
+            return $query->where('city_id', Auth::user()->city_id);
+        }
+
+        if (Auth::user()->hasRole('gym_manager')) {
+            return $query->where('gym_id', Auth::user()->gym_id);
+        }
+    }
 }

@@ -20,7 +20,7 @@
     <div class="container">
         <div class="row">
             <div class=" col-12">
-                    <div class="card-header">Gym Managers</div>
+                    <div class="card-header">City Managers</div>
                     <div class="card-body">
                         <a href="{{ route('city-managers.create') }}" class="btn btn-success btn-sm" title="Add New User">
                             <i class="fa fa-plus" aria-hidden="true"></i> Add New
@@ -32,7 +32,7 @@
                             <table class="table table-bordered table-striped" id="dataTable">
                                 <thead>
                                     <tr>
-                                        <th>#</th><th>Name</th><th>Email</th><th>National Id</th><th>Gym Id</th><th>Actions</th>
+                                        <th>#</th><th>Name</th><th>Email</th><th>National Id</th><th>City</th><th>Actions</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -65,7 +65,7 @@ $(document).ready( function () {
                 {"data":"name"},    
                 {"data":"email"},    
                 {"data":"national_id"},    
-                {"data":"gym_id"},    
+                {"data":"city.name"},    
                        
                 {
                     mRender: function (data, type, row) {

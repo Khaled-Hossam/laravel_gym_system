@@ -32,7 +32,7 @@
                             <table class="table table-bordered table-striped" id="dataTable">
                                 <thead>
                                     <tr>
-                                        <th>#</th><th>Name</th><th>Email</th><th>National Id</th><th>Gym Id</th><th>Actions</th>
+                                        <th>#</th><th>Name</th><th>Email</th><th>National Id</th><th>Gym</th><th>Actions</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -65,7 +65,7 @@ $(document).ready( function () {
                 {"data":"name"},    
                 {"data":"email"},    
                 {"data":"national_id"},    
-                {"data":"gym_id"},      
+                {"data":"gym.name"},      
                 {
                     mRender: function (data, type, row) {
                         var status = 'ban';

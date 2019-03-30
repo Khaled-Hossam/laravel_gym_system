@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Auth;
 
 use App\Http\Requests\gymmanager\StoreGymManagerRequest;
-use App\Http\Requests\citymanager\UpdateCityManagerRequest;
+use App\Http\Requests\gymmanager\UpdateGymManagerRequest;
 use App\User;
 use App\Gym;
 use App\City;
@@ -36,7 +36,7 @@ class GymManagersController extends Controller
 
     public function getJsonData()
     {
-        return datatables(User::allowedToSeeGymManagers())->toJson();
+        return datatables(User::with('gym')->whereNotNull('gym_id')->whereNotNull('city_id')->allowedToSeeGymManagers())->toJson();
     }
     /**
      * Display a listing of the resource.
@@ -114,9 +114,8 @@ class GymManagersController extends Controller
      *
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
-    public function update(UpdateCityManagerRequest $request, User $user)
+    public function update(UpdateGymManagerRequest $request, User $user)
     {
-        
         $requestData = $request->all();
         if (!$request->password) {
             $requestData['password'] = $user->password;

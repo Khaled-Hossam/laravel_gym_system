@@ -16,12 +16,11 @@ use App\Attendance;
 use App\Rules\Test;
 use Carbon\CarbonPeriod;
 
-// update photo 
+// update photo
 
 
 class MembersController extends Controller
 {
-
     public function register(MemberRegisterRequest $request)
     {
         $member = Member::create([
@@ -56,7 +55,7 @@ class MembersController extends Controller
 
         $token = auth('api')->attempt($credentials);
         $member = auth('api')->user();
-        if (!$token || !$member->verified)
+        if (!$token || !$member->verified) {
             return response()->json([
                 'success' => false,
                 'message' => 'Login failed',
@@ -64,6 +63,7 @@ class MembersController extends Controller
                     'Username or password is incorrect or maybe your account has not been verified yet'
                 ]
             ], 401);
+        }
 
         $member->last_login = Carbon::now()->toDateTimeString();
         $member->save();
@@ -133,8 +133,8 @@ class MembersController extends Controller
             'email.verify',
             ['name' => $member->name, 'code' => $code],
             function ($mail) use ($email, $name, $subject) {
-                $mail->from(getenv('MAIL_USERNAME'));
-                // $mail->from(getenv('FROM_EMAIL_ADDRESS'), "laragymvel@gmail.com");
+                // $mail->from(getenv('MAIL_USERNAME'));
+                $mail->from(getenv('FROM_EMAIL_ADDRESS'), "laragymvel@gmail.com");
                 $mail->to($email, $name);
                 $mail->subject($subject);
             }
@@ -167,13 +167,15 @@ class MembersController extends Controller
         }
 
         // checks to see if the  attending time is in session time
-        if( !Carbon::now()->between(
+        if (!Carbon::now()->between(
             new Carbon($session->starts_at),
-            new Carbon($session->finishes_at)))
+            new Carbon($session->finishes_at)
+        )) {
             return response()->json([
                 'success'=>false,
                 'message'=> 'Sorry you can not attend at the current time'
-            ],403);
+            ], 403);
+        }
         
         
         $member = auth('api')->user();

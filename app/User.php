@@ -58,4 +58,14 @@ class User extends Authenticatable implements BannableContract
             return $query->where('city_id', $user->city_id)->where('id', '!=', $user->id);
         }
     }
+
+    public function city()
+    {
+        return $this->belongsTo(City::class);
+    }
+
+    public function gym()
+    {
+        return $this->belongsTo(Gym::class);
+    }
 }

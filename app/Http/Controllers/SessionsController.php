@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use App\Http\Requests\session\UpdateSessionRequest;
 use App\Http\Requests\session\StoreSessionRequest;
 use App\Http\Requests;
@@ -71,7 +72,6 @@ class SessionsController extends Controller
      */
     public function store(StoreSessionRequest $request)
     {
-       
         $requestData = $request->all();
 
         Session::create($requestData)->coaches()->sync($request->coaches);
@@ -116,8 +116,7 @@ class SessionsController extends Controller
      */
     public function update(UpdateSessionRequest $request, Session $session)
     {
-      
-        $requestData = $request->all();        
+        $requestData = $request->all();
         
         $session->update($requestData);
         $session->coaches()->sync($request->coaches);

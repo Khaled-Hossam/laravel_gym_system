@@ -8,11 +8,6 @@
     <input class="form-control" name="email" type="email" id="email" value="{{ old('email', isset($member->email) ? $member->email : '') }}" required>
     {!! $errors->first('email', '<p class="help-block text-danger">:message</p>') !!}
 </div>
-<div class="form-group {{ $errors->has('national_id') ? 'has-error' : ''}}">
-    <label for="national_id" class="control-label">{{ 'National Id' }}</label>
-    <input class="form-control" name="national_id" type="text" id="national_id" value="{{ old('national_id', isset($member->national_id) ? $member->national_id : '') }}" required>
-    {!! $errors->first('national_id', '<p class="help-block text-danger">:message</p>') !!}
-</div>
 
 <div class="form-group {{ $errors->has('password') ? 'has-error' : ''}}">
     <label for="password" class="control-label">{{ 'Password' }}</label>

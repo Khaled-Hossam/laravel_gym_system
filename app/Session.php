@@ -26,7 +26,7 @@ class Session extends Model
      * @var array
      */
     protected $fillable = ['name', 'starts_at', 'finishes_at', 'gym_id'];
-    public $timestamps = false;	
+    public $timestamps = false;
     protected $dates = ['finishes_at','starts_at'];
     public function gym()
     {
@@ -35,11 +35,11 @@ class Session extends Model
 
     public function coaches()
     {
-        return $this->belongsToMany('App\Coach','coaches_sessions');;
+        return $this->belongsToMany('App\Coach', 'coaches_sessions');
+        ;
     }
     public function member()
     {
         return $this->belongsToMany('App\Attendance');
     }
-    
 }

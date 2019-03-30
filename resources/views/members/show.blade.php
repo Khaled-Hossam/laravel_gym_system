@@ -26,7 +26,7 @@
                                     <tr>
                                         <th>ID</th><td>{{ $member->id }}</td>
                                     </tr>
-                                    <tr><th> Name </th><td> {{ $member->name }} </td></tr><tr><th> Email </th><td> {{ $member->email }} </td></tr><tr><th> National Id </th><td> {{ $member->national_id }} </td></tr>
+                                    <tr><th> Name </th><td> {{ $member->name }} </td></tr><tr><th> Email </th><td> {{ $member->email }} </td></tr>
                                 </tbody>
                             </table>
                         </div>

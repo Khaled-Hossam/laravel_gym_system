@@ -17,7 +17,7 @@ class CityManagersController extends Controller
 {
     public function getJsonData()
     {
-        return datatables(User::where('gym_id', null)->get())->toJson();
+        return datatables(User::with('city')->where('gym_id', null)->whereNotNull('city_id')->get())->toJson();
     }
     /**
      * Display a listing of the resource.

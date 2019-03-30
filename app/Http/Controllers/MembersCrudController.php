@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use App\Http\Requests\member\StoreMemberRequest;
 use App\Http\Requests\member\UpdateMemberRequest;
 use App\Http\Requests;
@@ -46,7 +47,6 @@ class MembersCrudController extends Controller
      */
     public function store(StoreMemberRequest $request)
     {
-        
         $requestData = $request->all();
         $requestData['password'] = Hash::make($request->password);
     
@@ -94,13 +94,6 @@ class MembersCrudController extends Controller
      */
     public function update(UpdateMemberRequest $request, Member $member)
     {
-        $this->validate($request, [
-            'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:members,email,'.$member->id,
-            'national_id' => 'required|string|max:255|unique:members,national_id,'.$member->id,
-            'password' => 'nullable|string|min:8|confirmed',
-            'avatar' => 'file|mimes:jpeg,png'
-        ]);
         $requestData = $request->all();
         if (!$request->password) {
             $requestData['password'] = $member->password;

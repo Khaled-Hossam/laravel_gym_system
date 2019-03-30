@@ -12,15 +12,12 @@ class PackagePurshaseController extends Controller
 {
     public function getJsonData()
     {
-        if (Auth::user()->hasRole('gym_manager')) {
-            $result=GymPackagePurshase::with('Member', 'Gym.city', 'Package');
-        } elseif (Auth::user()->hasRole('city_manager')) {
-            $result=GymPackagePurshase::with('Member', 'Gym.city', 'Package');
-        } else {
-            $result=GymPackagePurshase::with('Member', 'Gym.city', 'Package');
-        }
-        //dd( $result);
-        return datatables($result)->toJson();
+        $purchases = GymPackagePurshase::with('member', 'gym.city', 'package')
+            ->whereHas('gym', function ($query) {
+                return $query->allowedToSeeGyms();
+            })->get();
+        
+        return datatables($purchases)->toJson();
     }
     /**
      * Display a listing of the resource.
@@ -28,7 +25,7 @@ class PackagePurshaseController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {   // dd(Auth::user()->id);
+    {   
         if (Auth::user()->hasRole('gym_manager')) {
             $revenues= DB::table('gym_package_purshases')->where('gym_id', '=', Auth::user()->gym_id)->sum('bought_price');
         } elseif (Auth::user()->hasRole('city_manager')) {

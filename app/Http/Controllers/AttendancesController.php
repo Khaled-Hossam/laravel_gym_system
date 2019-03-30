@@ -9,13 +9,10 @@ class AttendancesController extends Controller
 {
     public function getJsonData()
     {
-        $attendances = Attendance::with('member','session.gym')->whereHas(
-            'session.gym', function($query){
-                if(Auth::user()->hasRole('city_manager'))
-                    $query->where('city_id', Auth::user()->city_id);
-                if(Auth::user()->hasRole('gym_manager'))
-                    $query->where('gym_id', Auth::user()->gym_id);
-            })->get();
+        $attendances = Attendance::with('member', 'session.gym')
+        ->whereHas('session.gym', function ($query) {
+            return $query->allowedToSeeAttendances();
+        })->get();
 
         return datatables($attendances)->toJson();
     }

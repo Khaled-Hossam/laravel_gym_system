@@ -26,7 +26,7 @@ Route::post('test', 'MembersController@test');
 Route::group(['middleware' => 'auth:api'], function () {
     Route::get('member', 'MembersController@member');
     Route::get('logout', 'MembersController@logout');
-    Route::put('update', 'MembersController@update');
+    Route::post('update', 'MembersController@update');
     Route::get('sessions', 'MembersController@sessions');
     Route::get('sessions/{session_id}/attend', 'MembersController@attend');
     Route::get('remaining_sessions', 'MembersController@remaining_sessions');

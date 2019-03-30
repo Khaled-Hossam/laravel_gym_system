@@ -15,6 +15,8 @@ use Illuminate\Support\Carbon;
 use App\Attendance;
 use App\Rules\Test;
 use Carbon\CarbonPeriod;
+use App\Notifications\GreetNotification;
+use App\Http\Resources\AttendanceResource;
 
 // update photo
 
@@ -107,6 +109,12 @@ class MembersController extends Controller
         $member->name = $request->name;
         $member->date_of_birth = $request->date_of_birth;
         $member->gender = $request->gender;
+
+        if ($request->hasFile('avatar')) {
+            Storage::delete('public/'.$member->avatar);
+            $member->avatar = $request->file('avatar')->store('members', 'public');
+        }
+
         $member->save();
         return response()->json(['member' => $member]);
     }
@@ -133,8 +141,7 @@ class MembersController extends Controller
             'email.verify',
             ['name' => $member->name, 'code' => $code],
             function ($mail) use ($email, $name, $subject) {
-                // $mail->from(getenv('MAIL_USERNAME'));
-                $mail->from(getenv('FROM_EMAIL_ADDRESS'), "laragymvel@gmail.com");
+                $mail->from(getenv('MAIL_USERNAME'));
                 $mail->to($email, $name);
                 $mail->subject($subject);
             }
@@ -149,6 +156,7 @@ class MembersController extends Controller
             $member->verified = true;
             $member->save();
             $verification_code->delete();
+            $member->notify(new GreetNotification());
             return ('<h1>Glad to see you get verified brothah</h1><p>you can now use POSTMAN for some action </p>');
         }
         return ('<h1>Oops something went wrong </h1>');
@@ -256,7 +264,6 @@ class MembersController extends Controller
 
     public function attendance()
     {
-        $member = auth('api')->user();
-        return response()->json($member->attendance);
+        return AttendanceResource::collection(Auth::user()->attendance);
     }
 }

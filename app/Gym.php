@@ -52,6 +52,9 @@ class Gym extends Model
         if ($user->hasRole('city_manager')) {
             return $query->where('city_id', $user->city_id);
         }
+        if ($user->hasRole('gym_manager')) {
+            return $query->where('id', $user->gym_id);
+        }
 
         return $query;
     }

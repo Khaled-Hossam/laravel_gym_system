@@ -69,3 +69,4 @@ Route::group(['middleware' => 'auth'], function () {
         Route::resource('coaches', 'CoachesController');
         Route::resource('revenues', 'PackagePurshaseController');
     });
+});

@@ -10,11 +10,8 @@ class GymManagersBanController extends Controller
 {
     public function update(User $user)
     {
-        if ($user->isBanned()) {
-            $user->unban();
-        } else {
-            $user->ban();
-        }
+        $user->toggleBan();
+
         return back();
     }
 }
